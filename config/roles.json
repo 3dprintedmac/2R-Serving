@@ -1,0 +1,201 @@
+{
+  "_note": "This is the single source of truth for all public-facing role data. The embed reads from this file at build time or it is inlined manually. Keep descriptions warm, clear, and jargon-free.",
+  "ministryAreas": [
+    {
+      "id": "guest-experience",
+      "label": "Guest Experience",
+      "description": "Be the first face people see. Help newcomers feel welcome and find their way from the parking lot to their seat.",
+      "roles": [
+        {
+          "id": "parking-team",
+          "label": "Parking Team",
+          "description": "Guide cars, help families, and set the tone before anyone walks through the door.",
+          "commitment": "1–2 Sundays per month",
+          "status": "open"
+        },
+        {
+          "id": "greeter",
+          "label": "Greeter",
+          "description": "Welcome people at the door with a genuine hello. No script needed — just be yourself.",
+          "commitment": "1–2 Sundays per month",
+          "status": "open"
+        },
+        {
+          "id": "hospitality",
+          "label": "Hospitality",
+          "description": "Serve coffee, snacks, and conversation before and after services.",
+          "commitment": "1–2 Sundays per month",
+          "status": "open"
+        },
+        {
+          "id": "connections-table",
+          "label": "Connections Table",
+          "description": "Help newcomers take a next step — whether that's getting info, meeting someone, or signing up for something.",
+          "commitment": "1 Sunday per month",
+          "status": "open"
+        }
+      ]
+    },
+    {
+      "id": "worship",
+      "label": "Worship",
+      "description": "Lead people into worship through music and atmosphere. Whether you sing, play, or run sound, there's a place for you.",
+      "roles": [
+        {
+          "id": "vocalist",
+          "label": "Vocalist",
+          "description": "Sing on the worship team during Sunday services or special events.",
+          "commitment": "Varies — team rotation",
+          "status": "open"
+        },
+        {
+          "id": "musician",
+          "label": "Musician",
+          "description": "Play guitar, keys, bass, drums, or another instrument on the worship team.",
+          "commitment": "Varies — team rotation",
+          "status": "open"
+        }
+      ]
+    },
+    {
+      "id": "production",
+      "label": "Production",
+      "description": "Run the technical side of Sunday services — sound, lighting, video, and livestream.",
+      "roles": [
+        {
+          "id": "audio",
+          "label": "Audio",
+          "description": "Mix front-of-house or monitors for Sunday services.",
+          "commitment": "1–2 Sundays per month",
+          "status": "open"
+        },
+        {
+          "id": "lighting",
+          "label": "Lighting",
+          "description": "Design and operate lighting for worship and teaching.",
+          "commitment": "1–2 Sundays per month",
+          "status": "open"
+        },
+        {
+          "id": "video-camera",
+          "label": "Video / Camera",
+          "description": "Operate cameras or direct video for in-room screens and livestream.",
+          "commitment": "1–2 Sundays per month",
+          "status": "open"
+        },
+        {
+          "id": "lyrics-graphics",
+          "label": "Lyrics & Graphics",
+          "description": "Run ProPresenter to display lyrics, sermon notes, and announcements.",
+          "commitment": "1–2 Sundays per month",
+          "status": "open"
+        }
+      ]
+    },
+    {
+      "id": "creative-communications",
+      "label": "Creative & Communications",
+      "description": "Tell the 2Rivers story through design, photography, video, and social media.",
+      "roles": [
+        {
+          "id": "graphic-design",
+          "label": "Graphic Design",
+          "description": "Create graphics for social media, series artwork, and print materials.",
+          "commitment": "Project-based — flexible",
+          "status": "open"
+        },
+        {
+          "id": "photography",
+          "label": "Photography",
+          "description": "Capture Sundays, events, and community moments.",
+          "commitment": "Occasional — event-based",
+          "status": "open"
+        },
+        {
+          "id": "video-production",
+          "label": "Video Production",
+          "description": "Film and edit short-form content for social media and announcements.",
+          "commitment": "Project-based — flexible",
+          "status": "open"
+        },
+        {
+          "id": "social-media",
+          "label": "Social Media",
+          "description": "Help manage and post content to 2Rivers social channels.",
+          "commitment": "Weekly — flexible",
+          "status": "open"
+        }
+      ]
+    },
+    {
+      "id": "kids-students",
+      "label": "Kids & Students",
+      "description": "Help the next generation encounter Jesus and build real friendships.",
+      "roles": [
+        {
+          "id": "2r-kids-teacher",
+          "label": "2R Kids Teacher",
+          "description": "Lead age-group curriculum in a fun, engaging environment for kids birth–5th grade.",
+          "commitment": "1–2 Sundays per month",
+          "status": "open"
+        },
+        {
+          "id": "2r-kids-assistant",
+          "label": "2R Kids Assistant",
+          "description": "Support the lead teacher and help kids feel safe and included.",
+          "commitment": "1–2 Sundays per month",
+          "status": "open"
+        },
+        {
+          "id": "student-ministry",
+          "label": "Student Ministry Volunteer",
+          "description": "Invest in middle and high school students during weekly programming.",
+          "commitment": "Weekly or bi-weekly",
+          "status": "open"
+        }
+      ]
+    },
+    {
+      "id": "outreach-missions",
+      "label": "Outreach & Missions",
+      "description": "Serve our city and world. From local partnerships to global trips, find a way to make a difference.",
+      "roles": [
+        {
+          "id": "local-outreach",
+          "label": "Local Outreach",
+          "description": "Serve alongside local partner organizations and community initiatives.",
+          "commitment": "Varies — event-based",
+          "status": "open"
+        },
+        {
+          "id": "mission-trips",
+          "label": "Mission Trips",
+          "description": "Join a team traveling domestically or internationally to serve.",
+          "commitment": "Trip-based — varies",
+          "status": "open"
+        }
+      ]
+    },
+    {
+      "id": "behind-the-scenes",
+      "label": "Behind the Scenes",
+      "description": "The stuff that has to happen for Sunday to happen — from setup to facilities to tech support.",
+      "roles": [
+        {
+          "id": "setup-teardown",
+          "label": "Setup & Teardown",
+          "description": "Arrive early to set up chairs, tables, and equipment. Help break things down after service.",
+          "commitment": "1–2 Sundays per month",
+          "status": "open"
+        },
+        {
+          "id": "facilities",
+          "label": "Facilities",
+          "description": "Keep the building clean, functional, and ready for use throughout the week.",
+          "commitment": "Flexible — weekday or weekend",
+          "status": "open"
+        }
+      ]
+    }
+  ]
+}

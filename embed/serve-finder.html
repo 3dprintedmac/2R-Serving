@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Serve at 2Rivers</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=Host+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Reset & base ────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:       #00A5E5;
+      --blue-dark:  #0092cc;
+      --ink:        #0A0A0D;
+      --stone:      #F4F5F7;
+      --paper:      #FFFFFF;
+      --navy:       #001B2E;
+      --muted:      #6B7280;
+      --border:     #E5E7EB;
+      --error:      #DC2626;
+      --success:    #16A34A;
+      --radius:     12px;
+      --radius-sm:  8px;
+      --shadow:     0 1px 3px rgba(10,10,13,.06), 0 4px 16px rgba(10,10,13,.06);
+
+      /* Signature gradient — used sparingly */
+      --gradient: linear-gradient(135deg, #6CB4F0, #6A4CFF, #B53DE8, #FF3D8A, #FF2935);
+
+      --font-display: 'Archivo', system-ui, sans-serif;
+      --font-body:    'Host Grotesk', Inter, system-ui, sans-serif;
+      --font-mono:    'JetBrains Mono', 'Courier New', monospace;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--stone);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* ── Layout wrapper ──────────────────────────────────────────────── */
+    .sf-wrapper {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 48px 20px 80px;
+    }
+
+    /* ── Header ──────────────────────────────────────────────────────── */
+    .sf-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    /* Gradient accent bar — the one visual move */
+    .sf-accent-bar {
+      width: 48px;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--gradient);
+      margin: 0 auto 20px;
+    }
+
+    .sf-header h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 4vw, 2.25rem);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .sf-header p {
+      font-size: 1.0625rem;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* ── Card ────────────────────────────────────────────────────────── */
+    .sf-card {
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 36px 32px;
+    }
+
+    @media (max-width: 480px) {
+      .sf-card { padding: 28px 20px; }
+    }
+
+    /* ── Step indicators ─────────────────────────────────────────────── */
+    .sf-steps {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 32px;
+    }
+
+    .sf-step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .sf-step:not(:last-child)::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      margin: 0 4px;
+    }
+
+    .sf-step-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: var(--paper);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--muted);
+      flex-shrink: 0;
+      transition: border-color .2s, background .2s, color .2s;
+    }
+
+    .sf-step.active .sf-step-dot {
+      border-color: var(--blue);
+      background: var(--blue);
+      color: var(--paper);
+    }
+
+    .sf-step.done .sf-step-dot {
+      border-color: var(--blue);
+      background: var(--blue);
+      color: var(--paper);
+    }
+
+    .sf-step-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      white-space: nowrap;
+      display: none;
+    }
+
+    @media (min-width: 420px) {
+      .sf-step-label { display: block; }
+    }
+
+    .sf-step.active .sf-step-label { color: var(--ink); font-weight: 500; }
+
+    /* ── Section headings ────────────────────────────────────────────── */
+    .sf-section-title {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .sf-section-sub {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    /* ── Form fields ─────────────────────────────────────────────────── */
+    .sf-field {
+      margin-bottom: 18px;
+    }
+
+    .sf-field label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .sf-field label .sf-required {
+      color: var(--blue);
+      margin-left: 2px;
+    }
+
+    .sf-field input,
+    .sf-field textarea,
+    .sf-field select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 0.9375rem;
+      color: var(--ink);
+      background: var(--paper);
+      transition: border-color .15s;
+      appearance: none;
+    }
+
+    .sf-field input:focus,
+    .sf-field textarea:focus,
+    .sf-field select:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(0,165,229,.12);
+    }
+
+    .sf-field textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .sf-field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 40px;
+    }
+
+    .sf-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 480px) {
+      .sf-row { grid-template-columns: 1fr; }
+    }
+
+    /* ── Ministry area cards (step 2) ────────────────────────────────── */
+    .sf-ministry-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 480px) {
+      .sf-ministry-grid { grid-template-columns: 1fr; }
+    }
+
+    .sf-ministry-card {
+      position: relative;
+    }
+
+    .sf-ministry-card input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .sf-ministry-card label {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 14px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+    }
+
+    .sf-ministry-card input[type="radio"]:checked + label {
+      border-color: var(--blue);
+      background: rgba(0,165,229,.05);
+    }
+
+    .sf-ministry-card input[type="radio"]:focus-visible + label {
+      outline: 2px solid var(--blue);
+      outline-offset: 2px;
+    }
+
+    .sf-ministry-card label:hover {
+      border-color: var(--blue);
+    }
+
+    .sf-ministry-name {
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+
+    .sf-ministry-desc {
+      font-size: 0.8125rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* ── Buttons ─────────────────────────────────────────────────────── */
+    .sf-btn-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .sf-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 11px 24px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 0.9375rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: background .15s, opacity .15s, transform .1s;
+      text-decoration: none;
+    }
+
+    .sf-btn:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 2px;
+    }
+
+    .sf-btn-primary {
+      background: var(--blue);
+      color: var(--paper);
+    }
+
+    .sf-btn-primary:hover:not(:disabled) { background: var(--blue-dark); }
+    .sf-btn-primary:active:not(:disabled) { transform: translateY(1px); }
+    .sf-btn-primary:disabled { opacity: .55; cursor: not-allowed; }
+
+    .sf-btn-ghost {
+      background: transparent;
+      color: var(--muted);
+      padding-left: 8px;
+    }
+
+    .sf-btn-ghost:hover { color: var(--ink); }
+
+    /* ── Inline error messages ───────────────────────────────────────── */
+    .sf-field-error {
+      font-size: 0.8125rem;
+      color: var(--error);
+      margin-top: 4px;
+      display: none;
+    }
+
+    .sf-field.has-error input,
+    .sf-field.has-error textarea,
+    .sf-field.has-error select {
+      border-color: var(--error);
+    }
+
+    .sf-field.has-error .sf-field-error { display: block; }
+
+    /* ── Alert banner ────────────────────────────────────────────────── */
+    .sf-alert {
+      display: none;
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .sf-alert.error {
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      color: #991B1B;
+    }
+
+    .sf-alert.success {
+      background: #F0FDF4;
+      border: 1px solid #BBF7D0;
+      color: #14532D;
+    }
+
+    .sf-alert.visible { display: block; }
+
+    /* ── Success state ───────────────────────────────────────────────── */
+    .sf-success {
+      display: none;
+      text-align: center;
+      padding: 24px 0;
+    }
+
+    .sf-success.visible { display: block; }
+
+    .sf-success-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #F0FDF4;
+      border: 1px solid #BBF7D0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+
+    .sf-success-icon svg { color: var(--success); }
+
+    .sf-success h2 {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .sf-success p {
+      font-size: 0.9375rem;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 360px;
+      margin: 0 auto;
+    }
+
+    /* ── Loading spinner ─────────────────────────────────────────────── */
+    .sf-spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .6s linear infinite;
+      display: none;
+    }
+
+    .sf-btn-primary.loading .sf-spinner { display: inline-block; }
+    .sf-btn-primary.loading .sf-btn-label { display: none; }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ── Footer ──────────────────────────────────────────────────────── */
+    .sf-footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 0.8125rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="sf-wrapper">
+
+    <!-- Header -->
+    <header class="sf-header">
+      <div class="sf-accent-bar" aria-hidden="true"></div>
+      <h1>Find a place to serve.</h1>
+      <p>You don't have to know exactly where you fit yet. Tell us a little about yourself and we'll help you connect.</p>
+    </header>
+
+    <!-- Main card -->
+    <main>
+      <div class="sf-card">
+
+        <!-- Step indicators -->
+        <nav class="sf-steps" aria-label="Form steps">
+          <div class="sf-step active" id="step-indicator-1" aria-current="step">
+            <div class="sf-step-dot" aria-hidden="true">1</div>
+            <span class="sf-step-label">About you</span>
+          </div>
+          <div class="sf-step" id="step-indicator-2">
+            <div class="sf-step-dot" aria-hidden="true">2</div>
+            <span class="sf-step-label">Ministry area</span>
+          </div>
+          <div class="sf-step" id="step-indicator-3">
+            <div class="sf-step-dot" aria-hidden="true">3</div>
+            <span class="sf-step-label">Anything else?</span>
+          </div>
+        </nav>
+
+        <!-- Alert banner -->
+        <div class="sf-alert" id="sf-alert" role="alert" aria-live="polite"></div>
+
+        <!-- Success state (hidden until submission) -->
+        <div class="sf-success" id="sf-success" aria-live="polite">
+          <div class="sf-success-icon" aria-hidden="true">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <h2>You're on the list.</h2>
+          <p>Someone from the team will reach out soon. We're glad you want to be part of this.</p>
+        </div>
+
+        <!-- Form -->
+        <form id="serve-form" novalidate>
+
+          <!-- Step 1: Personal info -->
+          <section id="step-1" aria-labelledby="step1-heading">
+            <h2 class="sf-section-title" id="step1-heading">A little about you</h2>
+            <p class="sf-section-sub">Just the basics — we'll take it from here.</p>
+
+            <div class="sf-row">
+              <div class="sf-field" id="field-firstName">
+                <label for="firstName">First name <span class="sf-required" aria-hidden="true">*</span></label>
+                <input type="text" id="firstName" name="firstName" autocomplete="given-name" required />
+                <div class="sf-field-error" id="error-firstName">Please enter your first name.</div>
+              </div>
+              <div class="sf-field" id="field-lastName">
+                <label for="lastName">Last name <span class="sf-required" aria-hidden="true">*</span></label>
+                <input type="text" id="lastName" name="lastName" autocomplete="family-name" required />
+                <div class="sf-field-error" id="error-lastName">Please enter your last name.</div>
+              </div>
+            </div>
+
+            <div class="sf-field" id="field-email">
+              <label for="email">Email <span class="sf-required" aria-hidden="true">*</span></label>
+              <input type="email" id="email" name="email" autocomplete="email" required inputmode="email" />
+              <div class="sf-field-error" id="error-email">Please enter a valid email address.</div>
+            </div>
+
+            <div class="sf-field" id="field-phone">
+              <label for="phone">Phone <span style="color:var(--muted);font-weight:400;font-size:.8rem;">(optional)</span></label>
+              <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" />
+            </div>
+
+            <div class="sf-btn-row">
+              <span></span>
+              <button type="button" class="sf-btn sf-btn-primary" id="next-1" aria-label="Continue to ministry area">
+                <span class="sf-btn-label">Continue</span>
+              </button>
+            </div>
+          </section>
+
+          <!-- Step 2: Ministry area -->
+          <section id="step-2" style="display:none" aria-labelledby="step2-heading">
+            <h2 class="sf-section-title" id="step2-heading">Where do you feel pulled?</h2>
+            <p class="sf-section-sub">Pick the area that interests you most — you can always explore others later.</p>
+
+            <div class="sf-ministry-grid" role="radiogroup" aria-labelledby="step2-heading" id="ministry-grid">
+              <!-- Ministry cards are rendered by JS from the MINISTRIES constant below -->
+            </div>
+
+            <div id="field-ministry" class="sf-field" style="margin:0">
+              <div class="sf-field-error" id="error-ministry">Please choose a ministry area.</div>
+            </div>
+
+            <div class="sf-btn-row">
+              <button type="button" class="sf-btn sf-btn-ghost" id="back-1">&#8592; Back</button>
+              <button type="button" class="sf-btn sf-btn-primary" id="next-2" aria-label="Continue to additional notes">
+                <span class="sf-btn-label">Continue</span>
+              </button>
+            </div>
+          </section>
+
+          <!-- Step 3: Notes + submit -->
+          <section id="step-3" style="display:none" aria-labelledby="step3-heading">
+            <h2 class="sf-section-title" id="step3-heading">Anything else?</h2>
+            <p class="sf-section-sub">No pressure — but if there's something you want us to know, here's the place.</p>
+
+            <div class="sf-field" id="field-notes">
+              <label for="notes">Notes <span style="color:var(--muted);font-weight:400;font-size:.8rem;">(optional)</span></label>
+              <textarea id="notes" name="notes" placeholder="e.g. I'm new here and not sure where I fit, but I love music…" maxlength="500"></textarea>
+            </div>
+
+            <div class="sf-btn-row">
+              <button type="button" class="sf-btn sf-btn-ghost" id="back-2">&#8592; Back</button>
+              <button type="submit" class="sf-btn sf-btn-primary" id="submit-btn">
+                <span class="sf-btn-label">Take my next step</span>
+                <div class="sf-spinner" aria-hidden="true"></div>
+              </button>
+            </div>
+          </section>
+
+        </form>
+
+      </div><!-- /.sf-card -->
+    </main>
+
+    <footer class="sf-footer">
+      <p>Questions? Reach us at <a href="mailto:info@2riverschurch.com" style="color:var(--blue)">info@2riverschurch.com</a></p>
+    </footer>
+
+  </div><!-- /.sf-wrapper -->
+
+  <script>
+    (function () {
+      'use strict';
+
+      // ── Configuration ────────────────────────────────────────────────
+      // Update WORKER_URL to match your deployed Cloudflare Worker route.
+      const WORKER_URL = 'https://api.2riverschurch.com/serve-intake';
+
+      const MINISTRIES = [
+        {
+          value: 'Guest Experience',
+          label: 'Guest Experience',
+          desc: 'Welcome people and set the tone.',
+        },
+        {
+          value: 'Worship',
+          label: 'Worship',
+          desc: 'Sing, play, and lead people in worship.',
+        },
+        {
+          value: 'Production',
+          label: 'Production',
+          desc: 'Run sound, lighting, and video.',
+        },
+        {
+          value: 'Creative & Communications',
+          label: 'Creative & Comms',
+          desc: 'Design, photo, video, and social media.',
+        },
+        {
+          value: 'Kids & Students',
+          label: 'Kids & Students',
+          desc: 'Invest in the next generation.',
+        },
+        {
+          value: 'Outreach & Missions',
+          label: 'Outreach & Missions',
+          desc: 'Serve our city and world.',
+        },
+        {
+          value: 'Behind the Scenes',
+          label: 'Behind the Scenes',
+          desc: 'Setup, facilities, and logistics.',
+        },
+      ];
+
+      // ── DOM refs ─────────────────────────────────────────────────────
+      const form      = document.getElementById('serve-form');
+      const alertEl   = document.getElementById('sf-alert');
+      const successEl = document.getElementById('sf-success');
+      const submitBtn = document.getElementById('submit-btn');
+
+      const steps = [
+        document.getElementById('step-1'),
+        document.getElementById('step-2'),
+        document.getElementById('step-3'),
+      ];
+      const indicators = [
+        document.getElementById('step-indicator-1'),
+        document.getElementById('step-indicator-2'),
+        document.getElementById('step-indicator-3'),
+      ];
+
+      let currentStep = 0;
+
+      // ── Render ministry cards ────────────────────────────────────────
+      const grid = document.getElementById('ministry-grid');
+      MINISTRIES.forEach(function (m, i) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'sf-ministry-card';
+
+        const radio = document.createElement('input');
+        radio.type  = 'radio';
+        radio.name  = 'ministryArea';
+        radio.id    = 'ministry-' + i;
+        radio.value = m.value;
+
+        const label = document.createElement('label');
+        label.htmlFor = 'ministry-' + i;
+        label.innerHTML =
+          '<span class="sf-ministry-name">' + escapeHtml(m.label) + '</span>' +
+          '<span class="sf-ministry-desc">'  + escapeHtml(m.desc)  + '</span>';
+
+        wrapper.appendChild(radio);
+        wrapper.appendChild(label);
+        grid.appendChild(wrapper);
+      });
+
+      // ── Step navigation ──────────────────────────────────────────────
+      function showStep(index) {
+        steps.forEach(function (el, i) {
+          el.style.display = i === index ? '' : 'none';
+        });
+        indicators.forEach(function (el, i) {
+          el.classList.remove('active', 'done');
+          if (i < index)  el.classList.add('done');
+          if (i === index) el.classList.add('active');
+        });
+        currentStep = index;
+        hideAlert();
+        // Move focus to the section heading for screen readers
+        var heading = steps[index].querySelector('h2');
+        if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus(); }
+      }
+
+      document.getElementById('next-1').addEventListener('click', function () {
+        if (validateStep1()) showStep(1);
+      });
+
+      document.getElementById('next-2').addEventListener('click', function () {
+        if (validateStep2()) showStep(2);
+      });
+
+      document.getElementById('back-1').addEventListener('click', function () { showStep(0); });
+      document.getElementById('back-2').addEventListener('click', function () { showStep(1); });
+
+      // ── Validation ───────────────────────────────────────────────────
+      function validateStep1() {
+        var ok = true;
+        ok = validateRequired('firstName', 'error-firstName') && ok;
+        ok = validateRequired('lastName',  'error-lastName')  && ok;
+        ok = validateEmail()                                   && ok;
+        return ok;
+      }
+
+      function validateStep2() {
+        var selected = document.querySelector('input[name="ministryArea"]:checked');
+        var fieldEl  = document.getElementById('field-ministry');
+        var errorEl  = document.getElementById('error-ministry');
+        if (!selected) {
+          fieldEl.classList.add('has-error');
+          errorEl.style.display = 'block';
+          return false;
+        }
+        fieldEl.classList.remove('has-error');
+        errorEl.style.display = 'none';
+        return true;
+      }
+
+      function validateRequired(fieldId, errorId) {
+        var input   = document.getElementById(fieldId);
+        var fieldEl = document.getElementById('field-' + fieldId);
+        var errorEl = document.getElementById(errorId);
+        var val     = input.value.trim();
+        if (!val) {
+          fieldEl.classList.add('has-error');
+          input.setAttribute('aria-invalid', 'true');
+          input.setAttribute('aria-describedby', errorId);
+          return false;
+        }
+        fieldEl.classList.remove('has-error');
+        input.removeAttribute('aria-invalid');
+        return true;
+      }
+
+      function validateEmail() {
+        var input   = document.getElementById('email');
+        var fieldEl = document.getElementById('field-email');
+        var errorEl = document.getElementById('error-email');
+        var val     = input.value.trim();
+        var ok      = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+        if (!ok) {
+          fieldEl.classList.add('has-error');
+          input.setAttribute('aria-invalid', 'true');
+          input.setAttribute('aria-describedby', 'error-email');
+          return false;
+        }
+        fieldEl.classList.remove('has-error');
+        input.removeAttribute('aria-invalid');
+        return true;
+      }
+
+      // ── Form submit ──────────────────────────────────────────────────
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        var firstName    = document.getElementById('firstName').value.trim();
+        var lastName     = document.getElementById('lastName').value.trim();
+        var email        = document.getElementById('email').value.trim();
+        var phone        = document.getElementById('phone').value.trim();
+        var ministryArea = (document.querySelector('input[name="ministryArea"]:checked') || {}).value || '';
+        var notes        = document.getElementById('notes').value.trim();
+
+        setLoading(true);
+        hideAlert();
+
+        fetch(WORKER_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ firstName: firstName, lastName: lastName, email: email, phone: phone, ministryArea: ministryArea, notes: notes }),
+        })
+          .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+          .then(function (result) {
+            setLoading(false);
+            if (result.ok && result.data.success) {
+              showSuccess();
+            } else {
+              var msg = (result.data && result.data.error) || 'Something went wrong. Please try again.';
+              showAlert('error', msg);
+            }
+          })
+          .catch(function () {
+            setLoading(false);
+            showAlert('error', 'We couldn\'t reach the server. Please check your connection and try again.');
+          });
+      });
+
+      // ── UI helpers ───────────────────────────────────────────────────
+      function setLoading(loading) {
+        submitBtn.disabled = loading;
+        submitBtn.classList.toggle('loading', loading);
+      }
+
+      function showAlert(type, message) {
+        alertEl.className = 'sf-alert ' + type + ' visible';
+        alertEl.textContent = message;
+        alertEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      function hideAlert() {
+        alertEl.className = 'sf-alert';
+        alertEl.textContent = '';
+      }
+
+      function showSuccess() {
+        form.style.display    = 'none';
+        successEl.classList.add('visible');
+        // Hide step indicators too
+        document.querySelector('.sf-steps').style.display = 'none';
+      }
+
+      function escapeHtml(str) {
+        return str
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+    })();
+  </script>
+</body>
+</html>
