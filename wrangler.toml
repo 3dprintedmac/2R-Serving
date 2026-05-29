@@ -1,0 +1,30 @@
+name            = "serve-intake"
+main            = "worker/serve-intake.js"
+compatibility_date = "2025-01-01"
+
+# Workers runs on the Cloudflare Edge — no Node.js compat needed for this worker.
+# Add [node_compat] only if you import Node-specific packages in the future.
+
+[observability]
+enabled = true
+
+# ── Production environment ────────────────────────────────────────────────────
+[env.production]
+routes = [
+  { pattern = "api.2riverschurch.com/serve-intake", zone_name = "2riverschurch.com" }
+]
+
+# Non-secret vars can go here; rotate into Cloudflare dashboard for secrets.
+# NEVER put PC_SECRET or CLOUDFLARE_API_TOKEN here.
+[env.production.vars]
+WORKFLOW_ID      = "56729"
+WORKFLOW_STEP_ID = "159351"
+ALLOWED_ORIGIN   = "https://2riverschurch.com"
+
+# ── Local development ─────────────────────────────────────────────────────────
+# Copy .dev.vars.example → .dev.vars and fill in values.
+# .dev.vars is git-ignored and never committed.
+[env.development.vars]
+WORKFLOW_ID      = "56729"
+WORKFLOW_STEP_ID = "159351"
+ALLOWED_ORIGIN   = "http://localhost:8788"

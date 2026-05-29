@@ -1,0 +1,10 @@
+# Copy this file to .dev.vars (which is git-ignored) and fill in real values.
+# .dev.vars is loaded automatically by `wrangler dev`.
+# NEVER commit .dev.vars.
+
+PC_APP_ID=your_planning_center_app_id_here
+PC_SECRET=your_planning_center_secret_here
+WORKFLOW_ID=56729
+WORKFLOW_STEP_ID=159351
+ALLOWED_ORIGIN=http://localhost:8788
+MINISTRY_ROUTING={"Guest Experience":{"assigneeId":"","leadName":"TBD"},"Worship":{"assigneeId":"","leadName":"Nate Siecinski"},"Production":{"assigneeId":"","leadName":"Tristan Martinez"},"Creative & Communications":{"assigneeId":"","leadName":"TBD"},"Kids & Students":{"assigneeId":"","leadName":"TBD"},"Outreach & Missions":{"assigneeId":"","leadName":"TBD"},"Behind the Scenes":{"assigneeId":"","leadName":"TBD"}}

@@ -1,0 +1,29 @@
+# Wrangler local secrets — never commit
+.dev.vars
+.env
+.env.*
+!.env.example
+
+# Wrangler build output
+.wrangler/
+dist/
+
+# Node / npm
+node_modules/
+npm-debug.log*
+yarn-error.log*
+package-lock.json
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Editor state
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
