@@ -112,13 +112,14 @@ export default {
 // ─── Input validation ─────────────────────────────────────────────────────────
 
 const VALID_MINISTRY_AREAS = [
-  'Guest Experience',
+  'First Impressions',
   'Worship',
   'Production',
   'Creative & Communications',
-  'Kids & Students',
+  '2Rivers Kids',
+  '2Rivers Youth',
   'Outreach & Missions',
-  'Behind the Scenes',
+  'Admin / General',
 ];
 
 function validatePayload(body) {

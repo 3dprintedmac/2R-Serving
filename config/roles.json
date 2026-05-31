@@ -1,199 +1,203 @@
 {
-  "_note": "This is the single source of truth for all public-facing role data. The embed reads from this file at build time or it is inlined manually. Keep descriptions warm, clear, and jargon-free.",
+  "_note": "Single source of truth for all role data. Ministry area keys must match ministry-routing.json exactly.",
   "ministryAreas": [
     {
-      "id": "guest-experience",
-      "label": "Guest Experience",
-      "description": "Be the first face people see. Help newcomers feel welcome and find their way from the parking lot to their seat.",
+      "id": "first-impressions",
+      "label": "First Impressions",
+      "description": "Be the first face someone sees on Sunday — helping guests feel genuinely welcomed from the parking lot to their seat.",
       "roles": [
         {
+          "id": "welcome-greeter",
+          "label": "Welcome & Greeter",
+          "description": "Be the first face someone sees on Sunday — making guests feel genuinely seen and at home.",
+          "commitment": "~20 min before service, 2x/month",
+          "bgcRequired": false,
+          "status": "active"
+        },
+        {
+          "id": "cafe-team",
+          "label": "Café Team Member",
+          "description": "Keep the café running and create a space where conversations happen between services.",
+          "commitment": "Before/between services, 2x/month",
+          "bgcRequired": false,
+          "status": "active"
+        },
+        {
           "id": "parking-team",
-          "label": "Parking Team",
-          "description": "Guide cars, help families, and set the tone before anyone walks through the door.",
-          "commitment": "1–2 Sundays per month",
-          "status": "open"
+          "label": "Parking Team Member",
+          "description": "Help guests feel taken care of from the moment they arrive — before they ever walk through the door.",
+          "commitment": "30 min before service, 2x/month",
+          "bgcRequired": false,
+          "status": "active"
         },
         {
-          "id": "greeter",
-          "label": "Greeter",
-          "description": "Welcome people at the door with a genuine hello. No script needed — just be yourself.",
-          "commitment": "1–2 Sundays per month",
-          "status": "open"
+          "id": "usher",
+          "label": "Usher",
+          "description": "Help people find their seats and navigate the auditorium during services.",
+          "commitment": "Sunday mornings, 2x/month",
+          "bgcRequired": false,
+          "status": "draft"
         },
         {
-          "id": "hospitality",
-          "label": "Hospitality",
-          "description": "Serve coffee, snacks, and conversation before and after services.",
-          "commitment": "1–2 Sundays per month",
-          "status": "open"
-        },
-        {
-          "id": "connections-table",
-          "label": "Connections Table",
-          "description": "Help newcomers take a next step — whether that's getting info, meeting someone, or signing up for something.",
-          "commitment": "1 Sunday per month",
-          "status": "open"
+          "id": "shuttle",
+          "label": "Shuttle Bus Driver/Helper",
+          "description": "Help connect guests from offsite parking to the building on Sunday mornings.",
+          "commitment": "Sunday mornings as needed",
+          "bgcRequired": false,
+          "status": "draft"
         }
       ]
     },
     {
       "id": "worship",
       "label": "Worship",
-      "description": "Lead people into worship through music and atmosphere. Whether you sing, play, or run sound, there's a place for you.",
+      "description": "Lead the congregation in worship through music and song.",
       "roles": [
         {
-          "id": "vocalist",
-          "label": "Vocalist",
-          "description": "Sing on the worship team during Sunday services or special events.",
-          "commitment": "Varies — team rotation",
-          "status": "open"
+          "id": "worship-vocalist",
+          "label": "Worship Vocalist",
+          "description": "Lead the congregation in worship through your voice as part of the weekly worship team.",
+          "commitment": "Weekly — rehearsal + Sunday services",
+          "bgcRequired": false,
+          "status": "active"
         },
         {
-          "id": "musician",
-          "label": "Musician",
-          "description": "Play guitar, keys, bass, drums, or another instrument on the worship team.",
-          "commitment": "Varies — team rotation",
-          "status": "open"
+          "id": "worship-instrumentalist",
+          "label": "Worship Instrumentalist",
+          "description": "Play guitar, drums, keys, bass, or another instrument as part of the weekly worship team.",
+          "commitment": "Weekly — rehearsal + Sunday services",
+          "bgcRequired": false,
+          "status": "active"
         }
       ]
     },
     {
       "id": "production",
       "label": "Production",
-      "description": "Run the technical side of Sunday services — sound, lighting, video, and livestream.",
+      "description": "Run the technical side of Sunday services — sound, video, and livestream.",
       "roles": [
         {
-          "id": "audio",
-          "label": "Audio",
-          "description": "Mix front-of-house or monitors for Sunday services.",
-          "commitment": "1–2 Sundays per month",
-          "status": "open"
+          "id": "audio-operator",
+          "label": "Audio Operator",
+          "description": "Run front-of-house or monitor audio to ensure every service sounds clear and distraction-free.",
+          "commitment": "Before rehearsal through service",
+          "bgcRequired": false,
+          "status": "active"
         },
         {
-          "id": "lighting",
-          "label": "Lighting",
-          "description": "Design and operate lighting for worship and teaching.",
-          "commitment": "1–2 Sundays per month",
-          "status": "open"
+          "id": "slides-operator",
+          "label": "Slides Operator",
+          "description": "Advance lyrics, sermon slides, and service elements so people can follow along.",
+          "commitment": "Before rehearsal through service",
+          "bgcRequired": false,
+          "status": "active"
         },
         {
-          "id": "video-camera",
-          "label": "Video / Camera",
-          "description": "Operate cameras or direct video for in-room screens and livestream.",
-          "commitment": "1–2 Sundays per month",
-          "status": "open"
-        },
-        {
-          "id": "lyrics-graphics",
-          "label": "Lyrics & Graphics",
-          "description": "Run ProPresenter to display lyrics, sermon notes, and announcements.",
-          "commitment": "1–2 Sundays per month",
-          "status": "open"
+          "id": "livestream-video",
+          "label": "Livestream & Video Operator",
+          "description": "Run cameras or manage the livestream so people watching online feel like they're right there with us.",
+          "commitment": "Before rehearsal through service",
+          "bgcRequired": false,
+          "status": "active"
         }
       ]
     },
     {
       "id": "creative-communications",
       "label": "Creative & Communications",
-      "description": "Tell the 2Rivers story through design, photography, video, and social media.",
+      "description": "Tell the 2Rivers story through photography, video, and social media.",
       "roles": [
         {
-          "id": "graphic-design",
-          "label": "Graphic Design",
-          "description": "Create graphics for social media, series artwork, and print materials.",
-          "commitment": "Project-based — flexible",
-          "status": "open"
+          "id": "photographer",
+          "label": "Photographer",
+          "description": "Capture real moments that help tell the story of what God is doing at 2Rivers.",
+          "commitment": "Occasional Sundays or events",
+          "bgcRequired": false,
+          "status": "active"
         },
         {
-          "id": "photography",
-          "label": "Photography",
-          "description": "Capture Sundays, events, and community moments.",
-          "commitment": "Occasional — event-based",
-          "status": "open"
-        },
-        {
-          "id": "video-production",
-          "label": "Video Production",
-          "description": "Film and edit short-form content for social media and announcements.",
-          "commitment": "Project-based — flexible",
-          "status": "open"
-        },
-        {
-          "id": "social-media",
-          "label": "Social Media",
-          "description": "Help manage and post content to 2Rivers social channels.",
-          "commitment": "Weekly — flexible",
-          "status": "open"
+          "id": "social-video-content",
+          "label": "Social & Video Content Creator",
+          "description": "Create content for social media, video, and digital platforms that points people toward Jesus.",
+          "commitment": "Project-based, flexible",
+          "bgcRequired": false,
+          "status": "active"
         }
       ]
     },
     {
-      "id": "kids-students",
-      "label": "Kids & Students",
-      "description": "Help the next generation encounter Jesus and build real friendships.",
+      "id": "2rivers-kids",
+      "label": "2Rivers Kids",
+      "description": "Help kids encounter Jesus in a safe, fun environment every Sunday.",
       "roles": [
         {
-          "id": "2r-kids-teacher",
-          "label": "2R Kids Teacher",
-          "description": "Lead age-group curriculum in a fun, engaging environment for kids birth–5th grade.",
-          "commitment": "1–2 Sundays per month",
-          "status": "open"
+          "id": "kids-checkin",
+          "label": "Kids Check-In Host",
+          "description": "Help families start Sunday feeling calm, welcomed, and confident before dropping their kids off.",
+          "commitment": "25 min before service, 2x/month",
+          "bgcRequired": true,
+          "status": "active"
         },
         {
-          "id": "2r-kids-assistant",
-          "label": "2R Kids Assistant",
-          "description": "Support the lead teacher and help kids feel safe and included.",
-          "commitment": "1–2 Sundays per month",
-          "status": "open"
-        },
+          "id": "kids-classroom",
+          "label": "Kids Classroom Helper",
+          "description": "Support the classroom lead so every kid feels safe, included, and cared for.",
+          "commitment": "30 min before service, 2x/month",
+          "bgcRequired": true,
+          "status": "active"
+        }
+      ]
+    },
+    {
+      "id": "2rivers-youth",
+      "label": "2Rivers Youth",
+      "description": "Invest in middle and high school students as a trusted adult.",
+      "roles": [
         {
-          "id": "student-ministry",
-          "label": "Student Ministry Volunteer",
-          "description": "Invest in middle and high school students during weekly programming.",
-          "commitment": "Weekly or bi-weekly",
-          "status": "open"
+          "id": "student-small-group",
+          "label": "Student Small Group Leader",
+          "description": "Build consistent relationships with middle or high school students as a trusted adult.",
+          "commitment": "Weekly during student programming",
+          "bgcRequired": true,
+          "status": "active"
         }
       ]
     },
     {
       "id": "outreach-missions",
       "label": "Outreach & Missions",
-      "description": "Serve our city and world. From local partnerships to global trips, find a way to make a difference.",
+      "description": "Serve our city and care for people in and around 2Rivers.",
       "roles": [
         {
-          "id": "local-outreach",
-          "label": "Local Outreach",
-          "description": "Serve alongside local partner organizations and community initiatives.",
-          "commitment": "Varies — event-based",
-          "status": "open"
+          "id": "missions-interest",
+          "label": "Missions Interest",
+          "description": "Interested in local and global mission? Let us know — we'd love to connect you with what God is doing beyond Sunday.",
+          "commitment": "Flexible — starts with a conversation",
+          "bgcRequired": false,
+          "status": "active"
         },
         {
-          "id": "mission-trips",
-          "label": "Mission Trips",
-          "description": "Join a team traveling domestically or internationally to serve.",
-          "commitment": "Trip-based — varies",
-          "status": "open"
+          "id": "care-team",
+          "label": "Care Team Volunteer",
+          "description": "Help meet real, practical needs in the lives of people in and around 2Rivers.",
+          "commitment": "As-needed, flexible",
+          "bgcRequired": false,
+          "status": "active"
         }
       ]
     },
     {
-      "id": "behind-the-scenes",
-      "label": "Behind the Scenes",
-      "description": "The stuff that has to happen for Sunday to happen — from setup to facilities to tech support.",
+      "id": "admin-general",
+      "label": "Admin / General",
+      "description": "Support the church behind the scenes — safety, operations, and general serving.",
       "roles": [
         {
-          "id": "setup-teardown",
-          "label": "Setup & Teardown",
-          "description": "Arrive early to set up chairs, tables, and equipment. Help break things down after service.",
-          "commitment": "1–2 Sundays per month",
-          "status": "open"
-        },
-        {
-          "id": "facilities",
-          "label": "Facilities",
-          "description": "Keep the building clean, functional, and ready for use throughout the week.",
-          "commitment": "Flexible — weekday or weekend",
-          "status": "open"
+          "id": "safety-team",
+          "label": "Safety Team Member",
+          "description": "Serve discreetly to help ensure 2Rivers is a safe place for everyone who walks through our doors.",
+          "commitment": "Weekly Sundays",
+          "bgcRequired": true,
+          "status": "needs-info"
         }
       ]
     }
