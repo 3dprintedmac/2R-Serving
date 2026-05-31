@@ -1,7 +1,7 @@
 {
-  "Guest Experience": {
+  "First Impressions": {
     "assigneeId": "",
-    "leadName": "TBD — confirm from team review sheet"
+    "leadName": "Kelley Ament"
   },
   "Worship": {
     "assigneeId": "",
@@ -15,16 +15,20 @@
     "assigneeId": "4785443",
     "leadName": "Nate McConnaughhay"
   },
-  "Kids & Students": {
+  "2Rivers Kids": {
     "assigneeId": "",
-    "leadName": "TBD — confirm from team review sheet"
+    "leadName": "Ashley Kluner"
+  },
+  "2Rivers Youth": {
+    "assigneeId": "",
+    "leadName": "Brady James"
   },
   "Outreach & Missions": {
     "assigneeId": "",
-    "leadName": "TBD — confirm from team review sheet"
+    "leadName": "Lillian Good"
   },
-  "Behind the Scenes": {
+  "Admin / General": {
     "assigneeId": "",
-    "leadName": "TBD — confirm from team review sheet"
+    "leadName": "Lillian Good"
   }
 }
