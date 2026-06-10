@@ -66,7 +66,7 @@ export default {
     if (validation.error) {
       return jsonResponse({ error: validation.error }, 400, origin, allowedOrigin);
     }
-    const { firstName, lastName, email, phone, ministryArea, notes } = validation.data;
+    const { firstName, lastName, email, phone, ministryArea, roleTitle, notes } = validation.data;
 
     // Resolve assignee from trusted server-side routing
     const routing = parseMinistryRouting(env.MINISTRY_ROUTING);
@@ -88,7 +88,7 @@ export default {
         workflowId,
         workflowStepId,
         assigneeId: ministryConfig.assigneeId || null,
-        note: buildNote({ firstName, ministryArea, notes }),
+        note: buildNote({ firstName, ministryArea, roleTitle, notes }),
       });
 
       return jsonResponse(
@@ -132,6 +132,7 @@ function validatePayload(body) {
   const email        = sanitizeString(body.email,       254);
   const phone        = sanitizeString(body.phone,        30);
   const ministryArea = sanitizeString(body.ministryArea, 80);
+  const roleTitle    = sanitizeString(body.roleTitle,   120);
   const notes        = sanitizeString(body.notes,       500);
 
   if (!firstName) return { error: 'First name is required.' };
@@ -143,7 +144,7 @@ function validatePayload(body) {
     return { error: 'Please select a valid ministry area.' };
   }
 
-  return { data: { firstName, lastName, email, phone, ministryArea, notes } };
+  return { data: { firstName, lastName, email, phone, ministryArea, roleTitle, notes } };
 }
 
 function sanitizeString(value, maxLength) {
@@ -274,8 +275,9 @@ async function createWorkflowCard(env, { personId, workflowId, workflowStepId, a
   });
 }
 
-function buildNote({ firstName, ministryArea, notes }) {
+function buildNote({ firstName, ministryArea, roleTitle, notes }) {
   let text = `Serve interest submitted via 2Rivers Serve Finder.\nMinistry area: ${ministryArea}`;
+  if (roleTitle) text += `\nRole of interest: ${roleTitle}`;
   if (notes) text += `\n\nAdditional notes from ${firstName}:\n${notes}`;
   return text;
 }

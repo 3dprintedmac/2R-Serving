@@ -1288,20 +1288,28 @@
     var bgcWarning = role.requiresBackgroundCheck
       ? '<div class="detail-box warn full-span"><h4>Before you begin<\/h4><p>This role requires a background check because you\'ll be serving with kids or students. You can still check it out first, meet the leader, and learn the role before any screening begins.<\/p><\/div>'
       : '';
-    var flagNote = role.flagged
-      ? '<div class="flag-note full-span">⚑ <strong>Staff note:<\/strong> One or more fields in this card are marked as placeholders. Search the card for "FLAG:" to find items that need real information before publishing.<\/div>'
-      : '';
-    return flagNote + bgcWarning +
-      box('What you\'ll actually do', '<ul>' + role.actuallyDo.map(li).join('') + '<\/ul>') +
-      box('Time commitment', '<p>' + role.rhythm + '<\/p>') +
-      box('Environment', '<p>' + role.environment + '<\/p>') +
-      box('Who you\'ll serve with', '<p>' + role.serveWith + '<\/p>') +
-      box('What success looks like', '<p>' + role.success + '<\/p>') +
-      warnBox('The hardest part', '<p>' + role.hardPart + '<\/p>') +
-      box('Great fit if...', '<ul>' + role.fit.map(li).join('') + '<\/ul>') +
-      box('Your first day', '<ol>' + role.firstDay.map(li).join('') + '<\/ol>') +
-      box('Training details', '<p>' + role.training + '<\/p>') +
-      box('Volunteer story', '<p>"' + role.story + '"<\/p>') +
+    // Strip internal "FLAG:" staff placeholders so they never render to visitors.
+    var rhythm   = clean(role.rhythm);
+    var environ  = clean(role.environment);
+    var serveW   = clean(role.serveWith);
+    var success  = clean(role.success);
+    var hardPart = clean(role.hardPart);
+    var training = clean(role.training);
+    var story    = clean(role.story);
+    var actuallyDo = cleanList(role.actuallyDo);
+    var fit        = cleanList(role.fit);
+    var firstDay   = cleanList(role.firstDay);
+    return bgcWarning +
+      (actuallyDo.length ? box('What you\'ll actually do', '<ul>' + actuallyDo.map(li).join('') + '<\/ul>') : '') +
+      (rhythm   ? box('Time commitment', '<p>' + rhythm + '<\/p>') : '') +
+      (environ  ? box('Environment', '<p>' + environ + '<\/p>') : '') +
+      (serveW   ? box('Who you\'ll serve with', '<p>' + serveW + '<\/p>') : '') +
+      (success  ? box('What success looks like', '<p>' + success + '<\/p>') : '') +
+      (hardPart ? warnBox('The hardest part', '<p>' + hardPart + '<\/p>') : '') +
+      (fit.length      ? box('Great fit if...', '<ul>' + fit.map(li).join('') + '<\/ul>') : '') +
+      (firstDay.length ? box('Your first day', '<ol>' + firstDay.map(li).join('') + '<\/ol>') : '') +
+      (training ? box('Training details', '<p>' + training + '<\/p>') : '') +
+      (story    ? box('Volunteer story', '<p>"' + story + '"<\/p>') : '') +
       '<div class="detail-box full-span">' +
         '<h4>What happens next<\/h4>' +
         '<ol>' +
@@ -1325,6 +1333,17 @@
   }
 
   function li(text) { return '<li>' + text + '<\/li>'; }
+
+  // Remove internal "FLAG: ..." staff annotations from any field before it is shown.
+  function clean(text) {
+    if (typeof text !== 'string') return '';
+    return text.replace(/\s*FLAG:[\s\S]*$/, '').trim();
+  }
+
+  function cleanList(items) {
+    if (!Array.isArray(items)) return [];
+    return items.map(clean).filter(function (t) { return t; });
+  }
 
   // ─────────────────────────────────────────────
   // INTEREST MODAL
