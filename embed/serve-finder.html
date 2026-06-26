@@ -4,836 +4,1482 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Serve at 2Rivers</title>
-
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=Host+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Host+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
 
   <style>
-    /* ── Reset & base ────────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --blue:       #00A5E5;
-      --blue-dark:  #0092cc;
-      --ink:        #0A0A0D;
-      --stone:      #F4F5F7;
-      --paper:      #FFFFFF;
-      --navy:       #001B2E;
-      --muted:      #6B7280;
-      --border:     #E5E7EB;
-      --error:      #DC2626;
-      --success:    #16A34A;
-      --radius:     12px;
-      --radius-sm:  8px;
-      --shadow:     0 1px 3px rgba(10,10,13,.06), 0 4px 16px rgba(10,10,13,.06);
-
-      /* Signature gradient — used sparingly */
-      --gradient: linear-gradient(135deg, #6CB4F0, #6A4CFF, #B53DE8, #FF3D8A, #FF2935);
-
-      --font-display: 'Archivo', system-ui, sans-serif;
-      --font-body:    'Host Grotesk', Inter, system-ui, sans-serif;
-      --font-mono:    'JetBrains Mono', 'Courier New', monospace;
+      --blue:        #00A5E5;
+      --blue-dark:   #0092cc;
+      --blue-light:  #e8f7fd;
+      --blue-border: #b3e3f7;
+      --ink:         #0A0A0D;
+      --muted:       #6B7280;
+      --paper:       #FFFFFF;
+      --cream:       #F5F6F8;
+      --cream-card:  #FAFBFC;
+      --line:        #E8EAED;
+      --amber-bg:    #FFF8EC;
+      --amber-line:  #F5C842;
+      --amber-text:  #7A4A00;
+      --green-bg:    #F0FDF4;
+      --green-line:  #BBF7D0;
+      --green-text:  #14532D;
+      --radius:      20px;
+      --radius-sm:   12px;
+      --shadow:      0 2px 8px rgba(10,10,13,.05), 0 8px 28px rgba(10,10,13,.07);
+      --gradient:    linear-gradient(135deg,#6CB4F0,#6A4CFF,#B53DE8,#FF3D8A,#FF2935);
+      --font-display:'Archivo', system-ui, sans-serif;
+      --font-body:   'Host Grotesk', Inter, system-ui, sans-serif;
     }
 
     body {
       font-family: var(--font-body);
-      background: var(--stone);
+      background: var(--cream);
       color: var(--ink);
       -webkit-font-smoothing: antialiased;
-      min-height: 100vh;
     }
 
-    /* ── Layout wrapper ──────────────────────────────────────────────── */
-    .sf-wrapper {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 48px 20px 80px;
-    }
+    /* ── Wrapper ── */
+    #tr-serve-app { padding: 60px 20px; }
+    #tr-serve-app * { box-sizing: border-box; }
+    #tr-serve-app button { font-family: var(--font-body); cursor: pointer; }
+    .serve-wrap { max-width: 1120px; margin: 0 auto; }
 
-    /* ── Header ──────────────────────────────────────────────────────── */
-    .sf-header {
-      text-align: center;
-      margin-bottom: 40px;
+    /* ── Hero ── */
+    .eyebrow {
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 12px;
     }
-
-    /* Gradient accent bar — the one visual move */
-    .sf-accent-bar {
+    .hero-accent {
+      display: inline-block;
       width: 48px;
       height: 4px;
       border-radius: 2px;
       background: var(--gradient);
-      margin: 0 auto 20px;
+      margin-bottom: 20px;
     }
-
-    .sf-header h1 {
+    #tr-serve-app h1 {
       font-family: var(--font-display);
-      font-size: clamp(1.75rem, 4vw, 2.25rem);
-      font-weight: 700;
-      color: var(--ink);
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-      margin-bottom: 12px;
+      font-size: clamp(48px, 8vw, 100px);
+      line-height: .92;
+      letter-spacing: -0.05em;
+      font-weight: 900;
+      margin-bottom: 20px;
     }
-
-    .sf-header p {
-      font-size: 1.0625rem;
-      color: var(--muted);
+    .intro {
+      max-width: 740px;
+      font-size: clamp(17px, 2vw, 21px);
       line-height: 1.6;
-      max-width: 480px;
-      margin: 0 auto;
-    }
-
-    /* ── Card ────────────────────────────────────────────────────────── */
-    .sf-card {
-      background: var(--paper);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 36px 32px;
-    }
-
-    @media (max-width: 480px) {
-      .sf-card { padding: 28px 20px; }
-    }
-
-    /* ── Step indicators ─────────────────────────────────────────────── */
-    .sf-steps {
-      display: flex;
-      align-items: center;
-      gap: 0;
-      margin-bottom: 32px;
-    }
-
-    .sf-step {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex: 1;
-    }
-
-    .sf-step:not(:last-child)::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-      margin: 0 4px;
-    }
-
-    .sf-step-dot {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      border: 2px solid var(--border);
-      background: var(--paper);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.75rem;
-      font-weight: 500;
       color: var(--muted);
-      flex-shrink: 0;
-      transition: border-color .2s, background .2s, color .2s;
+      margin-bottom: 40px;
     }
 
-    .sf-step.active .sf-step-dot {
-      border-color: var(--blue);
-      background: var(--blue);
-      color: var(--paper);
-    }
-
-    .sf-step.done .sf-step-dot {
-      border-color: var(--blue);
-      background: var(--blue);
-      color: var(--paper);
-    }
-
-    .sf-step-label {
-      font-size: 0.8rem;
-      color: var(--muted);
-      white-space: nowrap;
-      display: none;
-    }
-
-    @media (min-width: 420px) {
-      .sf-step-label { display: block; }
-    }
-
-    .sf-step.active .sf-step-label { color: var(--ink); font-weight: 500; }
-
-    /* ── Section headings ────────────────────────────────────────────── */
-    .sf-section-title {
-      font-family: var(--font-display);
-      font-size: 1.125rem;
-      font-weight: 700;
-      color: var(--ink);
-      margin-bottom: 4px;
-    }
-
-    .sf-section-sub {
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-bottom: 24px;
-    }
-
-    /* ── Form fields ─────────────────────────────────────────────────── */
-    .sf-field {
-      margin-bottom: 18px;
-    }
-
-    .sf-field label {
-      display: block;
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--ink);
-      margin-bottom: 6px;
-    }
-
-    .sf-field label .sf-required {
-      color: var(--blue);
-      margin-left: 2px;
-    }
-
-    .sf-field input,
-    .sf-field textarea,
-    .sf-field select {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-sm);
-      font-family: var(--font-body);
-      font-size: 0.9375rem;
-      color: var(--ink);
-      background: var(--paper);
-      transition: border-color .15s;
-      appearance: none;
-    }
-
-    .sf-field input:focus,
-    .sf-field textarea:focus,
-    .sf-field select:focus {
-      outline: none;
-      border-color: var(--blue);
-      box-shadow: 0 0 0 3px rgba(0,165,229,.12);
-    }
-
-    .sf-field textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
-
-    .sf-field select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      padding-right: 40px;
-    }
-
-    .sf-row {
+    /* ── Mode switch ── */
+    .mode-switch {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
+      background: var(--paper);
+      border-radius: 28px;
+      padding: 10px;
+      margin-bottom: 44px;
+      box-shadow: var(--shadow);
     }
-
-    @media (max-width: 480px) {
-      .sf-row { grid-template-columns: 1fr; }
+    .mode-btn {
+      border: 0;
+      border-radius: 22px;
+      padding: 22px;
+      background: var(--cream-card);
+      color: var(--ink);
+      text-align: left;
+      transition: .18s ease;
     }
-
-    /* ── Ministry area cards (step 2) ────────────────────────────────── */
-    .sf-ministry-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 24px;
+    .mode-btn.active {
+      background: var(--ink);
+      color: #fff;
     }
+    .mode-title { font-family: var(--font-display); font-size: 22px; font-weight: 900; margin-bottom: 5px; }
+    .mode-copy  { opacity: .72; font-size: 14px; line-height: 1.45; }
 
-    @media (max-width: 480px) {
-      .sf-ministry-grid { grid-template-columns: 1fr; }
+    /* ── Section headings ── */
+    #tr-serve-app h2 {
+      font-family: var(--font-display);
+      font-size: clamp(30px, 5vw, 52px);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+      margin-bottom: 10px;
     }
+    .section-copy { color: var(--muted); font-size: 17px; line-height: 1.55; margin-bottom: 28px; }
 
-    .sf-ministry-card {
-      position: relative;
+    /* ── Fit panel ── */
+    .fit-panel {
+      background: var(--paper);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      margin-bottom: 28px;
     }
-
-    .sf-ministry-card input[type="radio"] {
-      position: absolute;
-      opacity: 0;
-      width: 0;
-      height: 0;
+    .question-kicker {
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
     }
+    .question-title {
+      font-family: var(--font-display);
+      font-size: clamp(26px, 4vw, 40px);
+      letter-spacing: -0.04em;
+      line-height: 1.02;
+      font-weight: 900;
+      margin-bottom: 22px;
+    }
+    .option-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+    .option-card {
+      border: 1.5px solid var(--line);
+      background: var(--cream-card);
+      border-radius: 20px;
+      padding: 20px;
+      text-align: left;
+      min-height: 140px;
+      transition: .18s ease;
+    }
+    .option-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+    .option-card.active { border-color: var(--blue); background: var(--blue-light); box-shadow: 0 0 0 3px rgba(0,165,229,.12); }
+    .option-title { font-family: var(--font-display); font-size: 19px; font-weight: 900; margin-bottom: 8px; }
+    .option-copy  { color: var(--muted); font-size: 14px; line-height: 1.5; margin: 0; }
+    .fit-actions  { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 20px; }
+    .progress-note { color: var(--muted); font-size: 13px; font-weight: 700; }
 
-    .sf-ministry-card label {
+    /* ── Buttons ── */
+    .primary-btn, .secondary-btn, .filter-btn {
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 700;
+      transition: .18s ease;
+      font-family: var(--font-body);
+      cursor: pointer;
+    }
+    .primary-btn { background: var(--blue); color: #fff; }
+    .primary-btn:hover { background: var(--blue-dark); }
+    .secondary-btn { background: var(--paper); color: var(--ink); border: 1.5px solid var(--line); }
+    .secondary-btn:hover { border-color: var(--blue); color: var(--blue); }
+
+    /* ── Results panel ── */
+    .results-panel {
+      background: var(--paper);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      margin-top: 32px;
+    }
+    .group-label {
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 12px;
+      font-weight: 700;
+      margin: 32px 0 14px;
+    }
+    .group-label:first-child { margin-top: 0; }
+    .role-grid   { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .browse-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
+
+    /* ── Role card ── */
+    .role-card {
+      border: 1.5px solid var(--line);
+      background: var(--cream-card);
+      border-radius: 20px;
+      padding: 22px;
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      padding: 14px 16px;
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      transition: border-color .15s, background .15s;
+      min-height: 280px;
+      transition: .18s ease;
     }
-
-    .sf-ministry-card input[type="radio"]:checked + label {
-      border-color: var(--blue);
-      background: rgba(0,165,229,.05);
-    }
-
-    .sf-ministry-card input[type="radio"]:focus-visible + label {
-      outline: 2px solid var(--blue);
-      outline-offset: 2px;
-    }
-
-    .sf-ministry-card label:hover {
-      border-color: var(--blue);
-    }
-
-    .sf-ministry-name {
-      font-weight: 500;
-      font-size: 0.9rem;
-      color: var(--ink);
-      line-height: 1.3;
-    }
-
-    .sf-ministry-desc {
-      font-size: 0.8125rem;
+    .role-card:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,0,0,.08); }
+    .ministry-label { color: var(--blue); font-size: 12px; font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: .1em; }
+    .role-card h3   { font-family: var(--font-display); font-size: 22px; line-height: 1.1; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 8px; }
+    .role-card p    { color: var(--muted); line-height: 1.6; font-size: 14px; margin: 0; }
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; margin: 14px 0; }
+    .tag  { background: var(--paper); color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 5px 11px; font-size: 12px; font-weight: 700; }
+    .badge-warning { background: var(--amber-bg); color: var(--amber-text); border-color: var(--amber-line); }
+    .why-box {
+      background: var(--paper);
+      border-radius: 14px;
+      padding: 13px;
       color: var(--muted);
-      line-height: 1.4;
-    }
-
-    /* ── Buttons ─────────────────────────────────────────────────────── */
-    .sf-btn-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-top: 8px;
-    }
-
-    .sf-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 11px 24px;
-      border-radius: var(--radius-sm);
-      font-family: var(--font-body);
-      font-size: 0.9375rem;
-      font-weight: 500;
-      cursor: pointer;
-      border: none;
-      transition: background .15s, opacity .15s, transform .1s;
-      text-decoration: none;
-    }
-
-    .sf-btn:focus-visible {
-      outline: 2px solid var(--blue);
-      outline-offset: 2px;
-    }
-
-    .sf-btn-primary {
-      background: var(--blue);
-      color: var(--paper);
-    }
-
-    .sf-btn-primary:hover:not(:disabled) { background: var(--blue-dark); }
-    .sf-btn-primary:active:not(:disabled) { transform: translateY(1px); }
-    .sf-btn-primary:disabled { opacity: .55; cursor: not-allowed; }
-
-    .sf-btn-ghost {
-      background: transparent;
-      color: var(--muted);
-      padding-left: 8px;
-    }
-
-    .sf-btn-ghost:hover { color: var(--ink); }
-
-    /* ── Inline error messages ───────────────────────────────────────── */
-    .sf-field-error {
-      font-size: 0.8125rem;
-      color: var(--error);
-      margin-top: 4px;
-      display: none;
-    }
-
-    .sf-field.has-error input,
-    .sf-field.has-error textarea,
-    .sf-field.has-error select {
-      border-color: var(--error);
-    }
-
-    .sf-field.has-error .sf-field-error { display: block; }
-
-    /* ── Alert banner ────────────────────────────────────────────────── */
-    .sf-alert {
-      display: none;
-      padding: 12px 16px;
-      border-radius: var(--radius-sm);
-      font-size: 0.9rem;
-      margin-bottom: 20px;
+      font-size: 13px;
       line-height: 1.5;
+      margin-top: auto;
+      margin-bottom: 14px;
+      border: 1px solid var(--line);
     }
+    .card-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .card-actions .primary-btn,
+    .card-actions .secondary-btn { flex: 1 1 auto; text-align: center; }
 
-    .sf-alert.error {
-      background: #FEF2F2;
-      border: 1px solid #FECACA;
-      color: #991B1B;
-    }
+    /* ── Filter row ── */
+    .filter-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+    .filter-btn { background: var(--paper); color: var(--muted); border: 1.5px solid var(--line); }
+    .filter-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .filter-btn:hover:not(.active) { border-color: var(--blue); color: var(--blue); }
 
-    .sf-alert.success {
-      background: #F0FDF4;
-      border: 1px solid #BBF7D0;
-      color: #14532D;
-    }
-
-    .sf-alert.visible { display: block; }
-
-    /* ── Success state ───────────────────────────────────────────────── */
-    .sf-success {
-      display: none;
-      text-align: center;
-      padding: 24px 0;
-    }
-
-    .sf-success.visible { display: block; }
-
-    .sf-success-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background: #F0FDF4;
-      border: 1px solid #BBF7D0;
+    /* ── Modal ── */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(10,10,13,.6);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 20px;
+      padding: 20px;
     }
-
-    .sf-success-icon svg { color: var(--success); }
-
-    .sf-success h2 {
-      font-family: var(--font-display);
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--ink);
-      margin-bottom: 8px;
+    .modal {
+      width: 100%;
+      max-width: 780px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 28px;
+      background: var(--cream);
+      padding: 32px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.35);
     }
+    .modal-head { display: flex; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
+    .modal-eyebrow { color: var(--blue); text-transform: uppercase; letter-spacing: .18em; font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+    .modal h3 { font-family: var(--font-display); font-size: clamp(28px,5vw,42px); line-height: 1; letter-spacing: -0.05em; font-weight: 900; margin-bottom: 6px; }
+    .modal-subtitle { color: var(--blue); font-weight: 700; font-size: 13px; margin-bottom: 0; }
+    .close-btn { border: 0; border-radius: 999px; background: var(--paper); color: var(--muted); padding: 9px 14px; font-weight: 700; align-self: start; white-space: nowrap; }
+    .close-btn:hover { color: var(--ink); }
+    .detail-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-top: 20px; }
+    .detail-box { background: var(--paper); border: 1.5px solid var(--line); border-radius: 18px; padding: 18px; }
+    .detail-box.warn { background: var(--amber-bg); border-color: var(--amber-line); }
+    .detail-box h4 { font-family: var(--font-display); font-size: 18px; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 10px; }
+    .detail-box.warn h4 { color: var(--amber-text); }
+    .detail-box p, .detail-box li { color: var(--muted); line-height: 1.55; font-size: 15px; }
+    .detail-box.warn p, .detail-box.warn li { color: var(--amber-text); opacity: .9; }
+    .detail-box ul, .detail-box ol { margin: 0; padding-left: 20px; }
+    .full-span { grid-column: 1/-1; }
+    .flag-note { background: #FFF3CD; border: 1.5px solid #FFC107; border-radius: 10px; padding: 10px 14px; font-size: 13px; color: #5a3e00; margin-top: 8px; }
 
-    .sf-success p {
-      font-size: 0.9375rem;
-      color: var(--muted);
-      line-height: 1.6;
-      max-width: 360px;
-      margin: 0 auto;
+    /* ── Interest form ── */
+    .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    #tr-serve-app label { display: block; color: #444; font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+    #tr-serve-app input,
+    #tr-serve-app textarea {
+      width: 100%; border: 1.5px solid var(--line); background: var(--paper);
+      border-radius: 12px; padding: 12px 14px; margin-bottom: 14px;
+      font-family: var(--font-body); font-size: 15px; outline: none; transition: border-color .15s;
     }
+    #tr-serve-app input:focus, #tr-serve-app textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,165,229,.12); }
+    .success-box { background: var(--paper); border-radius: 20px; padding: 28px; text-align: center; }
+    .success-box h3 { font-family: var(--font-display); font-size: 32px; font-weight: 900; letter-spacing: -0.04em; margin-bottom: 10px; }
 
-    /* ── Loading spinner ─────────────────────────────────────────────── */
-    .sf-spinner {
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(255,255,255,.4);
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin .6s linear infinite;
-      display: none;
+    /* ── Utility ── */
+    .hidden { display: none !important; }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .option-grid, .role-grid, .browse-grid { grid-template-columns: 1fr 1fr; }
     }
-
-    .sf-btn-primary.loading .sf-spinner { display: inline-block; }
-    .sf-btn-primary.loading .sf-btn-label { display: none; }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    /* ── Footer ──────────────────────────────────────────────────────── */
-    .sf-footer {
-      text-align: center;
-      margin-top: 24px;
-      font-size: 0.8125rem;
-      color: var(--muted);
+    @media (max-width: 640px) {
+      #tr-serve-app { padding: 32px 14px; }
+      .mode-switch, .option-grid, .role-grid, .browse-grid, .detail-grid, .field-grid { grid-template-columns: 1fr; }
+      #tr-serve-app h1 { font-size: clamp(40px,13vw,62px); }
+      .mode-btn { padding: 16px; }
+      .mode-title { font-size: 18px; }
+      .fit-panel, .results-panel, .modal { border-radius: 20px; padding: 18px; }
+      .role-card { min-height: unset; }
+      .option-card:hover, .role-card:hover { transform: none; }
+      .modal-backdrop { align-items: flex-start; }
+      .modal { max-height: calc(100vh - 20px); }
+      .modal h3 { font-size: 28px; }
     }
   </style>
 </head>
 <body>
-  <div class="sf-wrapper">
+<div id="tr-serve-app">
+<div class="serve-wrap">
 
-    <!-- Header -->
-    <header class="sf-header">
-      <div class="sf-accent-bar" aria-hidden="true"></div>
-      <h1>Find a place to serve.</h1>
-      <p>You don't have to know exactly where you fit yet. Tell us a little about yourself and we'll help you connect.</p>
-    </header>
+  <div class="hero-accent" aria-hidden="true"></div>
+  <p class="eyebrow">Serve at 2Rivers</p>
+  <h1>Be part of something real.</h1>
+  <p class="intro">You don't need to know exactly where you fit yet. Browse a role, meet a leader, and see what it's actually like — before making any commitment.</p>
 
-    <!-- Main card -->
-    <main>
-      <div class="sf-card">
+  <div class="mode-switch">
+    <button class="mode-btn active" data-mode="fit" type="button">
+      <div class="mode-title">Find My Fit</div>
+      <div class="mode-copy">Answer three quick questions and get role-level recommendations based on what energizes you.</div>
+    </button>
+    <button class="mode-btn" data-mode="browse" type="button">
+      <div class="mode-title">Browse Roles</div>
+      <div class="mode-copy">Explore every serving role by area, schedule, or serving style at your own pace.</div>
+    </button>
+  </div>
 
-        <!-- Step indicators -->
-        <nav class="sf-steps" aria-label="Form steps">
-          <div class="sf-step active" id="step-indicator-1" aria-current="step">
-            <div class="sf-step-dot" aria-hidden="true">1</div>
-            <span class="sf-step-label">About you</span>
-          </div>
-          <div class="sf-step" id="step-indicator-2">
-            <div class="sf-step-dot" aria-hidden="true">2</div>
-            <span class="sf-step-label">Ministry area</span>
-          </div>
-          <div class="sf-step" id="step-indicator-3">
-            <div class="sf-step-dot" aria-hidden="true">3</div>
-            <span class="sf-step-label">Anything else?</span>
-          </div>
-        </nav>
+  <!-- Find My Fit view -->
+  <section id="fit-view">
+    <h2>Find a role to check out.</h2>
+    <p class="section-copy">These three questions help us recommend specific roles — not just ministry areas.</p>
+    <div class="fit-panel">
+      <div class="question-kicker" id="question-kicker">Question 1 of 3</div>
+      <div class="question-title" id="question-title"></div>
+      <div class="option-grid" id="option-grid"></div>
+      <div class="fit-actions">
+        <button id="back-question" class="secondary-btn hidden" type="button">&#8592; Back</button>
+        <button id="reset-fit" class="secondary-btn" type="button">Start Over</button>
+        <span class="progress-note" id="progress-note"></span>
+      </div>
+    </div>
+    <div id="fit-results"></div>
+  </section>
 
-        <!-- Alert banner -->
-        <div class="sf-alert" id="sf-alert" role="alert" aria-live="polite"></div>
+  <!-- Browse view -->
+  <section id="browse-view" class="hidden">
+    <h2>Browse every role.</h2>
+    <p class="section-copy">Open any card to see what someone actually does, what the first day looks like, and what to expect. No info required to explore.</p>
+    <div id="filter-row" class="filter-row"></div>
+    <div id="browse-results"></div>
+  </section>
 
-        <!-- Success state (hidden until submission) -->
-        <div class="sf-success" id="sf-success" aria-live="polite">
-          <div class="sf-success-icon" aria-hidden="true">
-            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
-          <h2>You're on the list.</h2>
-          <p>Someone from the team will reach out soon. We're glad you want to be part of this.</p>
-        </div>
+</div><!-- .serve-wrap -->
 
-        <!-- Form -->
-        <form id="serve-form" novalidate>
+<!-- Details modal -->
+<div id="details-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="details-title">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <p class="modal-eyebrow">Role Details</p>
+        <h3 id="details-title"></h3>
+        <p class="modal-subtitle" id="details-ministry"></p>
+        <div id="details-tags" class="tags"></div>
+      </div>
+      <button class="close-btn" type="button" data-close-modal="details-modal">Close ✕</button>
+    </div>
+    <div id="details-content" class="detail-grid"></div>
+  </div>
+</div>
 
-          <!-- Step 1: Personal info -->
-          <section id="step-1" aria-labelledby="step1-heading">
-            <h2 class="sf-section-title" id="step1-heading">A little about you</h2>
-            <p class="sf-section-sub">Just the basics — we'll take it from here.</p>
+<!-- Interest / Check It Out modal -->
+<div id="interest-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="interest-title">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <p class="modal-eyebrow">Check It Out</p>
+        <h3 id="interest-title"></h3>
+        <p class="modal-subtitle" id="interest-ministry"></p>
+      </div>
+      <button class="close-btn" type="button" data-close-modal="interest-modal">Close ✕</button>
+    </div>
+    <form id="interest-form" novalidate>
+      <p class="section-copy" style="margin-bottom:20px;">This is not a commitment. We'll help you visit the team, meet a leader, and see if the role is actually a good fit before anything is decided.</p>
+      <div id="interest-warning"></div>
+      <div class="field-grid">
+        <div><label for="firstName">First name</label><input id="firstName" name="firstName" required autocomplete="given-name" /></div>
+        <div><label for="lastName">Last name</label><input id="lastName" name="lastName" required autocomplete="family-name" /></div>
+      </div>
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" required autocomplete="email" inputmode="email" />
+      <label for="phone">Phone <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
+      <input id="phone" name="phone" type="tel" autocomplete="tel" />
+      <label for="notes">Anything you want us to know? <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
+      <textarea id="notes" name="notes" rows="3" placeholder="e.g. I'm brand new here, I have young kids, I'm available Thursday evenings..."></textarea>
+      <div id="form-error" class="hidden" style="color:#DC2626;font-size:14px;margin-bottom:14px;"></div>
+      <button class="primary-btn" type="submit" id="interest-submit" style="width:100%;padding:15px;">Send My Check It Out Request</button>
+    </form>
+    <div id="interest-success" class="success-box hidden">
+      <div style="font-size:40px;margin-bottom:12px;">🙌</div>
+      <h3>You're on the list.</h3>
+      <p style="color:var(--muted);line-height:1.6;margin-bottom:20px;">Someone from the team will reach out soon. This isn't a commitment — it's just the first conversation.</p>
+      <button class="primary-btn" type="button" data-close-modal="interest-modal">Done</button>
+    </div>
+  </div>
+</div>
 
-            <div class="sf-row">
-              <div class="sf-field" id="field-firstName">
-                <label for="firstName">First name <span class="sf-required" aria-hidden="true">*</span></label>
-                <input type="text" id="firstName" name="firstName" autocomplete="given-name" required />
-                <div class="sf-field-error" id="error-firstName">Please enter your first name.</div>
-              </div>
-              <div class="sf-field" id="field-lastName">
-                <label for="lastName">Last name <span class="sf-required" aria-hidden="true">*</span></label>
-                <input type="text" id="lastName" name="lastName" autocomplete="family-name" required />
-                <div class="sf-field-error" id="error-lastName">Please enter your last name.</div>
-              </div>
-            </div>
+</div><!-- #tr-serve-app -->
 
-            <div class="sf-field" id="field-email">
-              <label for="email">Email <span class="sf-required" aria-hidden="true">*</span></label>
-              <input type="email" id="email" name="email" autocomplete="email" required inputmode="email" />
-              <div class="sf-field-error" id="error-email">Please enter a valid email address.</div>
-            </div>
+<script>
+(function () {
+  'use strict';
 
-            <div class="sf-field" id="field-phone">
-              <label for="phone">Phone <span style="color:var(--muted);font-weight:400;font-size:.8rem;">(optional)</span></label>
-              <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" />
-            </div>
+  var WORKER_URL = 'https://api.2riverschurch.com/serve-intake';
 
-            <div class="sf-btn-row">
-              <span></span>
-              <button type="button" class="sf-btn sf-btn-primary" id="next-1" aria-label="Continue to ministry area">
-                <span class="sf-btn-label">Continue</span>
-              </button>
-            </div>
-          </section>
+  // ─────────────────────────────────────────────
+  // ROLES DATA
+  // Flags are noted with FLAG: comments below —
+  // replace with real volunteer quotes, leader names,
+  // and scheduling details before going live.
+  // ─────────────────────────────────────────────
+  var roles = [
 
-          <!-- Step 2: Ministry area -->
-          <section id="step-2" style="display:none" aria-labelledby="step2-heading">
-            <h2 class="sf-section-title" id="step2-heading">Where do you feel pulled?</h2>
-            <p class="sf-section-sub">Pick the area that interests you most — you can always explore others later.</p>
+    // ── FIRST IMPRESSIONS ──────────────────────
+    {
+      id: "welcome-greeter",
+      title: "Welcome & Greeter",
+      ministry: "First Impressions",
+      area: "First Impressions",
+      description: "Be the first face someone sees on Sunday — making guests feel genuinely seen and at home.",
+      tags: ["Sunday", "People-facing", "Low barrier"],
+      requiresBackgroundCheck: false,
+      scores: { welcome:5, social:5, calm:3, sunday:5, care:2, handsOn:1, focused:1 },
+      why: "This fits if you love people and want a simple, relational way to make a real difference on Sunday.",
+      actuallyDo: [
+        "Stand at the front door and welcome people as they arrive",
+        "Open doors and greet with a warm smile",
+        "Help guests find where to go (auditorium, Kids, restrooms)",
+        "Notice people who look uncertain or new and make them feel seen"
+      ],
+      rhythm: "Arrive ~20 minutes before service. Serve during the arrival window before service starts. Typically 2x/month.",
+      environment: "Social, visible, and simple. Most interactions are brief and warm. Indoor and outdoor posting depending on weather.",
+      serveWith: "Serve with other First Impressions volunteers and a team lead.", // FLAG: Add real team lead name
+      success: "Every person who walks in feels noticed and welcomed before they ever sit down.",
+      hardPart: "It can feel repetitive. The win is consistency and warmth — not variety.",
+      fit: [
+        "You enjoy brief, genuine interactions with people",
+        "You notice newcomers naturally",
+        "You like simple, clear roles with no surprises",
+        "You can be warm without being overwhelming"
+      ],
+      firstDay: [
+        "Meet the First Impressions team lead",
+        "Stand with an experienced greeter for one full service",
+        "Welcome guests alongside them",
+        "Debrief briefly after service"
+      ],
+      training: "Quick shadow and hospitality coaching. No background check required to serve.",
+      story: "FLAG: Replace with a real volunteer quote from your First Impressions team.",
+      flagged: true
+    },
 
-            <div class="sf-ministry-grid" role="radiogroup" aria-labelledby="step2-heading" id="ministry-grid">
-              <!-- Ministry cards are rendered by JS from the MINISTRIES constant below -->
-            </div>
+    {
+      id: "cafe-team",
+      title: "Café Team Member",
+      ministry: "First Impressions",
+      area: "First Impressions",
+      description: "Keep the café running and create a space where real conversations happen between services.",
+      tags: ["Sunday", "Practical", "Social"],
+      requiresBackgroundCheck: false,
+      scores: { welcome:3, social:4, practical:4, handsOn:4, calm:3, sunday:5 },
+      why: "This fits if you like being helpful and enjoy a role where the work is practical but the impact is relational.",
+      actuallyDo: [
+        "Prepare and serve coffee and drinks before and between services",
+        "Keep the café area clean and stocked",
+        "Greet and chat with people grabbing coffee",
+        "Help create a warm, welcoming atmosphere in the lobby"
+      ],
+      rhythm: "Arrive before service. Serve before and between services. Usually 2x/month.", // FLAG: Confirm specific timing
+      environment: "Active, warm, and social. Steady flow of people, then quieter during the service.",
+      serveWith: "Serve with other café volunteers and the First Impressions lead.", // FLAG: Add real team lead name
+      success: "The café is ready on time, the coffee is good, and people linger and connect.",
+      hardPart: "The pre-service rush can be hectic. Staying organized and cheerful under pressure matters.",
+      fit: [
+        "You're comfortable in a service role",
+        "You enjoy casual conversation while working",
+        "You like practical, hands-on tasks",
+        "You can work quickly without getting flustered"
+      ],
+      firstDay: [
+        "Meet the café lead",
+        "Learn the setup routine",
+        "Help prep and serve alongside experienced volunteers",
+        "Help clean up and reset after service"
+      ],
+      training: "Hands-on training during your first serve. No background check required.",
+      story: "FLAG: Replace with a real volunteer quote from your café team.",
+      flagged: true
+    },
 
-            <div id="field-ministry" class="sf-field" style="margin:0">
-              <div class="sf-field-error" id="error-ministry">Please choose a ministry area.</div>
-            </div>
+    {
+      id: "parking-team",
+      title: "Parking Team Member",
+      ministry: "First Impressions",
+      area: "First Impressions",
+      description: "Help guests feel taken care of from the moment they arrive — before they ever walk through the door.",
+      tags: ["Sunday", "Outdoor", "Hands-on"],
+      requiresBackgroundCheck: false,
+      scores: { welcome:3, social:3, practical:4, handsOn:5, calm:3, sunday:5 },
+      why: "This fits if you like being active outdoors and don't mind a role that's largely unseen but genuinely matters.",
+      actuallyDo: [
+        "Direct traffic and guide cars to open spots",
+        "Greet drivers with a friendly wave or word",
+        "Help guests with accessibility needs get to the entrance easily",
+        "Communicate with other parking volunteers via radio or hand signals" // FLAG: Confirm if radios are used
+      ],
+      rhythm: "Arrive 30 minutes before service. Serve during the arrival rush, then done before service starts. Usually 2x/month.",
+      environment: "Outdoors in all weather conditions. Active, physical, and independent. Quieter pace once parking fills.",
+      serveWith: "Serve with the parking team and First Impressions lead.", // FLAG: Confirm team structure
+      success: "Guests park easily, aren't confused, and feel cared for from the first moment they arrive.",
+      hardPart: "Weather can be rough and the pace is hectic for a short window. Patience and energy both matter.",
+      fit: [
+        "You're comfortable being outside in various weather",
+        "You're physically active and like to move",
+        "You're friendly even when it's quick and nonverbal",
+        "You like having a clear, defined role"
+      ],
+      firstDay: [
+        "Meet the parking lead",
+        "Walk the lot and learn the traffic pattern",
+        "Serve alongside an experienced volunteer",
+        "Debrief after the rush"
+      ],
+      training: "Walk-through of the lot and traffic plan before your first Sunday. No background check required.",
+      story: "FLAG: Replace with a real volunteer quote from your parking team.",
+      flagged: true
+    },
 
-            <div class="sf-btn-row">
-              <button type="button" class="sf-btn sf-btn-ghost" id="back-1">&#8592; Back</button>
-              <button type="button" class="sf-btn sf-btn-primary" id="next-2" aria-label="Continue to additional notes">
-                <span class="sf-btn-label">Continue</span>
-              </button>
-            </div>
-          </section>
+    // ── WORSHIP ───────────────────────────────
+    {
+      id: "worship-vocalist",
+      title: "Worship Vocalist",
+      ministry: "Worship",
+      area: "Worship",
+      description: "Lead the congregation in worship through your voice as part of the weekly worship team.",
+      tags: ["Weekly", "Sunday", "Creative", "Audition required"],
+      requiresBackgroundCheck: false,
+      scores: { creative:4, social:3, focused:3, sunday:5, weekday:3, care:1 },
+      why: "This fits if you have vocal ability and genuinely want to lead others into worship — not just perform.",
+      actuallyDo: [
+        "Rehearse weekly with the worship team", // FLAG: Confirm rehearsal day/time
+        "Lead congregational worship from the stage on Sunday",
+        "Learn and prep songs in advance using Planning Center",
+        "Support the musical direction of the worship pastor"
+      ],
+      rhythm: "Weekly commitment — rehearsal plus Sunday services. This is a higher-commitment role.", // FLAG: Confirm rehearsal schedule
+      environment: "Stage-based. Requires musical ability and comfort leading in front of others.",
+      serveWith: "Serve with the full worship team under the direction of the worship pastor.", // FLAG: Add worship pastor name
+      success: "The congregation is genuinely led into worship, not just watching a performance.",
+      hardPart: "It requires consistent weekly availability. Missing rehearsal affects the whole team.",
+      fit: [
+        "You have vocal ability and experience singing",
+        "You're available weekly for rehearsal and Sunday",
+        "You're coachable and can take musical direction",
+        "You want to serve, not just perform"
+      ],
+      firstDay: [
+        "Meet with the worship pastor or team lead",
+        "Receive a song list and get set up on Planning Center",
+        "Attend rehearsal and observe the flow",
+        "Discuss expectations and next steps"
+      ],
+      training: "Audition or conversation with worship leadership is required before serving on stage. FLAG: Confirm audition process.",
+      story: "FLAG: Replace with a real volunteer quote from your worship team.",
+      flagged: true
+    },
 
-          <!-- Step 3: Notes + submit -->
-          <section id="step-3" style="display:none" aria-labelledby="step3-heading">
-            <h2 class="sf-section-title" id="step3-heading">Anything else?</h2>
-            <p class="sf-section-sub">No pressure — but if there's something you want us to know, here's the place.</p>
+    {
+      id: "worship-instrumentalist",
+      title: "Worship Instrumentalist",
+      ministry: "Worship",
+      area: "Worship",
+      description: "Play guitar, drums, keys, bass, or another instrument as part of the weekly worship team.",
+      tags: ["Weekly", "Sunday", "Creative", "Audition required"],
+      requiresBackgroundCheck: false,
+      scores: { creative:5, production:2, focused:4, sunday:5, weekday:3 },
+      why: "This fits if you're a musician who wants to use your skill to serve the church — not just play.",
+      actuallyDo: [
+        "Rehearse weekly with the worship team", // FLAG: Confirm rehearsal day/time
+        "Play your instrument as part of Sunday services",
+        "Prep your parts using Planning Center charts and recordings",
+        "Communicate with the worship team around arrangements and transitions"
+      ],
+      rhythm: "Weekly commitment — rehearsal plus Sunday services. This is a higher-commitment role.", // FLAG: Confirm rehearsal schedule
+      environment: "Stage-based. Requires musical proficiency and the ability to take direction.",
+      serveWith: "Serve with the full worship team and worship pastor.", // FLAG: Add worship pastor name
+      success: "Music supports the service, elevates worship, and feels cohesive.",
+      hardPart: "Weekly availability is required. Charts and parts need to be learned before rehearsal.",
+      fit: [
+        "You play guitar, keys, bass, drums, or another instrument",
+        "You can read charts and follow musical direction",
+        "You're available weekly for rehearsal and Sunday",
+        "You want to serve the room, not showcase your skill"
+      ],
+      firstDay: [
+        "Meet with the worship pastor",
+        "Receive charts and get set up on Planning Center",
+        "Attend rehearsal and learn the format",
+        "Discuss instrument-specific expectations"
+      ],
+      training: "Conversation or audition with worship leadership required. FLAG: Confirm audition process.",
+      story: "FLAG: Replace with a real volunteer quote from your worship team.",
+      flagged: true
+    },
 
-            <div class="sf-field" id="field-notes">
-              <label for="notes">Notes <span style="color:var(--muted);font-weight:400;font-size:.8rem;">(optional)</span></label>
-              <textarea id="notes" name="notes" placeholder="e.g. I'm new here and not sure where I fit, but I love music…" maxlength="500"></textarea>
-            </div>
+    // ── PRODUCTION ────────────────────────────
+    {
+      id: "audio-operator",
+      title: "Audio Operator",
+      ministry: "Production",
+      area: "Production",
+      description: "Run front-of-house or monitor audio so every service sounds clear and distraction-free.",
+      tags: ["Sunday", "Behind the scenes", "Technical", "Focused"],
+      requiresBackgroundCheck: false,
+      scores: { production:5, focused:5, practical:3, calm:4, creative:2, sunday:5 },
+      why: "This fits if you're detail-oriented, like tech, and prefer making things great from behind the scenes.",
+      actuallyDo: [
+        "Set up and check audio levels before rehearsal",
+        "Mix front-of-house or monitor audio during services",
+        "Respond to cues from stage and production team",
+        "Troubleshoot issues quickly and calmly"
+      ],
+      rhythm: "Arrive before rehearsal, serve through one or more services. Usually requires prior sound experience or willingness to learn.", // FLAG: Confirm rehearsal start time
+      environment: "Behind the scenes. Focused, low-social. Some moments require fast attention and calm decision-making.",
+      serveWith: "Serve with the production team and production director.", // FLAG: Add production director name
+      success: "Every service is heard clearly. No one in the congregation notices the audio because it just works.",
+      hardPart: "Mistakes are audible to the whole room. Staying calm and recovering quickly is part of the role.",
+      fit: [
+        "You're comfortable with audio equipment",
+        "You can focus for extended periods without losing attention",
+        "You're calm under pressure",
+        "You prefer impact over visibility"
+      ],
+      firstDay: [
+        "Tour the booth and meet the production team",
+        "Watch a full rehearsal and service",
+        "Learn the signal chain and console basics",
+        "Begin shadowing before running on your own"
+      ],
+      training: "Shadowing period required. Depth of training depends on your starting experience level.",
+      story: "FLAG: Replace with a real volunteer quote from your production team.",
+      flagged: true
+    },
 
-            <div class="sf-btn-row">
-              <button type="button" class="sf-btn sf-btn-ghost" id="back-2">&#8592; Back</button>
-              <button type="submit" class="sf-btn sf-btn-primary" id="submit-btn">
-                <span class="sf-btn-label">Take my next step</span>
-                <div class="sf-spinner" aria-hidden="true"></div>
-              </button>
-            </div>
-          </section>
+    {
+      id: "slides-operator",
+      title: "Slides Operator",
+      ministry: "Production",
+      area: "Production",
+      description: "Advance lyrics, sermon slides, and service elements so people can follow along without distraction.",
+      tags: ["Sunday", "Behind the scenes", "Technical", "Great starting role"],
+      requiresBackgroundCheck: false,
+      scores: { production:5, focused:5, practical:3, calm:5, sunday:5 },
+      why: "This is one of the best entry points into production — focused, learnable, and genuinely important.",
+      actuallyDo: [
+        "Follow the service plan in ProPresenter (or equivalent)", // FLAG: Confirm software used
+        "Advance lyrics and sermon slides on cue",
+        "Stay in communication with the production team via headset",
+        "Flag any slide errors before the service begins"
+      ],
+      rhythm: "Arrive before rehearsal. Serve through rehearsal and one or more services. Usually 2x/month.",
+      environment: "Quiet booth environment. Focused, low-social, and behind the scenes.",
+      serveWith: "Serve alongside other production volunteers and the production director.", // FLAG: Add name
+      success: "Words appear on time, every time. The congregation can participate without looking up to figure out what's happening.",
+      hardPart: "Mistakes are visible to everyone. Staying focused and not rushing to recover matters more than the mistake itself.",
+      fit: [
+        "You're attentive to detail and timing",
+        "You're comfortable with basic computer software",
+        "You can focus for long stretches",
+        "You want behind-the-scenes impact without complexity"
+      ],
+      firstDay: [
+        "Get introduced to the booth and screens",
+        "Learn the software basics",
+        "Watch a service from the booth",
+        "Practice during rehearsal before going live"
+      ],
+      training: "Shadowing and hands-on practice before serving independently. No background check required.",
+      story: "FLAG: Replace with a real volunteer quote from your production team.",
+      flagged: true
+    },
 
-        </form>
+    {
+      id: "livestream-video",
+      title: "Livestream & Video Operator",
+      ministry: "Production",
+      area: "Production",
+      description: "Run cameras or manage the livestream so people watching online feel like they're right there with us.",
+      tags: ["Sunday", "Technical", "Creative", "Behind the scenes"],
+      requiresBackgroundCheck: false,
+      scores: { production:5, creative:4, focused:4, practical:3, calm:3, sunday:5 },
+      why: "This fits if you like both the technical and creative sides of video and care about the online experience.",
+      actuallyDo: [
+        "Operate cameras or run the video switcher during services",
+        "Manage the livestream platform to ensure a clean broadcast", // FLAG: Confirm platform (YouTube, Church Online, etc.)
+        "Follow service flow and respond to director cues",
+        "Help review footage or clips for post-service use occasionally"
+      ],
+      rhythm: "Arrive before rehearsal. Serve through service. Usually 2x/month.",
+      environment: "Active and focused. Mix of booth work and camera operation depending on the role.",
+      serveWith: "Serve with the full production team and production director.", // FLAG: Add name
+      success: "Online viewers have a clean, engaging experience and feel like they're in the room.",
+      hardPart: "Camera operation requires anticipating moments before they happen. The livestream runs live — no second takes.",
+      fit: [
+        "You're comfortable with cameras or video software",
+        "You can focus and respond quickly to cues",
+        "You care about the experience of people who aren't in the building",
+        "You like being part of a technical team"
+      ],
+      firstDay: [
+        "Tour the production setup",
+        "Learn the switcher or camera basics",
+        "Watch a service from the operator's perspective",
+        "Begin shadowing before running independently"
+      ],
+      training: "Shadowing and hands-on training required. Depth depends on your starting experience.",
+      story: "FLAG: Replace with a real volunteer quote from your production team.",
+      flagged: true
+    },
 
-      </div><!-- /.sf-card -->
-    </main>
+    // ── CREATIVE & COMMUNICATIONS ──────────────
+    {
+      id: "photographer",
+      title: "Photographer",
+      ministry: "Creative & Communications",
+      area: "Creative & Communications",
+      description: "Capture real, authentic moments that help tell the story of what God is doing at 2Rivers.",
+      tags: ["Creative", "Flexible", "Event-based"],
+      requiresBackgroundCheck: false,
+      scores: { creative:5, focused:4, flexible:5, event:4, sunday:3, calm:4 },
+      why: "This fits if you're a photographer who wants to serve creatively without a fixed weekly schedule.",
+      actuallyDo: [
+        "Capture photos during Sunday services, special events, or outreach moments",
+        "Follow a shot list from the communications team",
+        "Upload and share usable images in a timely way",
+        "Exercise discretion in worship spaces and during sensitive moments"
+      ],
+      rhythm: "Occasional Sundays or events — not a fixed weekly role. Based on need and your availability.",
+      environment: "Flexible and creative. Requires moving around the space while staying out of the way.",
+      serveWith: "Serve with the communications team or a designated creative lead.", // FLAG: Add name
+      success: "The church has authentic, real images that help people see what community looks like at 2Rivers.",
+      hardPart: "You need to be visible enough to capture moments but unobtrusive enough not to interrupt them.",
+      fit: [
+        "You have photography experience and equipment",
+        "You notice genuine human moments",
+        "You can be discreet in a worship environment",
+        "You prefer flexible, occasional serving over a fixed schedule"
+      ],
+      firstDay: [
+        "Review photo and brand guidelines with the communications team",
+        "Walk the spaces to understand sight lines",
+        "Shoot a sample set during a service or event",
+        "Get feedback and calibrate expectations"
+      ],
+      training: "Brand and photo guidelines provided. Feedback loop built into the process.",
+      story: "FLAG: Replace with a real volunteer quote from your creative team.",
+      flagged: true
+    },
 
-    <footer class="sf-footer">
-      <p>Questions? Reach us at <a href="mailto:info@2riverschurch.com" style="color:var(--blue)">info@2riverschurch.com</a></p>
-    </footer>
+    {
+      id: "social-video-content",
+      title: "Social & Video Content Creator",
+      ministry: "Creative & Communications",
+      area: "Creative & Communications",
+      description: "Create content for social media and digital platforms that points people toward Jesus and community.",
+      tags: ["Creative", "Flexible", "Project-based"],
+      requiresBackgroundCheck: false,
+      scores: { creative:5, focused:3, flexible:5, weekday:3, event:4 },
+      why: "This fits if you're creative, know your way around social platforms or video editing, and want a flexible way to serve.",
+      actuallyDo: [
+        "Create short-form video or graphics for Instagram, Facebook, or YouTube", // FLAG: Confirm which platforms are primary
+        "Help edit sermon clips or ministry highlight videos",
+        "Collaborate with the communications team on campaign ideas",
+        "Deliver assets on time and on brand"
+      ],
+      rhythm: "Project-based and flexible. Some projects have deadlines; others are open-ended.",
+      environment: "Mostly remote or self-directed. Occasional check-ins with the communications team.",
+      serveWith: "Collaborate with the communications team and creative lead.", // FLAG: Add name
+      success: "Content that feels real, not corporate, and that actually helps people discover and connect with 2Rivers.",
+      hardPart: "Creative work takes longer than people think. Communication and deadlines matter.",
+      fit: [
+        "You're comfortable with design, video editing, or social content creation",
+        "You can work independently and meet deadlines",
+        "You want to serve creatively in a flexible format",
+        "You understand how social platforms actually work"
+      ],
+      firstDay: [
+        "Meet with the communications team",
+        "Review brand guidelines and current content strategy",
+        "Identify a first project that matches your skills",
+        "Get access to shared assets and tools"
+      ],
+      training: "Brand guidelines, platform strategy overview, and tool access provided.",
+      story: "FLAG: Replace with a real volunteer quote from your creative team.",
+      flagged: true
+    },
 
-  </div><!-- /.sf-wrapper -->
+    // ── 2RIVERS KIDS ──────────────────────────
+    {
+      id: "kids-checkin",
+      title: "Kids Check-In Host",
+      ministry: "2Rivers Kids",
+      area: "2Rivers Kids",
+      description: "Help families start Sunday feeling calm, welcomed, and confident before dropping their kids off.",
+      tags: ["Sunday", "Kids", "Guest Experience", "People-facing"],
+      requiresBackgroundCheck: true,
+      scores: { welcome:5, nextgen:5, social:4, care:2, calm:3, sunday:5 },
+      why: "This fits if you like helping people feel at ease in a clear, repeatable role — without having to teach a class.",
+      actuallyDo: [
+        "Welcome families as they arrive at the Kids area",
+        "Help parents check kids in at the check-in station",
+        "Print and apply name tags correctly",
+        "Walk new families toward the right classroom and answer basic questions"
+      ],
+      rhythm: "Arrive 25 minutes before service. Serve before and during the check-in window. Usually 2x/month.",
+      environment: "Moderate energy before services, then calmer once check-in closes. Team-based role.",
+      serveWith: "Serve with Kids staff, classroom leaders, and other check-in volunteers.", // FLAG: Add Kids director name
+      success: "Families feel less anxious and more confident leaving their kids — especially new families.",
+      hardPart: "Multiple families arrive at once just before service. Staying calm and friendly under pressure matters.",
+      fit: [
+        "You notice when families look uncertain or overwhelmed",
+        "You can stay calm when there's a line forming",
+        "You like clear, repeatable roles",
+        "You genuinely care about families feeling welcome"
+      ],
+      firstDay: [
+        "Meet the Kids Check-In lead",
+        "Shadow at the check-in station",
+        "Help with a few families with support nearby",
+        "Debrief after service"
+      ],
+      training: "Shadow first, then role-specific coaching. Background check and Kids ministry training required before serving independently.",
+      story: "FLAG: Replace with a real volunteer quote from your Kids check-in team.",
+      flagged: true
+    },
 
-  <script>
-    (function () {
-      'use strict';
+    {
+      id: "kids-classroom",
+      title: "Kids Classroom Helper",
+      ministry: "2Rivers Kids",
+      area: "2Rivers Kids",
+      description: "Support the classroom lead so every kid feels safe, included, and cared for during their Sunday experience.",
+      tags: ["Sunday", "Kids", "Hands-on", "Team-based"],
+      requiresBackgroundCheck: true,
+      scores: { nextgen:5, care:4, handsOn:5, practical:3, social:3, sunday:5 },
+      why: "This fits if you care about kids and prefer supporting a leader rather than being the main teacher.",
+      actuallyDo: [
+        "Help facilitate activities and crafts",
+        "Support the classroom lead with transitions and routines",
+        "Give individual attention to kids who need extra support",
+        "Ensure every child feels included and cared for"
+      ],
+      rhythm: "Arrive 30 minutes before service. Serve during the service hour. Usually 2x/month.",
+      environment: "Active and energetic. Indoors with young children. High relational energy.",
+      serveWith: "Serve alongside a classroom lead and additional helpers.", // FLAG: Confirm typical team size
+      success: "The classroom runs smoothly and each child gets real attention — no one gets lost in the shuffle.",
+      hardPart: "Plans shift, and kids have big feelings. Flexibility and patience matter more than perfection.",
+      fit: [
+        "You're patient and enjoy being around kids",
+        "You're comfortable following a lead rather than driving the room",
+        "You can be playful and steady at the same time",
+        "You care about kids feeling safe and known"
+      ],
+      firstDay: [
+        "Meet the classroom lead",
+        "Observe for the first part",
+        "Assist in a supporting role for the second part",
+        "Debrief with the lead after service"
+      ],
+      training: "First-week shadowing and Kids ministry training. Background check required before serving independently.",
+      story: "FLAG: Replace with a real volunteer quote from your Kids classroom team.",
+      flagged: true
+    },
 
-      // ── Configuration ────────────────────────────────────────────────
-      // Update WORKER_URL to match your deployed Cloudflare Worker route.
-      const WORKER_URL = 'https://api.2riverschurch.com/serve-intake';
+    // ── 2RIVERS YOUTH ──────────────────────────
+    {
+      id: "student-small-group",
+      title: "Student Small Group Leader",
+      ministry: "2Rivers Youth",
+      area: "2Rivers Youth",
+      description: "Build consistent relationships with middle or high school students as a trusted adult in their life.",
+      tags: ["Students", "Relational", "Weekly"],
+      requiresBackgroundCheck: true,
+      scores: { nextgen:5, care:4, social:4, weekday:4, calm:2 },
+      why: "This fits if you want to invest relationally in students and can show up consistently — week after week.",
+      actuallyDo: [
+        "Lead a small group discussion with students during weekly programming", // FLAG: Confirm day/time of Youth programming
+        "Encourage student participation and create psychological safety",
+        "Pray for the students in your group",
+        "Occasionally connect with students outside of programming through approved channels"
+      ],
+      rhythm: "Typically weekly during Youth programming, plus occasional events and leader meetings.", // FLAG: Confirm Youth schedule
+      environment: "High energy during programming, then relational and conversational in small groups.",
+      serveWith: "Serve with the Youth Ministry staff and other small group leaders.", // FLAG: Add Youth director name
+      success: "Students are known by name and have a trusted adult who shows up consistently — especially in hard moments.",
+      hardPart: "Middle and high school conversations can go anywhere. Consistency matters more than having the right answers.",
+      fit: [
+        "You can listen well without rushing to fix things",
+        "You're available consistently, not just occasionally",
+        "You're genuinely comfortable being around teenagers",
+        "You can guide a conversation without dominating it"
+      ],
+      firstDay: [
+        "Meet the Youth Ministry team",
+        "Observe programming from the back",
+        "Sit in with a group as an observer",
+        "Talk through expectations and next steps with Youth staff"
+      ],
+      training: "Shadowing, safety and boundary training, and background check required before leading independently.",
+      story: "FLAG: Replace with a real volunteer quote from your Youth small group leaders.",
+      flagged: true
+    },
 
-      const MINISTRIES = [
-        {
-          value: 'First Impressions',
-          label: 'First Impressions',
-          desc: 'Welcome people and set the tone from the parking lot in.',
-        },
-        {
-          value: 'Worship',
-          label: 'Worship',
-          desc: 'Sing, play, and lead people in worship.',
-        },
-        {
-          value: 'Production',
-          label: 'Production',
-          desc: 'Run sound, video, and livestream.',
-        },
-        {
-          value: 'Creative & Communications',
-          label: 'Creative & Comms',
-          desc: 'Photo, video, and social media content.',
-        },
-        {
-          value: '2Rivers Kids',
-          label: '2Rivers Kids',
-          desc: 'Help kids encounter Jesus every Sunday.',
-        },
-        {
-          value: '2Rivers Youth',
-          label: '2Rivers Youth',
-          desc: 'Invest in middle and high school students.',
-        },
-        {
-          value: 'Outreach & Missions',
-          label: 'Outreach & Missions',
-          desc: 'Serve our city and care for people around us.',
-        },
-        {
-          value: 'Admin / General',
-          label: 'Admin / General',
-          desc: 'Safety team and behind-the-scenes support.',
-        },
-      ];
+    // ── OUTREACH & MISSIONS ────────────────────
+    {
+      id: "missions-interest",
+      title: "Missions Interest",
+      ministry: "Outreach & Missions",
+      area: "Outreach & Missions",
+      description: "Interested in local and global mission? Let us know — we'd love to connect you with what God is doing beyond Sunday.",
+      tags: ["Flexible", "Community", "Conversation starter"],
+      requiresBackgroundCheck: false,
+      scores: { care:3, flexible:5, event:4, practical:2 },
+      why: "This is the best first step if you feel drawn toward mission but don't know where to start yet.",
+      actuallyDo: [
+        "Connect with the Outreach team to learn about local and global opportunities",
+        "Participate in outreach events and mission trips as available", // FLAG: Add specific partnerships or trips if known
+        "Pray for and support mission partners",
+        "Explore where your gifts and passions might fit in the mission landscape"
+      ],
+      rhythm: "Starts with a conversation. Commitment grows from there based on opportunity and fit.",
+      environment: "Varies widely — from local serving events to global mission trips.",
+      serveWith: "Connect with the Outreach & Missions team and any partner organizations.", // FLAG: Add outreach lead name
+      success: "You discover where you fit in God's mission and take a meaningful next step.",
+      hardPart: "Missions opportunities are diverse and it's easy to feel overwhelmed. Starting with a conversation helps.",
+      fit: [
+        "You feel a pull toward local or global mission",
+        "You want to serve beyond Sunday morning",
+        "You're open to where God might lead",
+        "You're willing to start with a conversation before committing"
+      ],
+      firstDay: [
+        "Connect with the Outreach team",
+        "Share what you're interested in and what you're available for",
+        "Learn about current local and global partnerships",
+        "Identify a good first step"
+      ],
+      training: "Varies by opportunity. Some events require no training; mission trips involve preparation and orientation.",
+      story: "FLAG: Replace with a real volunteer quote from someone involved in outreach or missions.",
+      flagged: true
+    },
 
-      // ── DOM refs ─────────────────────────────────────────────────────
-      const form      = document.getElementById('serve-form');
-      const alertEl   = document.getElementById('sf-alert');
-      const successEl = document.getElementById('sf-success');
-      const submitBtn = document.getElementById('submit-btn');
+    {
+      id: "care-team",
+      title: "Care Team Volunteer",
+      ministry: "Outreach & Missions",
+      area: "Outreach & Missions",
+      description: "Help meet real, practical needs in the lives of people in and around the 2Rivers community.",
+      tags: ["Flexible", "Care", "Practical", "Compassion"],
+      requiresBackgroundCheck: false,
+      scores: { care:5, practical:4, calm:4, flexible:4, handsOn:3, weekday:3 },
+      why: "This fits if you're wired for compassion and want a practical, tangible way to help people in hard seasons.",
+      actuallyDo: [
+        "Help coordinate or deliver meals to families in need", // FLAG: Confirm specific care ministries and mechanisms
+        "Support people going through loss, illness, or crisis",
+        "Assist with practical needs like transportation, errands, or home tasks",
+        "Connect people to appropriate support resources"
+      ],
+      rhythm: "As-needed and flexible. Some weeks are active, others quiet. Responds to real needs as they arise.",
+      environment: "Often one-on-one or small settings. Calm and relational. Can be emotionally heavy at times.",
+      serveWith: "Serve with the Care Team and pastoral staff.", // FLAG: Add care lead name
+      success: "People in hard seasons feel genuinely supported and not alone.",
+      hardPart: "You'll encounter real pain. It's important to have appropriate boundaries and not carry more than you should.",
+      fit: [
+        "You're a compassionate, steady presence",
+        "You're practical and a good follow-through person",
+        "You can sit with people in pain without trying to fix everything",
+        "You're available flexibly as needs arise"
+      ],
+      firstDay: [
+        "Connect with the Care Team lead",
+        "Hear about how the team operates and what's needed",
+        "Identify your availability and capacity",
+        "Be introduced to the support network and boundaries"
+      ],
+      training: "Orientation with Care Team leadership. Some situations may require additional training.",
+      story: "FLAG: Replace with a real volunteer quote from your Care Team.",
+      flagged: true
+    },
 
-      const steps = [
-        document.getElementById('step-1'),
-        document.getElementById('step-2'),
-        document.getElementById('step-3'),
-      ];
-      const indicators = [
-        document.getElementById('step-indicator-1'),
-        document.getElementById('step-indicator-2'),
-        document.getElementById('step-indicator-3'),
-      ];
+    // ── ADMIN / GENERAL ────────────────────────
+    {
+      id: "safety-team",
+      title: "Safety Team Member",
+      ministry: "Admin / General",
+      area: "Admin & Behind the Scenes",
+      description: "Serve discreetly to help ensure 2Rivers is a safe place for everyone who walks through our doors.",
+      tags: ["Sunday", "Weekly", "Discreet", "Behind the scenes"],
+      requiresBackgroundCheck: true,
+      scores: { practical:5, focused:5, calm:5, handsOn:3, sunday:5 },
+      why: "This fits if you're calm under pressure and want to serve in a role that most people never notice — because when you do it right, they never need to.",
+      actuallyDo: [
+        "Monitor the building and grounds during services",
+        "Respond calmly and appropriately to any safety concerns",
+        "Coordinate with other safety team members via radio", // FLAG: Confirm communication tools
+        "Be a visible, peaceful presence that helps people feel secure"
+      ],
+      rhythm: "Weekly Sundays. This is a more consistent commitment than most serving roles.", // FLAG: Confirm full Safety Team expectations
+      environment: "Moving throughout the building. Alert and observant, but not anxious.",
+      serveWith: "Serve with the Safety Team and coordinate with church leadership.", // FLAG: Add safety lead name and any law enforcement partnerships
+      success: "Services happen without incident. People feel safe without feeling surveilled.",
+      hardPart: "You need to be ready for something that hopefully never happens. Staying alert without becoming paranoid is the balance.", // FLAG: This role needs significant detail from your actual Safety Team lead — please review carefully
+      fit: [
+        "You're calm in unexpected situations",
+        "You're observant and aware of your surroundings",
+        "You can de-escalate rather than escalate",
+        "You take safety seriously without being reactionary"
+      ],
+      firstDay: [
+        "Meet the Safety Team lead",
+        "Walk the building and learn the layout and emergency procedures",
+        "Shadow experienced team members for several weeks",
+        "Complete any required training before serving independently"
+      ],
+      training: "FLAG: This role's training details need to come directly from your Safety Team lead. This card uses placeholder content. Background check required.",
+      story: "FLAG: Replace with a real volunteer quote from your Safety Team. This entire role card should be reviewed by your Safety Team lead before publishing.",
+      flagged: true
+    }
 
-      let currentStep = 0;
+  ]; // end roles
 
-      // ── Render ministry cards ────────────────────────────────────────
-      const grid = document.getElementById('ministry-grid');
-      MINISTRIES.forEach(function (m, i) {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'sf-ministry-card';
+  // ─────────────────────────────────────────────
+  // QUESTIONS
+  // ─────────────────────────────────────────────
+  var questions = [
+    {
+      id: "energy",
+      title: "Which sounds most energizing to you?",
+      options: [
+        { id: "welcome",   title: "Helping people feel welcome",      copy: "Making the first few minutes easier for guests and families.",              weights: { welcome:5, social:3 } },
+        { id: "nextgen",   title: "Investing in kids or students",    copy: "Caring about the next generation and helping them feel known.",              weights: { nextgen:5, care:2 } },
+        { id: "creative",  title: "Creative or technical work",       copy: "Visuals, music, production, video, or design.",                              weights: { creative:5, production:3, focused:2 } },
+        { id: "practical", title: "Practical behind-the-scenes help", copy: "Fixing, setting up, organizing, or making things work smoothly.",            weights: { practical:5, handsOn:3 } },
+        { id: "care",      title: "Supporting people in hard seasons", copy: "Encouragement, compassion, and steady presence for people who need it.",    weights: { care:5, calm:3 } },
+        { id: "community", title: "Serving our local community",      copy: "Meeting needs beyond Sunday morning.",                                       weights: { care:3, practical:2, flexible:3, event:2 } }
+      ]
+    },
+    {
+      id: "environment",
+      title: "What kind of environment fits you best?",
+      options: [
+        { id: "social",   title: "Social and people-facing",         copy: "Brief conversations and warm interactions sound good to you.",               weights: { social:5, welcome:3 } },
+        { id: "focused",  title: "Focused and behind the scenes",    copy: "You'd rather concentrate on a clear task than be the face of something.",    weights: { focused:5, production:3 } },
+        { id: "handsOn",  title: "Hands-on and active",             copy: "You like doing practical things more than talking about them.",               weights: { handsOn:5, practical:3 } },
+        { id: "calm",     title: "Calmer and more predictable",      copy: "You prefer steady environments with fewer surprises.",                        weights: { calm:5, focused:2 } },
+        { id: "team",     title: "Team-based with support nearby",   copy: "You want to serve near others and not be on your own.",                      weights: { social:2, nextgen:2, practical:1 } },
+        { id: "flexible", title: "Flexible and project-based",       copy: "You're okay when plans shift and you like variety over routine.",            weights: { flexible:4, event:3, creative:2 } }
+      ]
+    },
+    {
+      id: "rhythm",
+      title: "What serving rhythm works for you right now?",
+      options: [
+        { id: "sunday",   title: "Sunday mornings",        copy: "Serving as part of the weekend rhythm works well for me.",           weights: { sunday:5 } },
+        { id: "weekday",  title: "Weekdays or evenings",   copy: "I'm more available outside of Sunday mornings.",                    weights: { weekday:5 } },
+        { id: "flexible", title: "Flexible or occasional", copy: "I want to explore without a heavy recurring schedule right away.",   weights: { flexible:5, event:2 } },
+        { id: "event",    title: "Events and projects",    copy: "I like clear start-and-finish opportunities more than ongoing roles.", weights: { event:5, practical:2 } }
+      ]
+    }
+  ];
 
-        const radio = document.createElement('input');
-        radio.type  = 'radio';
-        radio.name  = 'ministryArea';
-        radio.id    = 'ministry-' + i;
-        radio.value = m.value;
+  var filters = [
+    "All",
+    "First Impressions",
+    "Worship",
+    "Production",
+    "Creative & Communications",
+    "2Rivers Kids",
+    "2Rivers Youth",
+    "Outreach & Missions",
+    "Admin & Behind the Scenes",
+    "Background Check Required",
+    "Sunday",
+    "Flexible"
+  ];
 
-        const label = document.createElement('label');
-        label.htmlFor = 'ministry-' + i;
-        label.innerHTML =
-          '<span class="sf-ministry-name">' + escapeHtml(m.label) + '</span>' +
-          '<span class="sf-ministry-desc">'  + escapeHtml(m.desc)  + '</span>';
+  // ─────────────────────────────────────────────
+  // STATE
+  // ─────────────────────────────────────────────
+  var answers = {};
+  var currentQuestion = 0;
+  var activeFilter = "All";
+  var selectedRole = null;
 
-        wrapper.appendChild(radio);
-        wrapper.appendChild(label);
-        grid.appendChild(wrapper);
+  // ─────────────────────────────────────────────
+  // DOM REFS
+  // ─────────────────────────────────────────────
+  var root          = document.getElementById('tr-serve-app');
+  var fitView       = root.querySelector('#fit-view');
+  var browseView    = root.querySelector('#browse-view');
+  var optionGrid    = root.querySelector('#option-grid');
+  var questionKicker= root.querySelector('#question-kicker');
+  var questionTitle = root.querySelector('#question-title');
+  var progressNote  = root.querySelector('#progress-note');
+  var backQuestion  = root.querySelector('#back-question');
+  var fitResults    = root.querySelector('#fit-results');
+  var browseResults = root.querySelector('#browse-results');
+  var filterRow     = root.querySelector('#filter-row');
+  var detailsModal  = root.querySelector('#details-modal');
+  var interestModal = root.querySelector('#interest-modal');
+  var interestForm  = root.querySelector('#interest-form');
+  var interestSuccess = root.querySelector('#interest-success');
+  var formError     = root.querySelector('#form-error');
+  var interestSubmit= root.querySelector('#interest-submit');
+
+  // ─────────────────────────────────────────────
+  // MODE
+  // ─────────────────────────────────────────────
+  function setMode(mode) {
+    root.querySelectorAll('.mode-btn').forEach(function (btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-mode') === mode);
+    });
+    fitView.classList.toggle('hidden', mode !== 'fit');
+    browseView.classList.toggle('hidden', mode !== 'browse');
+  }
+
+  // ─────────────────────────────────────────────
+  // FIT QUESTIONS
+  // ─────────────────────────────────────────────
+  function renderQuestion() {
+    var q = questions[currentQuestion];
+    questionKicker.textContent = 'Question ' + (currentQuestion + 1) + ' of ' + questions.length;
+    questionTitle.textContent  = q.title;
+    backQuestion.classList.toggle('hidden', currentQuestion === 0);
+    progressNote.textContent   = Object.keys(answers).length + ' of ' + questions.length + ' answered';
+    optionGrid.innerHTML = q.options.map(function (opt) {
+      var isActive = answers[q.id] && answers[q.id].id === opt.id;
+      return '<button type="button" class="option-card' + (isActive ? ' active' : '') + '" data-answer="' + opt.id + '">' +
+        '<div class="option-title">' + opt.title + '<\/div>' +
+        '<p class="option-copy">' + opt.copy + '<\/p>' +
+        '<\/button>';
+    }).join('');
+  }
+
+  function answerQuestion(optionId) {
+    var q = questions[currentQuestion];
+    var selected = q.options.find(function (o) { return o.id === optionId; });
+    answers[q.id] = selected;
+    if (currentQuestion < questions.length - 1) currentQuestion++;
+    renderQuestion();
+    renderFitResults();
+  }
+
+  function combinedWeights() {
+    var w = {};
+    Object.keys(answers).forEach(function (key) {
+      Object.keys(answers[key].weights).forEach(function (k) {
+        w[k] = (w[k] || 0) + answers[key].weights[k];
       });
+    });
+    return w;
+  }
 
-      // ── Step navigation ──────────────────────────────────────────────
-      function showStep(index) {
-        steps.forEach(function (el, i) {
-          el.style.display = i === index ? '' : 'none';
-        });
-        indicators.forEach(function (el, i) {
-          el.classList.remove('active', 'done');
-          if (i < index)  el.classList.add('done');
-          if (i === index) el.classList.add('active');
-        });
-        currentStep = index;
-        hideAlert();
-        // Move focus to the section heading for screen readers
-        var heading = steps[index].querySelector('h2');
-        if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus(); }
-      }
-
-      document.getElementById('next-1').addEventListener('click', function () {
-        if (validateStep1()) showStep(1);
+  function getRecommendedRoles() {
+    var w = combinedWeights();
+    return roles.map(function (role) {
+      var score = 0;
+      Object.keys(w).forEach(function (k) {
+        score += (role.scores[k] || 0) * w[k];
       });
+      return { role: role, score: score };
+    }).filter(function (item) { return item.score > 0; })
+      .sort(function (a, b) { return b.score - a.score; })
+      .slice(0, 6);
+  }
 
-      document.getElementById('next-2').addEventListener('click', function () {
-        if (validateStep2()) showStep(2);
-      });
+  function renderFitResults() {
+    var answered = Object.keys(answers).length;
+    if (!answered) { fitResults.innerHTML = ''; return; }
+    var recs = getRecommendedRoles();
+    var title = answered < questions.length ? 'Early recommendations' : 'Top roles to check out';
+    var copy  = answered < questions.length
+      ? 'These will get more specific as you answer the remaining questions.'
+      : 'These are role-level recommendations based on your answers. Check one out before making any commitment.';
+    renderRoleSection(fitResults, title, copy, recs.map(function (r) { return r.role; }), true);
+  }
 
-      document.getElementById('back-1').addEventListener('click', function () { showStep(0); });
-      document.getElementById('back-2').addEventListener('click', function () { showStep(1); });
+  // ─────────────────────────────────────────────
+  // BROWSE
+  // ─────────────────────────────────────────────
+  function renderFilters() {
+    filterRow.innerHTML = filters.map(function (f) {
+      return '<button type="button" class="filter-btn' + (activeFilter === f ? ' active' : '') + '" data-filter="' + f + '">' + f + '<\/button>';
+    }).join('');
+  }
 
-      // ── Validation ───────────────────────────────────────────────────
-      function validateStep1() {
-        var ok = true;
-        ok = validateRequired('firstName', 'error-firstName') && ok;
-        ok = validateRequired('lastName',  'error-lastName')  && ok;
-        ok = validateEmail()                                   && ok;
-        return ok;
+  function getBrowsedRoles() {
+    if (activeFilter === 'All') return roles;
+    if (activeFilter === 'Background Check Required') return roles.filter(function (r) { return r.requiresBackgroundCheck; });
+    if (activeFilter === 'Sunday')   return roles.filter(function (r) { return r.tags.indexOf('Sunday') !== -1; });
+    if (activeFilter === 'Flexible') return roles.filter(function (r) { return r.tags.indexOf('Flexible') !== -1 || r.tags.indexOf('Project-based') !== -1; });
+    return roles.filter(function (r) {
+      return r.area === activeFilter || r.ministry === activeFilter || r.tags.indexOf(activeFilter) !== -1;
+    });
+  }
+
+  function renderBrowseResults() {
+    renderRoleSection(
+      browseResults,
+      activeFilter === 'All' ? 'All serving roles' : activeFilter,
+      'Open any role to see what someone actually does, what the first day feels like, and what to expect — before sharing any info.',
+      getBrowsedRoles(),
+      false
+    );
+  }
+
+  // ─────────────────────────────────────────────
+  // RENDER HELPERS
+  // ─────────────────────────────────────────────
+  function renderRoleSection(target, title, description, items, includeWhy) {
+    if (!items.length) { target.innerHTML = '<div class="results-panel"><p class="section-copy">No roles match that filter right now.</p><\/div>'; return; }
+    var groups = {};
+    items.forEach(function (role) {
+      if (!groups[role.area]) groups[role.area] = [];
+      groups[role.area].push(role);
+    });
+    var html = '<section class="results-panel"><h2>' + title + '<\/h2><p class="section-copy">' + description + '<\/p>';
+    Object.keys(groups).forEach(function (group) {
+      html += '<div class="group-label">' + group + '<\/div>';
+      html += '<div class="' + (includeWhy ? 'role-grid' : 'browse-grid') + '">';
+      groups[group].forEach(function (role) { html += roleCardHtml(role, includeWhy); });
+      html += '<\/div>';
+    });
+    html += '<\/section>';
+    target.innerHTML = html;
+  }
+
+  function roleCardHtml(role, includeWhy) {
+    var whyContent = includeWhy
+      ? '<strong>Why this may fit:<\/strong><br>' + role.why
+      : '<strong>Explore first — no info required.<\/strong><br>Open any card to see what the role actually involves before you decide anything.';
+    return '<article class="role-card">' +
+      '<div class="ministry-label">' + role.ministry + '<\/div>' +
+      '<h3>' + role.title + '<\/h3>' +
+      '<p>' + role.description + '<\/p>' +
+      '<div class="tags">' +
+        role.tags.map(function (t) { return '<span class="tag">' + t + '<\/span>'; }).join('') +
+        (role.requiresBackgroundCheck ? '<span class="tag badge-warning">Background check required<\/span>' : '') +
+      '<\/div>' +
+      '<div class="why-box">' + whyContent + '<\/div>' +
+      '<div class="card-actions">' +
+        '<button type="button" class="primary-btn" data-interest="' + role.id + '">Check It Out<\/button>' +
+        '<button type="button" class="secondary-btn" data-details="' + role.id + '">View Details<\/button>' +
+      '<\/div>' +
+      '<\/article>';
+  }
+
+  // ─────────────────────────────────────────────
+  // DETAILS MODAL
+  // ─────────────────────────────────────────────
+  function openDetails(roleId) {
+    selectedRole = roles.find(function (r) { return r.id === roleId; });
+    if (!selectedRole) return;
+    root.querySelector('#details-title').textContent    = selectedRole.title;
+    root.querySelector('#details-ministry').textContent = selectedRole.ministry;
+    root.querySelector('#details-tags').innerHTML =
+      selectedRole.tags.map(function (t) { return '<span class="tag">' + t + '<\/span>'; }).join('') +
+      (selectedRole.requiresBackgroundCheck ? '<span class="tag badge-warning">Background check required<\/span>' : '');
+    root.querySelector('#details-content').innerHTML = detailsHtml(selectedRole);
+    detailsModal.classList.remove('hidden');
+    detailsModal.querySelector('.modal').scrollTop = 0;
+  }
+
+  function detailsHtml(role) {
+    var bgcWarning = role.requiresBackgroundCheck
+      ? '<div class="detail-box warn full-span"><h4>Before you begin<\/h4><p>This role requires a background check because you\'ll be serving with kids or students. You can still check it out first, meet the leader, and learn the role before any screening begins.<\/p><\/div>'
+      : '';
+    // Strip internal "FLAG:" staff placeholders so they never render to visitors.
+    var rhythm   = clean(role.rhythm);
+    var environ  = clean(role.environment);
+    var serveW   = clean(role.serveWith);
+    var success  = clean(role.success);
+    var hardPart = clean(role.hardPart);
+    var training = clean(role.training);
+    var story    = clean(role.story);
+    var actuallyDo = cleanList(role.actuallyDo);
+    var fit        = cleanList(role.fit);
+    var firstDay   = cleanList(role.firstDay);
+    return bgcWarning +
+      (actuallyDo.length ? box('What you\'ll actually do', '<ul>' + actuallyDo.map(li).join('') + '<\/ul>') : '') +
+      (rhythm   ? box('Time commitment', '<p>' + rhythm + '<\/p>') : '') +
+      (environ  ? box('Environment', '<p>' + environ + '<\/p>') : '') +
+      (serveW   ? box('Who you\'ll serve with', '<p>' + serveW + '<\/p>') : '') +
+      (success  ? box('What success looks like', '<p>' + success + '<\/p>') : '') +
+      (hardPart ? warnBox('The hardest part', '<p>' + hardPart + '<\/p>') : '') +
+      (fit.length      ? box('Great fit if...', '<ul>' + fit.map(li).join('') + '<\/ul>') : '') +
+      (firstDay.length ? box('Your first day', '<ol>' + firstDay.map(li).join('') + '<\/ol>') : '') +
+      (training ? box('Training details', '<p>' + training + '<\/p>') : '') +
+      (story    ? box('Volunteer story', '<p>"' + story + '"<\/p>') : '') +
+      '<div class="detail-box full-span">' +
+        '<h4>What happens next<\/h4>' +
+        '<ol>' +
+          '<li>Click "Check It Out" and share your name and email<\/li>' +
+          '<li>Someone from the team will reach out<\/li>' +
+          '<li>Visit the team and meet a leader<\/li>' +
+          '<li>Shadow for a week or two<\/li>' +
+          '<li>Complete any required screening or training<\/li>' +
+          '<li>Start serving — with support nearby<\/li>' +
+        '<\/ol>' +
+        '<div style="margin-top:16px"><button type="button" class="primary-btn" data-interest="' + role.id + '">Check It Out<\/button><\/div>' +
+      '<\/div>';
+  }
+
+  function box(title, content) {
+    return '<div class="detail-box"><h4>' + title + '<\/h4>' + content + '<\/div>';
+  }
+
+  function warnBox(title, content) {
+    return '<div class="detail-box warn"><h4>' + title + '<\/h4>' + content + '<\/div>';
+  }
+
+  function li(text) { return '<li>' + text + '<\/li>'; }
+
+  // Remove internal "FLAG: ..." staff annotations from any field before it is shown.
+  function clean(text) {
+    if (typeof text !== 'string') return '';
+    return text.replace(/\s*FLAG:[\s\S]*$/, '').trim();
+  }
+
+  function cleanList(items) {
+    if (!Array.isArray(items)) return [];
+    return items.map(clean).filter(function (t) { return t; });
+  }
+
+  // ─────────────────────────────────────────────
+  // INTEREST MODAL
+  // ─────────────────────────────────────────────
+  function openInterest(roleId) {
+    selectedRole = roles.find(function (r) { return r.id === roleId; });
+    if (!selectedRole) return;
+    root.querySelector('#interest-title').textContent    = selectedRole.title;
+    root.querySelector('#interest-ministry').textContent = selectedRole.ministry;
+    root.querySelector('#interest-warning').innerHTML = selectedRole.requiresBackgroundCheck
+      ? '<div class="detail-box warn" style="margin-bottom:16px"><h4 style="color:var(--amber-text)">Background check required<\/h4><p style="color:var(--amber-text);opacity:.9">This role involves serving with kids or students. If you move forward after checking it out, a background check and Kids/Youth training are required before serving independently. This form is just the first step.<\/p><\/div>'
+      : '';
+    interestForm.classList.remove('hidden');
+    interestSuccess.classList.add('hidden');
+    formError.classList.add('hidden');
+    interestForm.reset();
+    interestModal.classList.remove('hidden');
+    interestModal.querySelector('.modal').scrollTop = 0;
+  }
+
+  function closeModal(id) {
+    root.querySelector('#' + id).classList.add('hidden');
+  }
+
+  // ─────────────────────────────────────────────
+  // FORM SUBMIT
+  // ─────────────────────────────────────────────
+  interestForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!selectedRole) return;
+
+    var firstName = root.querySelector('#firstName').value.trim();
+    var lastName  = root.querySelector('#lastName').value.trim();
+    var email     = root.querySelector('#email').value.trim();
+    var phone     = root.querySelector('#phone').value.trim();
+    var notes     = root.querySelector('#notes').value.trim();
+
+    if (!firstName || !lastName || !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      formError.textContent = 'Please fill in your first name, last name, and a valid email address.';
+      formError.classList.remove('hidden');
+      return;
+    }
+    formError.classList.add('hidden');
+
+    interestSubmit.disabled = true;
+    interestSubmit.textContent = 'Sending...';
+
+    fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phone: phone,
+        ministryArea: selectedRole.ministry,
+        roleId: selectedRole.id,
+        roleTitle: selectedRole.title,
+        notes: notes
+      })
+    })
+    .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+    .then(function (result) {
+      interestSubmit.disabled = false;
+      interestSubmit.textContent = 'Send My Check It Out Request';
+      if (result.ok && result.data.success) {
+        interestForm.classList.add('hidden');
+        interestSuccess.classList.remove('hidden');
+      } else {
+        var msg = (result.data && result.data.error) || 'Something went wrong. Please try again.';
+        formError.textContent = msg;
+        formError.classList.remove('hidden');
       }
+    })
+    .catch(function () {
+      interestSubmit.disabled = false;
+      interestSubmit.textContent = 'Send My Check It Out Request';
+      formError.textContent = "We couldn't reach the server. Please check your connection and try again.";
+      formError.classList.remove('hidden');
+    });
+  });
 
-      function validateStep2() {
-        var selected = document.querySelector('input[name="ministryArea"]:checked');
-        var fieldEl  = document.getElementById('field-ministry');
-        var errorEl  = document.getElementById('error-ministry');
-        if (!selected) {
-          fieldEl.classList.add('has-error');
-          errorEl.style.display = 'block';
-          return false;
-        }
-        fieldEl.classList.remove('has-error');
-        errorEl.style.display = 'none';
-        return true;
-      }
+  // ─────────────────────────────────────────────
+  // EVENT DELEGATION
+  // ─────────────────────────────────────────────
+  root.addEventListener('click', function (e) {
+    var modeBtn    = e.target.closest('.mode-btn');
+    var optionBtn  = e.target.closest('.option-card');
+    var filterBtn  = e.target.closest('.filter-btn');
+    var detailBtn  = e.target.closest('[data-details]');
+    var interestBtn= e.target.closest('[data-interest]');
+    var closeBtn   = e.target.closest('[data-close-modal]');
 
-      function validateRequired(fieldId, errorId) {
-        var input   = document.getElementById(fieldId);
-        var fieldEl = document.getElementById('field-' + fieldId);
-        var errorEl = document.getElementById(errorId);
-        var val     = input.value.trim();
-        if (!val) {
-          fieldEl.classList.add('has-error');
-          input.setAttribute('aria-invalid', 'true');
-          input.setAttribute('aria-describedby', errorId);
-          return false;
-        }
-        fieldEl.classList.remove('has-error');
-        input.removeAttribute('aria-invalid');
-        return true;
-      }
+    if (modeBtn)     setMode(modeBtn.getAttribute('data-mode'));
+    if (optionBtn)   answerQuestion(optionBtn.getAttribute('data-answer'));
+    if (filterBtn)   { activeFilter = filterBtn.getAttribute('data-filter'); renderFilters(); renderBrowseResults(); }
+    if (detailBtn)   openDetails(detailBtn.getAttribute('data-details'));
+    if (interestBtn) openInterest(interestBtn.getAttribute('data-interest'));
+    if (closeBtn)    closeModal(closeBtn.getAttribute('data-close-modal'));
+  });
 
-      function validateEmail() {
-        var input   = document.getElementById('email');
-        var fieldEl = document.getElementById('field-email');
-        var errorEl = document.getElementById('error-email');
-        var val     = input.value.trim();
-        var ok      = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
-        if (!ok) {
-          fieldEl.classList.add('has-error');
-          input.setAttribute('aria-invalid', 'true');
-          input.setAttribute('aria-describedby', 'error-email');
-          return false;
-        }
-        fieldEl.classList.remove('has-error');
-        input.removeAttribute('aria-invalid');
-        return true;
-      }
+  backQuestion.addEventListener('click', function () {
+    if (currentQuestion > 0) { currentQuestion--; renderQuestion(); }
+  });
 
-      // ── Form submit ──────────────────────────────────────────────────
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
+  root.querySelector('#reset-fit').addEventListener('click', function () {
+    answers = {};
+    currentQuestion = 0;
+    renderQuestion();
+    renderFitResults();
+  });
 
-        var firstName    = document.getElementById('firstName').value.trim();
-        var lastName     = document.getElementById('lastName').value.trim();
-        var email        = document.getElementById('email').value.trim();
-        var phone        = document.getElementById('phone').value.trim();
-        var ministryArea = (document.querySelector('input[name="ministryArea"]:checked') || {}).value || '';
-        var notes        = document.getElementById('notes').value.trim();
+  // Close modals on backdrop click
+  [detailsModal, interestModal].forEach(function (modal) {
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) modal.classList.add('hidden');
+    });
+  });
 
-        setLoading(true);
-        hideAlert();
+  // Close on Escape
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      detailsModal.classList.add('hidden');
+      interestModal.classList.add('hidden');
+    }
+  });
 
-        fetch(WORKER_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ firstName: firstName, lastName: lastName, email: email, phone: phone, ministryArea: ministryArea, notes: notes }),
-        })
-          .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
-          .then(function (result) {
-            setLoading(false);
-            if (result.ok && result.data.success) {
-              showSuccess();
-            } else {
-              var msg = (result.data && result.data.error) || 'Something went wrong. Please try again.';
-              showAlert('error', msg);
-            }
-          })
-          .catch(function () {
-            setLoading(false);
-            showAlert('error', 'We couldn\'t reach the server. Please check your connection and try again.');
-          });
-      });
+  // ─────────────────────────────────────────────
+  // INIT
+  // ─────────────────────────────────────────────
+  renderQuestion();
+  renderFitResults();
+  renderFilters();
+  renderBrowseResults();
 
-      // ── UI helpers ───────────────────────────────────────────────────
-      function setLoading(loading) {
-        submitBtn.disabled = loading;
-        submitBtn.classList.toggle('loading', loading);
-      }
-
-      function showAlert(type, message) {
-        alertEl.className = 'sf-alert ' + type + ' visible';
-        alertEl.textContent = message;
-        alertEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }
-
-      function hideAlert() {
-        alertEl.className = 'sf-alert';
-        alertEl.textContent = '';
-      }
-
-      function showSuccess() {
-        form.style.display    = 'none';
-        successEl.classList.add('visible');
-        // Hide step indicators too
-        document.querySelector('.sf-steps').style.display = 'none';
-      }
-
-      function escapeHtml(str) {
-        return str
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;');
-      }
-
-    })();
-  </script>
+})();
+</script>
 </body>
 </html>
