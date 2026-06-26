@@ -8,7 +8,7 @@
     "leadName": "Nate Siecinski"
   },
   "Production": {
-    "assigneeId": "",
+    "assigneeId": "163950882",
     "leadName": "Tristan Martinez"
   },
   "Creative & Communications": {
@@ -20,15 +20,35 @@
     "leadName": "Ashley Kluner"
   },
   "2Rivers Youth": {
-    "assigneeId": "",
+    "assigneeId": "142737834",
     "leadName": "Brady James"
   },
   "Outreach & Missions": {
-    "assigneeId": "",
+    "assigneeId": "15077427",
     "leadName": "Lillian Good"
   },
   "Admin / General": {
-    "assigneeId": "",
+    "assigneeId": "15077427",
     "leadName": "Lillian Good"
+  },
+  "Maintenance": {
+    "assigneeId": "",
+    "leadName": "John Weber"
+  },
+  "Prayer Team": {
+    "assigneeId": "",
+    "leadName": "Will Good & Felieta Boaz"
+  },
+  "Hospitality": {
+    "assigneeId": "",
+    "leadName": "Emily James"
+  },
+  "Babysitting": {
+    "assigneeId": "",
+    "leadName": "Katie Bynum"
+  },
+  "Connect Group Leaders": {
+    "assigneeId": "",
+    "leadName": "Brandon Johnson"
   }
 }

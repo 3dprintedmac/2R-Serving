@@ -1,10 +1,11 @@
 {
-  "_note": "Single source of truth for all role data. Ministry area keys must match ministry-routing.json exactly.",
+  "_note": "Single source of truth for all role data. Ministry area keys must match ministry-routing.json exactly. Fields ageRequirement, timeBeforeServing, d2rRequired, and onboarding are sourced from the Serving Team Onboarding Processes doc; rhythms/commitments are kept in sync with the ServeFinder Source of Truth spreadsheet (Sheet 2).",
   "ministryAreas": [
     {
       "id": "first-impressions",
       "label": "First Impressions",
       "description": "Be the first face someone sees on Sunday — helping guests feel genuinely welcomed from the parking lot to their seat.",
+      "lead": "Kelley Ament",
       "roles": [
         {
           "id": "welcome-greeter",
@@ -12,7 +13,11 @@
           "description": "Be the first face someone sees on Sunday — making guests feel genuinely seen and at home.",
           "commitment": "~20 min before service, 2x/month",
           "bgcRequired": false,
-          "status": "active"
+          "status": "active",
+          "ageRequirement": "Middle school and up (Welcome Desk: adults, unless a lead asks you to train there)",
+          "timeBeforeServing": "None",
+          "d2rRequired": "Not required (exception: Welcome Desk)",
+          "onboarding": "Express interest with Kelley Ament, talk with Kelley, fill out the Serving Availability Form, then shadow on a Sunday morning."
         },
         {
           "id": "cafe-team",
@@ -20,7 +25,11 @@
           "description": "Keep the café running and create a space where conversations happen between services.",
           "commitment": "Before/between services, 2x/month",
           "bgcRequired": false,
-          "status": "active"
+          "status": "active",
+          "ageRequirement": "Middle school and up",
+          "timeBeforeServing": "None",
+          "d2rRequired": "Not required",
+          "onboarding": "Express interest with Kelley Ament, talk with Kelley, fill out the Serving Availability Form, then shadow on a Sunday morning."
         },
         {
           "id": "parking-team",
@@ -28,7 +37,11 @@
           "description": "Help guests feel taken care of from the moment they arrive — before they ever walk through the door.",
           "commitment": "30 min before service, 2x/month",
           "bgcRequired": false,
-          "status": "active"
+          "status": "active",
+          "ageRequirement": "16+ with parental consent (no consent needed once 18)",
+          "timeBeforeServing": "None",
+          "d2rRequired": "Not required",
+          "onboarding": "Express interest with Kelley Ament, talk with Kelley, fill out the Serving Availability Form, then shadow on a Sunday morning."
         },
         {
           "id": "usher",
@@ -36,7 +49,12 @@
           "description": "Help people find their seats and navigate the auditorium during services.",
           "commitment": "Sunday mornings, 2x/month",
           "bgcRequired": false,
-          "status": "draft"
+          "status": "draft",
+          "ageRequirement": "13+",
+          "timeBeforeServing": "None",
+          "d2rRequired": "Not required",
+          "onboarding": "Express interest with Kelley Ament, talk with Kelley, fill out the Serving Availability Form, then shadow on a Sunday morning.",
+          "notes": "Added — confirm with Kelley whether this should be active."
         },
         {
           "id": "shuttle",
@@ -44,7 +62,12 @@
           "description": "Help connect guests from offsite parking to the building on Sunday mornings.",
           "commitment": "Sunday mornings as needed",
           "bgcRequired": false,
-          "status": "draft"
+          "status": "draft",
+          "ageRequirement": "Adult",
+          "timeBeforeServing": "None",
+          "d2rRequired": "Not required",
+          "onboarding": "Express interest with Kelley Ament, talk with Kelley, fill out the Serving Availability Form, then shadow on a Sunday morning.",
+          "notes": "Added — confirm with Kelley."
         }
       ]
     },
@@ -52,22 +75,31 @@
       "id": "worship",
       "label": "Worship",
       "description": "Lead the congregation in worship through music and song.",
+      "lead": "Nate Siecinski",
       "roles": [
         {
           "id": "worship-vocalist",
           "label": "Worship Vocalist",
           "description": "Lead the congregation in worship through your voice as part of the weekly worship team.",
-          "commitment": "Weekly — rehearsal + Sunday services",
+          "commitment": "Early run-through + Sunday mornings, 2x/month",
           "bgcRequired": false,
-          "status": "active"
+          "status": "active",
+          "ageRequirement": "16+ (driving age)",
+          "timeBeforeServing": "Ask Nate",
+          "d2rRequired": "Not required",
+          "onboarding": "Meet with Nate Siecinski and try out by showing your skill set."
         },
         {
           "id": "worship-instrumentalist",
           "label": "Worship Instrumentalist",
           "description": "Play guitar, drums, keys, bass, or another instrument as part of the weekly worship team.",
-          "commitment": "Weekly — rehearsal + Sunday services",
+          "commitment": "Early run-through + Sunday mornings, 2x/month",
           "bgcRequired": false,
-          "status": "active"
+          "status": "active",
+          "ageRequirement": "16+ (driving age)",
+          "timeBeforeServing": "Ask Nate",
+          "d2rRequired": "Not required",
+          "onboarding": "Meet with Nate Siecinski and try out by showing your skill set."
         }
       ]
     },
@@ -75,30 +107,43 @@
       "id": "production",
       "label": "Production",
       "description": "Run the technical side of Sunday services — sound, video, and livestream.",
+      "lead": "Tristan Martinez",
       "roles": [
         {
           "id": "audio-operator",
           "label": "Audio Operator",
           "description": "Run front-of-house or monitor audio to ensure every service sounds clear and distraction-free.",
-          "commitment": "Before rehearsal through service",
+          "commitment": "Early run-through + Sunday mornings, 2x/month",
           "bgcRequired": false,
-          "status": "active"
+          "status": "active",
+          "ageRequirement": "88 Hubble: 18+ · 96 Hubble: 16+",
+          "timeBeforeServing": "No official timeline (3 months preferred)",
+          "d2rRequired": "Not required",
+          "onboarding": "Shadow a current team member or complete training before serving. If you're in Youth, serving Production at Youth on Wednesdays first is preferred; jumping in from scratch usually begins as a Stage Assistant."
         },
         {
           "id": "slides-operator",
           "label": "Slides Operator",
           "description": "Advance lyrics, sermon slides, and service elements so people can follow along.",
-          "commitment": "Before rehearsal through service",
+          "commitment": "Early run-through + Sunday mornings, 2x/month",
           "bgcRequired": false,
-          "status": "active"
+          "status": "active",
+          "ageRequirement": "None",
+          "timeBeforeServing": "No official timeline (3 months preferred)",
+          "d2rRequired": "Not required",
+          "onboarding": "Shadow a current team member or complete training before serving."
         },
         {
           "id": "livestream-video",
           "label": "Livestream & Video Operator",
           "description": "Run cameras or manage the livestream so people watching online feel like they're right there with us.",
-          "commitment": "Before rehearsal through service",
+          "commitment": "Early run-through + Sunday mornings, 2x/month",
           "bgcRequired": false,
-          "status": "active"
+          "status": "active",
+          "ageRequirement": "Stationary camera: none · Moving camera: 18+",
+          "timeBeforeServing": "No official timeline (3 months preferred)",
+          "d2rRequired": "Not required",
+          "onboarding": "Shadow a current team member or complete training before serving."
         }
       ]
     },
@@ -106,22 +151,57 @@
       "id": "creative-communications",
       "label": "Creative & Communications",
       "description": "Tell the 2Rivers story through photography, video, and social media.",
+      "lead": "Nate McConnaughhay",
       "roles": [
         {
           "id": "photographer",
           "label": "Photographer",
           "description": "Capture real moments that help tell the story of what God is doing at 2Rivers.",
-          "commitment": "Occasional Sundays or events",
+          "commitment": "Recurring Sunday rhythm 1–2x/month, plus sign-ups for big events",
           "bgcRequired": false,
-          "status": "active"
+          "status": "active",
+          "ageRequirement": "16+",
+          "timeBeforeServing": "3 months",
+          "d2rRequired": "Not required",
+          "onboarding": "Talk with Nate McConnaughhay, shadow on a Sunday, then define your first project and serving rhythm."
         },
         {
           "id": "social-video-content",
           "label": "Social & Video Content Creator",
           "description": "Create content for social media, video, and digital platforms that points people toward Jesus.",
+          "commitment": "Sundays, flexible recurring",
+          "bgcRequired": false,
+          "status": "active",
+          "ageRequirement": "16+",
+          "timeBeforeServing": "3 months",
+          "d2rRequired": "Not required",
+          "onboarding": "Talk with Nate McConnaughhay, shadow on a Sunday, then define your first project and serving rhythm."
+        },
+        {
+          "id": "online-host",
+          "label": "Online Host",
+          "description": "Welcome and engage people watching online, helping them feel seen and connected during the service.",
+          "commitment": "PCO scheduling rhythm",
+          "bgcRequired": false,
+          "status": "draft",
+          "ageRequirement": "16+",
+          "timeBeforeServing": "3 months",
+          "d2rRequired": "Not required",
+          "onboarding": "Talk with Nate McConnaughhay, shadow on a Sunday, then define your first project and serving rhythm.",
+          "notes": "From onboarding doc — confirm public listing with Nate Mac."
+        },
+        {
+          "id": "graphics-web-video",
+          "label": "Graphics / Web / Video",
+          "description": "Create graphics, web, and video assets that help tell the 2Rivers story.",
           "commitment": "Project-based, flexible",
           "bgcRequired": false,
-          "status": "active"
+          "status": "draft",
+          "ageRequirement": "18+",
+          "timeBeforeServing": "3 months",
+          "d2rRequired": "Not required",
+          "onboarding": "Talk with Nate McConnaughhay, shadow on a Sunday, then define your first project and serving rhythm.",
+          "notes": "From onboarding doc — confirm public listing with Nate Mac. Preferred: experience in their field."
         }
       ]
     },
@@ -129,22 +209,33 @@
       "id": "2rivers-kids",
       "label": "2Rivers Kids",
       "description": "Help kids encounter Jesus in a safe, fun environment every Sunday.",
+      "lead": "Ashley Kluner",
       "roles": [
         {
           "id": "kids-checkin",
           "label": "Kids Check-In Host",
           "description": "Help families start Sunday feeling calm, welcomed, and confident before dropping their kids off.",
-          "commitment": "25 min before service, 2x/month",
+          "commitment": "30 min before + service, 2x/month",
           "bgcRequired": true,
-          "status": "active"
+          "status": "active",
+          "ageRequirement": "Middle school and up",
+          "timeBeforeServing": "At least 3 months",
+          "d2rRequired": "Encouraged but not required",
+          "onboarding": "Talk to Ashley Kluner, fill out the Serving Availability Form, then meet/observe on a Sunday morning.",
+          "notes": "Background check required if 18+."
         },
         {
           "id": "kids-classroom",
           "label": "Kids Classroom Helper",
           "description": "Support the classroom lead so every kid feels safe, included, and cared for.",
-          "commitment": "30 min before service, 2x/month",
+          "commitment": "30 min before + service, 2x/month",
           "bgcRequired": true,
-          "status": "active"
+          "status": "active",
+          "ageRequirement": "Middle school and up",
+          "timeBeforeServing": "At least 3 months",
+          "d2rRequired": "Encouraged but not required",
+          "onboarding": "Talk to Ashley Kluner, fill out the Serving Availability Form, then meet/observe on a Sunday morning.",
+          "notes": "Background check required if 18+."
         }
       ]
     },
@@ -152,6 +243,7 @@
       "id": "2rivers-youth",
       "label": "2Rivers Youth",
       "description": "Invest in middle and high school students as a trusted adult.",
+      "lead": "Brady James",
       "roles": [
         {
           "id": "student-small-group",
@@ -159,7 +251,12 @@
           "description": "Build consistent relationships with middle or high school students as a trusted adult.",
           "commitment": "Weekly during student programming",
           "bgcRequired": true,
-          "status": "active"
+          "status": "active",
+          "ageRequirement": "Adult",
+          "timeBeforeServing": "Ask the team",
+          "d2rRequired": "Confirm with team",
+          "onboarding": "Connect with the Youth team to get started.",
+          "notes": "Co-led by Daniel Ballard & Brady James. Background check required."
         }
       ]
     },
@@ -167,6 +264,7 @@
       "id": "outreach-missions",
       "label": "Outreach & Missions",
       "description": "Serve our city and care for people in and around 2Rivers.",
+      "lead": "Lillian Good",
       "roles": [
         {
           "id": "missions-interest",
@@ -174,7 +272,8 @@
           "description": "Interested in local and global mission? Let us know — we'd love to connect you with what God is doing beyond Sunday.",
           "commitment": "Flexible — starts with a conversation",
           "bgcRequired": false,
-          "status": "active"
+          "status": "active",
+          "notes": "Soft expression of interest, not a structured role yet. Routes to Lillian."
         },
         {
           "id": "care-team",
@@ -182,7 +281,8 @@
           "description": "Help meet real, practical needs in the lives of people in and around 2Rivers.",
           "commitment": "As-needed, flexible",
           "bgcRequired": false,
-          "status": "active"
+          "status": "active",
+          "notes": "Routes to Lillian."
         }
       ]
     },
@@ -190,14 +290,122 @@
       "id": "admin-general",
       "label": "Admin / General",
       "description": "Support the church behind the scenes — safety, operations, and general serving.",
+      "lead": "Lillian Good",
       "roles": [
         {
           "id": "safety-team",
           "label": "Safety Team Member",
           "description": "Serve discreetly to help ensure 2Rivers is a safe place for everyone who walks through our doors.",
-          "commitment": "Weekly Sundays",
+          "commitment": "Sunday mornings, Wednesday nights (Youth), and special events",
           "bgcRequired": true,
-          "status": "needs-info"
+          "status": "needs-info",
+          "ageRequirement": "19 or older",
+          "timeBeforeServing": "Serve in First Impressions or another ministry for at least 6 months",
+          "d2rRequired": "Attend Discovering 2Rivers (required)",
+          "onboarding": "Talk to Chris Boaz, shadow a current team member, and attend at least 2 quarterly training sessions.",
+          "notes": "Team led by Chris Boaz. Routing stays with Lillian Good (Admin) to forward to Chris. Background check required. Preferred: Military/Law Enforcement/Security/EMS experience, 21+, CCW training & certification. Staff-referral — confirm if publicly listed."
+        }
+      ]
+    },
+    {
+      "id": "maintenance",
+      "label": "Maintenance",
+      "description": "Help care for the 2Rivers building and grounds — and jump in on other needs as they arise.",
+      "lead": "John Weber",
+      "roles": [
+        {
+          "id": "maintenance-team",
+          "label": "Maintenance Team Member",
+          "description": "Help keep the 2Rivers building and grounds in great shape through monthly workdays — and jump in on other needs as they arise, as your time allows.",
+          "commitment": "Monthly — first Saturday of the month; plus other needs as they arise, as time allows",
+          "bgcRequired": false,
+          "status": "active",
+          "ageRequirement": "16+ (a parent must be present if younger)",
+          "timeBeforeServing": "None",
+          "d2rRequired": "Not required",
+          "onboarding": "Email John Weber."
+        }
+      ]
+    },
+    {
+      "id": "prayer-team",
+      "label": "Prayer Team",
+      "description": "Cover our church, services, and people in prayer on Sundays and throughout the week.",
+      "lead": "Will Good & Felieta Boaz",
+      "roles": [
+        {
+          "id": "prayer-team-member",
+          "label": "Prayer Team Member",
+          "description": "Cover our church, services, and people in prayer — on Sunday mornings and throughout the week.",
+          "commitment": "Sunday mornings and throughout the week",
+          "bgcRequired": false,
+          "status": "active",
+          "ageRequirement": "16+",
+          "timeBeforeServing": "At least 3 months",
+          "d2rRequired": "Not required",
+          "onboarding": "Meet with Will Good or Felieta Boaz, then shadow a current team member."
+        }
+      ]
+    },
+    {
+      "id": "hospitality",
+      "label": "Hospitality",
+      "description": "Help our guests and teams feel cared for at special events through food and hospitality.",
+      "lead": "Emily James",
+      "roles": [
+        {
+          "id": "hospitality-team",
+          "label": "Hospitality Team Member",
+          "description": "Help create a warm, welcoming environment at special events through food and hospitality.",
+          "commitment": "Special events",
+          "bgcRequired": false,
+          "status": "active",
+          "ageRequirement": "16+",
+          "timeBeforeServing": "None",
+          "d2rRequired": "None",
+          "onboarding": "Connect with Emily James."
+        }
+      ]
+    },
+    {
+      "id": "babysitting",
+      "label": "Babysitting",
+      "description": "Provide childcare so parents can serve, attend events, and connect.",
+      "lead": "Katie Bynum",
+      "roles": [
+        {
+          "id": "babysitting-team",
+          "label": "Babysitter",
+          "description": "Care for children during special events and gatherings so parents can attend and connect.",
+          "commitment": "Special events",
+          "bgcRequired": true,
+          "status": "active",
+          "ageRequirement": "Middle school and up",
+          "timeBeforeServing": "3 months",
+          "d2rRequired": "None",
+          "onboarding": "Connect with Katie Bynum.",
+          "notes": "Background check required if 18+."
+        }
+      ]
+    },
+    {
+      "id": "connect-group-leaders",
+      "label": "Connect Group Leaders",
+      "description": "Lead a home team / connect group, building community and discipleship beyond Sunday.",
+      "lead": "Brandon Johnson",
+      "roles": [
+        {
+          "id": "connect-group-leader",
+          "label": "Connect Group Leader",
+          "description": "Open your home or a space to lead a group where people build real community and grow in their faith.",
+          "commitment": "As needed, based on the group's schedule and needs",
+          "bgcRequired": true,
+          "status": "active",
+          "ageRequirement": "18+",
+          "timeBeforeServing": "6 months",
+          "d2rRequired": "Required",
+          "onboarding": "Interview with Brandon Johnson; training as needed based on the interview.",
+          "notes": "Background check required if children are in the home team / connect group. Must agree to the Connect Leader Lifestyle Agreement. Preferred: has been in a home team before and has served elsewhere at church first."
         }
       ]
     }
