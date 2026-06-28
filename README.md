@@ -4,6 +4,59 @@ A Cloudflare Worker + embeddable HTML form that lets people at 2Rivers Church ex
 
 ---
 
+## 🔗 Live form preview & testing
+
+**Preview the actual form, rendered live from GitHub — no setup needed (this repo is public):**
+
+- **Latest work-in-progress (this branch / PR #5):**
+  <https://raw.githack.com/3dprintedmac/2R-Serving/claude/serving-teams-source-truth-9n8aiz/embed/serve-finder.html>
+- **Stable (`main`):**
+  <https://raw.githack.com/3dprintedmac/2R-Serving/main/embed/serve-finder.html>
+
+Open either link and walk the whole flow — *Find My Fit* (the 3-question quiz) or
+*Browse Roles*. `raw.githack.com` is a free CDN that serves GitHub files with the
+right `text/html` content-type, so the browser **renders** the page instead of showing
+source. (Plain `raw.githubusercontent.com` links won't render — they serve as text.)
+
+> **Heads-up — the preview is for _viewing/clicking_, not yet for real submissions.**
+> Submitting from a preview URL will **not** create a Planning Center card, because:
+> 1. the Worker only accepts requests from `ALLOWED_ORIGIN` (`https://2riverschurch.com`),
+>    and a githack page sends a different origin — the browser blocks it via CORS; and
+> 2. the Worker must be deployed with `PC_APP_ID`, `PC_SECRET`, and the `MINISTRY_ROUTING`
+>    env var populated.
+
+### Testing a real submission (the areas that have a lead + PC ID)
+
+Areas currently wired with **both** a confirmed lead and a PC Person ID:
+**Production · Creative & Communications · 2Rivers Youth · Outreach & Missions · Admin / General**.
+(First Impressions, Worship, 2Rivers Kids, and all the newly added areas still need PC IDs — see `config/ministry-routing.json`.)
+
+The cleanest way to test these end-to-end — no browser, no CORS — is a direct `curl`
+against the deployed Worker:
+
+```bash
+curl -s -X POST https://api.2riverschurch.com/serve-intake \
+  -H "Content-Type: application/json" \
+  -d '{
+    "firstName": "Test",
+    "lastName": "Submission",
+    "email": "you+test@example.com",
+    "ministryArea": "Production",
+    "roleTitle": "Audio Operator"
+  }' | jq .
+```
+
+Swap `ministryArea` for any of the five areas above. A success creates a workflow card
+in PC workflow `56729` (Step 1 — First Contact) assigned to that area's lead. This
+requires the Worker to be **deployed** and `MINISTRY_ROUTING` to contain those IDs
+(paste in the contents of `config/ministry-routing.json`).
+
+> Want to click-test in a *browser* (not curl) before go-live? We can temporarily add
+> the preview origin (`https://raw.githack.com`) to `ALLOWED_ORIGIN`, or run the embed
+> against a local `wrangler dev` Worker. Ask and we'll wire it up.
+
+---
+
 ## Repository structure
 
 ```
