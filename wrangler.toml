@@ -19,7 +19,9 @@ routes = [
 [env.production.vars]
 WORKFLOW_ID      = "56729"
 WORKFLOW_STEP_ID = "159351"
-ALLOWED_ORIGIN   = "https://2riverschurch.com"
+# Comma-separated list of site origins allowed to call the Worker.
+# Replace/add your real public site origin(s) if different.
+ALLOWED_ORIGIN   = "https://2riverschurch.com,https://www.2riverschurch.com"
 
 # ── Local development ─────────────────────────────────────────────────────────
 # Copy .dev.vars.example → .dev.vars and fill in values.

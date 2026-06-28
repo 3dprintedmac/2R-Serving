@@ -5,18 +5,34 @@
  * from trusted server-side routing, and creates a Planning Center workflow
  * card assigned to the correct team lead.
  *
- * Required Cloudflare environment variables:
- *   PC_APP_ID        — Planning Center OAuth application ID
- *   PC_SECRET        — Planning Center OAuth secret  (mark as secret/encrypted)
+ * Required Cloudflare environment variables (set these on the Worker):
+ *   PC_APP_ID        — Planning Center application ID
+ *   PC_SECRET        — Planning Center secret  (mark as secret/encrypted)
+ *
+ * Optional overrides — all have safe built-in defaults, so you do NOT need to
+ * set these unless you want to change them:
  *   WORKFLOW_ID      — PC workflow ID (default: 56729)
  *   WORKFLOW_STEP_ID — PC workflow step ID for "First Contact" (default: 159351)
- *   ALLOWED_ORIGIN   — CORS allowed origin (e.g. https://2riverschurch.com)
+ *   ALLOWED_ORIGIN   — comma-separated list of allowed site origins
+ *                      (default: the 2riverschurch.com origins below)
  *   MINISTRY_ROUTING — JSON string of ministry-area → assignee mapping
+ *                      (default: bundled from config/ministry-routing.json)
  */
+
+// Routing is bundled from the committed source of truth so it deploys with the
+// Worker automatically — no need to paste it into a dashboard env var.
+import bundledRouting from '../config/ministry-routing.json';
 
 // Non-secret fallbacks — safe to be in source
 const DEFAULT_WORKFLOW_ID      = '56729';
 const DEFAULT_WORKFLOW_STEP_ID = '159351';
+
+// Site origins allowed to call this Worker when ALLOWED_ORIGIN is not set.
+// Covers both the apex and www forms of the church site.
+const DEFAULT_ALLOWED_ORIGINS = [
+  'https://2riverschurch.com',
+  'https://www.2riverschurch.com',
+];
 
 const PC_API_BASE = 'https://api.planningcenteronline.com';
 const MAX_PAYLOAD_BYTES = 8_192;
@@ -26,7 +42,8 @@ const MAX_PAYLOAD_BYTES = 8_192;
 export default {
   async fetch(request, env) {
     const origin = request.headers.get('Origin') || '';
-    const allowedOrigin = env.ALLOWED_ORIGIN || '';
+    // Resolved to the request origin when it is on the allow-list, else '' (blocked).
+    const allowedOrigin = resolveAllowedOrigin(origin, env);
 
     // Preflight
     if (request.method === 'OPTIONS') {
@@ -69,7 +86,7 @@ export default {
     const { firstName, lastName, email, phone, ministryArea, roleTitle, notes } = validation.data;
 
     // Resolve assignee from trusted server-side routing
-    const routing = parseMinistryRouting(env.MINISTRY_ROUTING);
+    const routing = resolveRouting(env);
     const ministryConfig = routing[ministryArea];
     if (!ministryConfig) {
       return jsonResponse({ error: 'Unknown ministry area.' }, 400, origin, allowedOrigin);
@@ -159,14 +176,24 @@ function isValidEmail(email) {
 // ─── Environment validation ───────────────────────────────────────────────────
 
 function validateEnv(env) {
-  if (!env.PC_APP_ID)        return 'Missing PC_APP_ID';
-  if (!env.PC_SECRET)        return 'Missing PC_SECRET';
-  if (!env.MINISTRY_ROUTING) return 'Missing MINISTRY_ROUTING';
-  if (!env.ALLOWED_ORIGIN)   return 'Missing ALLOWED_ORIGIN';
+  // Only the Planning Center credentials are truly required — routing and the
+  // allowed origins both fall back to safe built-in defaults.
+  if (!env.PC_APP_ID) return 'Missing PC_APP_ID';
+  if (!env.PC_SECRET) return 'Missing PC_SECRET';
   return null;
 }
 
 // ─── Ministry routing ─────────────────────────────────────────────────────────
+
+// Use the MINISTRY_ROUTING env var if it is set and valid; otherwise fall back
+// to the routing bundled from config/ministry-routing.json at build time.
+function resolveRouting(env) {
+  if (env.MINISTRY_ROUTING) {
+    const parsed = parseMinistryRouting(env.MINISTRY_ROUTING);
+    if (Object.keys(parsed).length) return parsed;
+  }
+  return bundledRouting;
+}
 
 function parseMinistryRouting(raw) {
   try {
@@ -177,6 +204,19 @@ function parseMinistryRouting(raw) {
     console.error('Failed to parse MINISTRY_ROUTING env var');
     return {};
   }
+}
+
+// ─── CORS origin allow-list ────────────────────────────────────────────────────
+
+// Returns the request origin when it is allowed, or '' to block it.
+// ALLOWED_ORIGIN (comma-separated) overrides the built-in defaults when set.
+function resolveAllowedOrigin(origin, env) {
+  if (!origin) return '';
+  const list = (env.ALLOWED_ORIGIN
+    ? env.ALLOWED_ORIGIN.split(',')
+    : DEFAULT_ALLOWED_ORIGINS
+  ).map((o) => o.trim()).filter(Boolean);
+  return list.includes(origin) ? origin : '';
 }
 
 // ─── Planning Center API calls ────────────────────────────────────────────────
@@ -285,10 +325,9 @@ function buildNote({ firstName, ministryArea, roleTitle, notes }) {
 // ─── CORS / response helpers ──────────────────────────────────────────────────
 
 function corsHeaders(origin, allowedOrigin) {
-  // Allow only the configured origin; fall back to same-site if origin matches
-  const allow = origin === allowedOrigin ? allowedOrigin : '';
+  // allowedOrigin is already resolved (the request origin if allowed, else '').
   return {
-    'Access-Control-Allow-Origin':  allow,
+    'Access-Control-Allow-Origin':  allowedOrigin,
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Max-Age':       '86400',
