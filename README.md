@@ -144,15 +144,26 @@ Push to `main` and GitHub Actions deploys automatically when `worker/`, `config/
 
 ## Required secrets and environment variables
 
-| Variable | Where to set | Encrypted? |
-|----------|-------------|------------|
-| `PC_APP_ID` | Cloudflare Dashboard → Worker → Variables | No |
-| `PC_SECRET` | Cloudflare Dashboard → Worker → Variables | **YES** |
-| `WORKFLOW_ID` | Cloudflare Dashboard (or `wrangler.toml` fallback) | No |
-| `WORKFLOW_STEP_ID` | Cloudflare Dashboard (or `wrangler.toml` fallback) | No |
-| `ALLOWED_ORIGIN` | Cloudflare Dashboard (or `wrangler.toml` fallback) | No |
-| `MINISTRY_ROUTING` | Cloudflare Dashboard → Worker → Variables | No |
-| `CLOUDFLARE_API_TOKEN` | GitHub repo → Settings → Secrets → Actions | **YES** |
+**You only have to set two things by hand — the Planning Center credentials.**
+Everything else has a safe built-in default that ships with the Worker.
+
+| Variable | Required? | Where to set | Encrypted? |
+|----------|-----------|-------------|------------|
+| `PC_APP_ID` | **Yes** | Cloudflare → Worker → Settings → Variables | No |
+| `PC_SECRET` | **Yes** | Cloudflare → Worker → Settings → Variables | **YES (encrypt)** |
+| `WORKFLOW_ID` | No — defaults to `56729` | `wrangler.toml` / dashboard | No |
+| `WORKFLOW_STEP_ID` | No — defaults to `159351` | `wrangler.toml` / dashboard | No |
+| `ALLOWED_ORIGIN` | No — defaults to the 2riverschurch.com origins | `wrangler.toml` / dashboard | No |
+| `MINISTRY_ROUTING` | No — bundled from `config/ministry-routing.json` | (override only) | No |
+| `CLOUDFLARE_API_TOKEN` | Only if deploying via **GitHub Actions** | GitHub → Settings → Secrets → Actions | **YES** |
+
+- **Routing** is now compiled into the Worker from `config/ministry-routing.json`, so it
+  deploys automatically — no need to paste JSON into a dashboard variable. Update the
+  file, push, and the new routing ships with the next deploy.
+- **`ALLOWED_ORIGIN`** defaults to `https://2riverschurch.com` **and** `https://www.2riverschurch.com`.
+  Set it (comma-separated) only if your public site uses a different domain.
+- **`CLOUDFLARE_API_TOKEN`** is only needed for the GitHub Actions deploy path. If Cloudflare
+  builds the Worker from the repo via its own Git integration, you don't need it.
 
 See `docs/deployment-guide.md` for full setup instructions.
 
@@ -196,14 +207,14 @@ See `docs/deployment-guide.md` for full setup instructions.
 
 ## What still needs manual setup before going live
 
-- [ ] PC Person IDs confirmed for each ministry lead (from team review sheet)
-- [ ] `config/ministry-routing.json` `assigneeId` fields filled in
-- [ ] `MINISTRY_ROUTING` env variable populated in Cloudflare Dashboard
-- [ ] `PC_APP_ID` and `PC_SECRET` created in Planning Center and added to Cloudflare
-- [ ] `CLOUDFLARE_API_TOKEN` added to GitHub Actions secrets
-- [ ] Worker deployed and tested end-to-end with curl
-- [ ] `embed/serve-finder.html` pasted into Weebly HTML block
+- [ ] `PC_APP_ID` and `PC_SECRET` created in Planning Center and added to the Worker in Cloudflare ← **the one required step**
+- [ ] Worker deployed (push to `main`, or `wrangler deploy --env production`)
+- [ ] `embed/serve-finder.html` pasted into a Weebly HTML block on your site
+- [ ] Confirm `ALLOWED_ORIGIN` matches your real public site origin (apex vs `www`)
+- [ ] Remaining PC Person IDs filled into `config/ministry-routing.json` (the 5 ready areas already have them)
 - [ ] End-to-end test: submit form → verify PC workflow card created with correct assignee
+
+> Routing no longer needs a dashboard variable — it's bundled from `config/ministry-routing.json`.
 
 ---
 
