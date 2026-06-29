@@ -292,10 +292,11 @@ async function findOrCreatePerson(env, { firstName, lastName, email, phone }) {
   return personId;
 }
 
-async function createWorkflowCard(env, { personId, workflowId, workflowStepId, assigneeId, note }) {
-  // Planning Center rejects `note` as a WorkflowCard attribute ("note cannot be
-  // assigned"). The card is created first; the note is added afterward as a
-  // separate WorkflowCardNote sub-resource. Only send assignee_id when set.
+async function createWorkflowCard(env, { personId, workflowId, assigneeId, note }) {
+  // Planning Center rejects both `note` and `workflow_step_id` as WorkflowCard
+  // attributes on creation. New cards automatically enter at the workflow's
+  // first step (First Contact), so we only set the person + optional assignee,
+  // then add the note afterward as a separate WorkflowCardNote sub-resource.
   const attributes = {};
   if (assigneeId) attributes.assignee_id = assigneeId;
 
@@ -304,8 +305,7 @@ async function createWorkflowCard(env, { personId, workflowId, workflowStepId, a
       type: 'WorkflowCard',
       attributes,
       relationships: {
-        person:          { data: { type: 'Person',       id: personId } },
-        workflow_step:   { data: { type: 'WorkflowStep', id: workflowStepId } },
+        person: { data: { type: 'Person', id: personId } },
       },
     },
   };
