@@ -293,10 +293,11 @@ async function findOrCreatePerson(env, { firstName, lastName, email, phone }) {
 }
 
 async function createWorkflowCard(env, { personId, workflowId, workflowStepId, assigneeId, note }) {
-  const attributes = {
-    assignee_id: assigneeId,
-    note,
-  };
+  // Planning Center rejects `note` as a WorkflowCard attribute ("note cannot be
+  // assigned"). The card is created first; the note is added afterward as a
+  // separate WorkflowCardNote sub-resource. Only send assignee_id when set.
+  const attributes = {};
+  if (assigneeId) attributes.assignee_id = assigneeId;
 
   const payload = {
     data: {
@@ -309,10 +310,26 @@ async function createWorkflowCard(env, { personId, workflowId, workflowStepId, a
     },
   };
 
-  await pcFetch(env, `/people/v2/workflows/${workflowId}/cards`, {
+  const created = await pcFetch(env, `/people/v2/workflows/${workflowId}/cards`, {
     method: 'POST',
     body: JSON.stringify(payload),
   });
+
+  // Best-effort: attach the submission details as a card note. A note failure
+  // must not fail the whole submission — the assigned card is what matters.
+  const cardId = created?.data?.id;
+  if (cardId && note) {
+    try {
+      await pcFetch(env, `/people/v2/workflows/${workflowId}/cards/${cardId}/notes`, {
+        method: 'POST',
+        body: JSON.stringify({
+          data: { type: 'WorkflowCardNote', attributes: { note } },
+        }),
+      });
+    } catch (err) {
+      console.error('Card created, but failed to add note:', err.message);
+    }
+  }
 }
 
 function buildNote({ firstName, ministryArea, roleTitle, notes }) {
