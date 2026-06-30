@@ -83,29 +83,38 @@ export default {
     if (validation.error) {
       return jsonResponse({ error: validation.error }, 400, origin, allowedOrigin);
     }
-    const { firstName, lastName, email, phone, ministryArea, roleTitle, notes } = validation.data;
+    const { firstName, lastName, email, phone, notes, grade6to12, roles, answers, recommended } = validation.data;
 
-    // Resolve assignee from trusted server-side routing
+    // Resolve routing (trusted, server-side) and decide who owns this card.
     const routing = resolveRouting(env);
-    const ministryConfig = routing[ministryArea];
-    if (!ministryConfig) {
-      return jsonResponse({ error: 'Unknown ministry area.' }, 400, origin, allowedOrigin);
+    const coordinatorId = getCoordinatorId(routing);
+
+    // The set of distinct ministry areas across the selected roles drives the
+    // assignee:  none  → coordinator (help request),
+    //            one   → that area's ministry lead,
+    //            many  → coordinator (Lillian discerns; one card, no duplicates).
+    const uniqueAreas = [...new Set(roles.map((r) => r.ministryArea))];
+
+    let assigneeId;
+    if (uniqueAreas.length === 1) {
+      const leadConfig = routing[uniqueAreas[0]];
+      assigneeId = (leadConfig && leadConfig.assigneeId) || coordinatorId;
+    } else {
+      assigneeId = coordinatorId;
     }
 
-    const workflowId     = env.WORKFLOW_ID      || DEFAULT_WORKFLOW_ID;
-    const workflowStepId = env.WORKFLOW_STEP_ID || DEFAULT_WORKFLOW_STEP_ID;
+    const workflowId = env.WORKFLOW_ID || DEFAULT_WORKFLOW_ID;
 
     try {
       // 1. Find or create the person in Planning Center
       const personId = await findOrCreatePerson(env, { firstName, lastName, email, phone });
 
-      // 2. Create the workflow card
+      // 2. Create a single workflow card for this submission
       await createWorkflowCard(env, {
         personId,
         workflowId,
-        workflowStepId,
-        assigneeId: ministryConfig.assigneeId || null,
-        note: buildNote({ firstName, ministryArea, roleTitle, notes }),
+        assigneeId: assigneeId || null,
+        note: buildNote({ firstName, roles, uniqueAreas, notes, grade6to12, answers, recommended }),
       });
 
       return jsonResponse(
@@ -137,6 +146,7 @@ const VALID_MINISTRY_AREAS = [
   '2Rivers Youth',
   'Outreach & Missions',
   'Admin / General',
+  'Not Sure Yet',
 ];
 
 function validatePayload(body) {
@@ -148,20 +158,60 @@ function validatePayload(body) {
   const lastName     = sanitizeString(body.lastName,     50);
   const email        = sanitizeString(body.email,       254);
   const phone        = sanitizeString(body.phone,        30);
-  const ministryArea = sanitizeString(body.ministryArea, 80);
-  const roleTitle    = sanitizeString(body.roleTitle,   120);
   const notes        = sanitizeString(body.notes,       500);
+  const grade6to12   = body.grade6to12 === true || body.grade6to12 === 'true';
+  const roles        = parseRoles(body.roles);
+  const answers      = parseAnswers(body.answers);
+  const recommended  = parseStringList(body.recommended, 10, 120);
 
   if (!firstName) return { error: 'First name is required.' };
   if (!lastName)  return { error: 'Last name is required.' };
   if (!email)     return { error: 'Email address is required.' };
   if (!isValidEmail(email)) return { error: 'Please provide a valid email address.' };
-  if (!ministryArea) return { error: 'Ministry area is required.' };
-  if (!VALID_MINISTRY_AREAS.includes(ministryArea)) {
-    return { error: 'Please select a valid ministry area.' };
-  }
 
-  return { data: { firstName, lastName, email, phone, ministryArea, roleTitle, notes } };
+  // roles may legitimately be empty — that's a "help me find a fit" request.
+
+  return { data: { firstName, lastName, email, phone, notes, grade6to12, roles, answers, recommended } };
+}
+
+// Each role carries a title and a ministry area. Entries with an unknown area
+// are dropped (defense-in-depth) rather than failing the whole submission.
+function parseRoles(value) {
+  if (!Array.isArray(value)) return [];
+  return value.slice(0, 25).map((r) => {
+    if (!r || typeof r !== 'object') return null;
+    const ministryArea = sanitizeString(r.ministryArea, 80);
+    const roleTitle    = sanitizeString(r.roleTitle, 120);
+    if (!ministryArea || !VALID_MINISTRY_AREAS.includes(ministryArea)) return null;
+    return { ministryArea, roleTitle };
+  }).filter(Boolean);
+}
+
+function parseAnswers(value) {
+  if (!Array.isArray(value)) return [];
+  return value.slice(0, 5).map((a) => {
+    if (!a || typeof a !== 'object') return null;
+    const question = sanitizeString(a.question, 200);
+    const answer   = sanitizeString(a.answer, 120);
+    if (!question || !answer) return null;
+    return { question, answer };
+  }).filter(Boolean);
+}
+
+function parseStringList(value, maxItems, itemMaxLength) {
+  if (!Array.isArray(value)) return [];
+  return value.slice(0, maxItems).map((s) => sanitizeString(s, itemMaxLength)).filter(Boolean);
+}
+
+// Lillian Good coordinates anyone who is unsure or interested in multiple areas.
+// Pull her PC id from routing so there is a single source of truth.
+function getCoordinatorId(routing) {
+  return (
+    (routing['Not Sure Yet'] && routing['Not Sure Yet'].assigneeId) ||
+    (routing['Admin / General'] && routing['Admin / General'].assigneeId) ||
+    (routing['Outreach & Missions'] && routing['Outreach & Missions'].assigneeId) ||
+    null
+  );
 }
 
 function sanitizeString(value, maxLength) {
@@ -332,11 +382,43 @@ async function createWorkflowCard(env, { personId, workflowId, assigneeId, note 
   }
 }
 
-function buildNote({ firstName, ministryArea, roleTitle, notes }) {
-  let text = `Serve interest submitted via 2Rivers Serve Finder.\nMinistry area: ${ministryArea}`;
-  if (roleTitle) text += `\nRole of interest: ${roleTitle}`;
-  if (notes) text += `\n\nAdditional notes from ${firstName}:\n${notes}`;
-  return text;
+function buildNote({ firstName, roles, uniqueAreas, notes, grade6to12, answers, recommended }) {
+  const lines = ['Source: 2Rivers Serve Finder'];
+  let nextStep;
+
+  if (roles.length === 0) {
+    // Scenario 3 — submitted via "Help me find a good fit" with no roles picked.
+    lines.push('Status: Needs help determining fit');
+    if (recommended && recommended.length) {
+      lines.push('', 'Recommended roles generated:');
+      recommended.forEach((t) => lines.push(`  • ${t}`));
+    }
+    if (answers && answers.length) {
+      lines.push('', 'Their answers to the 3 questions:');
+      answers.forEach((a) => lines.push(`  • ${a.question} → ${a.answer}`));
+    }
+    nextStep = 'Help them explore opportunities and determine the first team to visit.';
+  } else if (uniqueAreas.length === 1) {
+    // Scenario 1 — one ministry area. Assigned directly to that area's lead.
+    lines.push('Status: Single-role interest');
+    lines.push(`Ministry area: ${uniqueAreas[0]}`);
+    lines.push('Role(s):');
+    roles.forEach((r) => lines.push(`  • ${r.roleTitle}`));
+    nextStep = 'Invite them to learn more or shadow.';
+  } else {
+    // Scenario 2 — multiple ministry areas. Assigned to Lillian to discern.
+    lines.push('Status: Multiple interests');
+    lines.push('Selected roles:');
+    roles.forEach((r) => lines.push(`  • ${r.roleTitle} (${r.ministryArea})`));
+    lines.push(`Selected ministry areas: ${uniqueAreas.join(', ')}`);
+    nextStep = 'Help them determine which team they would like to explore first.';
+  }
+
+  if (grade6to12) lines.push('', '*** STUDENT (Grade 6–12) — please follow up appropriately. ***');
+  if (notes) lines.push('', `Message from ${firstName}:`, notes);
+  lines.push('', `Suggested next step: ${nextStep}`);
+
+  return lines.join('\n');
 }
 
 // ─── CORS / response helpers ──────────────────────────────────────────────────
