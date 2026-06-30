@@ -387,15 +387,11 @@ function buildNote({ firstName, roles, uniqueAreas, notes, grade6to12, answers, 
   let nextStep;
 
   if (roles.length === 0) {
-    // Scenario 3 — submitted via "Help me find a good fit" with no roles picked.
+    // Scenario 3 — submitted via the "just help me get started" path, no roles.
     lines.push('Status: Needs help determining fit');
     if (recommended && recommended.length) {
       lines.push('', 'Recommended roles generated:');
       recommended.forEach((t) => lines.push(`  • ${t}`));
-    }
-    if (answers && answers.length) {
-      lines.push('', 'Their answers to the 3 questions:');
-      answers.forEach((a) => lines.push(`  • ${a.question} → ${a.answer}`));
     }
     nextStep = 'Help them explore opportunities and determine the first team to visit.';
   } else if (uniqueAreas.length === 1) {
@@ -412,6 +408,13 @@ function buildNote({ firstName, roles, uniqueAreas, notes, grade6to12, answers, 
     roles.forEach((r) => lines.push(`  • ${r.roleTitle} (${r.ministryArea})`));
     lines.push(`Selected ministry areas: ${uniqueAreas.join(', ')}`);
     nextStep = 'Help them determine which team they would like to explore first.';
+  }
+
+  // Quiz answers (if they used "Help Me Find a Good Fit") are included for every
+  // scenario — useful context even when they picked specific roles.
+  if (answers && answers.length) {
+    lines.push('', 'Their answers to the 3 questions:');
+    answers.forEach((a) => lines.push(`  • ${a.question} → ${a.answer}`));
   }
 
   if (grade6to12) lines.push('', '*** STUDENT (Grade 6–12) — please follow up appropriately. ***');
