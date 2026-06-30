@@ -109,6 +109,85 @@
     .mode-title { font-family: var(--font-display); font-size: 22px; font-weight: 900; margin-bottom: 5px; }
     .mode-copy  { opacity: .72; font-size: 14px; line-height: 1.45; }
 
+    /* ── Help banner ("Not sure where you fit?") ── */
+    .help-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      background: var(--blue-light);
+      border: 1.5px solid var(--blue-border);
+      border-radius: 22px;
+      padding: 22px 26px;
+      margin-bottom: 44px;
+    }
+    .help-banner-title { font-family: var(--font-display); font-size: 22px; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 4px; }
+    .help-banner-copy  { color: var(--muted); font-size: 14px; line-height: 1.5; max-width: 620px; }
+    .help-banner .primary-btn { padding: 14px 22px; font-size: 15px; white-space: nowrap; flex-shrink: 0; }
+
+    /* ── "I'm Interested" selected state ── */
+    .primary-btn.selected {
+      background: var(--green-text);
+      color: #fff;
+    }
+    .primary-btn.selected:hover { background: #0f3d22; }
+
+    /* ── Cart bar (sticky "Roles I'm Interested In") ── */
+    .cart-bar {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      z-index: 9990;
+      background: var(--ink);
+      color: #fff;
+      box-shadow: 0 -8px 28px rgba(10,10,13,.18);
+    }
+    .cart-bar-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .cart-bar-summary { display: flex; align-items: center; gap: 12px; font-weight: 700; }
+    .cart-bar-count {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 30px; height: 30px; padding: 0 9px;
+      border-radius: 999px; background: var(--blue); color: #fff;
+      font-family: var(--font-display); font-size: 15px; font-weight: 900;
+    }
+    .cart-bar-names { opacity: .8; font-size: 13px; font-weight: 500; max-width: 520px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .cart-bar-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .cart-bar .primary-btn { padding: 13px 24px; }
+    .cart-bar-clear {
+      background: transparent; border: 0; color: #fff; opacity: .7;
+      font-weight: 700; font-size: 13px; cursor: pointer; text-decoration: underline;
+    }
+    .cart-bar-clear:hover { opacity: 1; }
+
+    /* ── Selected-roles list inside the submit modal ── */
+    .cart-list { list-style: none; margin: 0 0 18px; padding: 0; }
+    .cart-list li {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      background: var(--green-bg); border: 1.5px solid var(--green-line);
+      border-radius: 12px; padding: 11px 14px; margin-bottom: 8px;
+    }
+    .cart-list .cart-role-name { font-weight: 700; color: var(--green-text); font-size: 14px; }
+    .cart-list .cart-role-area { color: var(--green-text); opacity: .75; font-size: 12px; font-weight: 600; }
+    .cart-remove {
+      border: 0; background: transparent; color: var(--green-text);
+      font-weight: 700; font-size: 13px; cursor: pointer; white-space: nowrap;
+    }
+    .cart-remove:hover { text-decoration: underline; }
+    .cart-empty-note {
+      background: var(--blue-light); border: 1.5px solid var(--blue-border);
+      border-radius: 14px; padding: 16px; margin-bottom: 18px;
+      color: var(--ink); font-size: 14px; line-height: 1.55;
+    }
+
     /* ── Section headings ── */
     #tr-serve-app h2 {
       font-family: var(--font-display);
@@ -316,23 +395,32 @@
   <div class="hero-accent" aria-hidden="true"></div>
   <p class="eyebrow">Serve at 2Rivers</p>
   <h1>Be part of something real.</h1>
-  <p class="intro">You don't need to know exactly where you fit yet. Browse a role, meet a leader, and see what it's actually like — before making any commitment.</p>
+  <p class="intro">Browse every team or answer three quick questions to discover roles that match how you're wired. Nothing here commits you to serving.</p>
 
   <div class="mode-switch">
     <button class="mode-btn active" data-mode="fit" type="button">
-      <div class="mode-title">Find My Fit</div>
-      <div class="mode-copy">Answer three quick questions and get role-level recommendations based on what energizes you.</div>
+      <div class="mode-title">Help Me Find a Good Fit</div>
+      <div class="mode-copy">Answer three quick questions and get role recommendations based on your gifts, passions, and how you're naturally wired.</div>
     </button>
     <button class="mode-btn" data-mode="browse" type="button">
-      <div class="mode-title">Browse Roles</div>
-      <div class="mode-copy">Explore every serving role by area, schedule, or serving style at your own pace.</div>
+      <div class="mode-title">Browse All Teams</div>
+      <div class="mode-copy">Explore every serving area and role at your own pace.</div>
     </button>
+  </div>
+
+  <!-- Not-sure / direct-help banner -->
+  <div class="help-banner">
+    <div>
+      <div class="help-banner-title">Not sure where you fit — or interested in a few things?</div>
+      <div class="help-banner-copy">No problem. Share a little about yourself and Lillian on our team will personally help you figure out the best place to jump in and serve.</div>
+    </div>
+    <button type="button" class="primary-btn" data-help="1">Help me find a good fit</button>
   </div>
 
   <!-- Find My Fit view -->
   <section id="fit-view">
-    <h2>Find a role to check out.</h2>
-    <p class="section-copy">These three questions help us recommend specific roles — not just ministry areas.</p>
+    <h2>Find a team to explore.</h2>
+    <p class="section-copy">These three questions help us recommend roles that match how you're wired. Add any that interest you — explore as many as you like.</p>
     <div class="fit-panel">
       <div class="question-kicker" id="question-kicker">Question 1 of 3</div>
       <div class="question-title" id="question-title"></div>
@@ -348,13 +436,30 @@
 
   <!-- Browse view -->
   <section id="browse-view" class="hidden">
-    <h2>Browse every role.</h2>
-    <p class="section-copy">Open any card to see what someone actually does, what the first day looks like, and what to expect. No info required to explore.</p>
+    <h2>Browse all teams.</h2>
+    <p class="section-copy">Explore every serving area and the roles inside it. Open any card to see what someone actually does — then add the ones that interest you. No info required to explore.</p>
     <div id="filter-row" class="filter-row"></div>
     <div id="browse-results"></div>
   </section>
 
 </div><!-- .serve-wrap -->
+
+<!-- Sticky cart bar — appears once at least one role is selected -->
+<div id="cart-bar" class="cart-bar hidden" aria-live="polite">
+  <div class="cart-bar-inner">
+    <div class="cart-bar-summary">
+      <span class="cart-bar-count" id="cart-count">0</span>
+      <div>
+        <div>Roles I'm interested in</div>
+        <div class="cart-bar-names" id="cart-names"></div>
+      </div>
+    </div>
+    <div class="cart-bar-actions">
+      <button type="button" class="cart-bar-clear" id="cart-clear">Clear</button>
+      <button type="button" class="primary-btn" id="cart-submit">Submit My Interest &#8594;</button>
+    </div>
+  </div>
+</div>
 
 <!-- Details modal -->
 <div id="details-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="details-title">
@@ -372,19 +477,20 @@
   </div>
 </div>
 
-<!-- Interest / Check It Out modal -->
+<!-- Interest / Submit modal -->
 <div id="interest-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="interest-title">
   <div class="modal">
     <div class="modal-head">
       <div>
-        <p class="modal-eyebrow">Check It Out</p>
-        <h3 id="interest-title"></h3>
+        <p class="modal-eyebrow">Tell us you're interested</p>
+        <h3 id="interest-title">Almost there.</h3>
         <p class="modal-subtitle" id="interest-ministry"></p>
       </div>
       <button class="close-btn" type="button" data-close-modal="interest-modal">Close ✕</button>
     </div>
     <form id="interest-form" novalidate>
-      <p class="section-copy" style="margin-bottom:20px;">This is not a commitment. We'll help you visit the team, meet a leader, and see if the role is actually a good fit before anything is decided.</p>
+      <p class="section-copy" style="margin-bottom:20px;">This is not a commitment. We'll help you meet a leader, learn more about the team, and explore whether it's a good fit.</p>
+      <ul id="interest-cart" class="cart-list"></ul>
       <div id="interest-warning"></div>
       <div class="field-grid">
         <div><label for="firstName">First name</label><input id="firstName" name="firstName" required autocomplete="given-name" /></div>
@@ -396,8 +502,12 @@
       <input id="phone" name="phone" type="tel" autocomplete="tel" />
       <label for="notes">Anything you want us to know? <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
       <textarea id="notes" name="notes" rows="3" placeholder="e.g. I'm brand new here, I have young kids, I'm available Thursday evenings..."></textarea>
+      <label for="grade6to12" style="display:flex;align-items:center;gap:10px;cursor:pointer;background:var(--cream-card);border:1.5px solid var(--line);border-radius:12px;padding:13px 14px;margin-bottom:16px;font-weight:700;color:var(--ink);">
+        <input id="grade6to12" name="grade6to12" type="checkbox" style="width:18px;height:18px;flex-shrink:0;margin:0;padding:0;cursor:pointer;accent-color:var(--blue);" />
+        <span>✅ Please check if you are grade 6–12 ✅</span>
+      </label>
       <div id="form-error" class="hidden" style="color:#DC2626;font-size:14px;margin-bottom:14px;"></div>
-      <button class="primary-btn" type="submit" id="interest-submit" style="width:100%;padding:15px;">Send My Check It Out Request</button>
+      <button class="primary-btn" type="submit" id="interest-submit" style="width:100%;padding:15px;">Submit My Interest</button>
     </form>
     <div id="interest-success" class="success-box hidden">
       <div style="font-size:40px;margin-bottom:12px;">🙌</div>
@@ -1045,39 +1155,57 @@
   // ─────────────────────────────────────────────
   // QUESTIONS
   // ─────────────────────────────────────────────
+  // Questions now weight ministry AREAS (not individual roles). Each answer adds
+  // points to one or more areas; we then recommend the top roles from the
+  // highest-scoring areas. Weights are a best-guess starting point — easy to
+  // tune. Area keys must match the `ministry` field on the roles above.
   var questions = [
     {
       id: "energy",
-      title: "Which sounds most energizing to you?",
+      title: "What energizes you most?",
       options: [
-        { id: "welcome",   title: "Helping people feel welcome",      copy: "Making the first few minutes easier for guests and families.",              weights: { welcome:5, social:3 } },
-        { id: "nextgen",   title: "Investing in kids or students",    copy: "Caring about the next generation and helping them feel known.",              weights: { nextgen:5, care:2 } },
-        { id: "creative",  title: "Creative or technical work",       copy: "Visuals, music, production, video, or design.",                              weights: { creative:5, production:3, focused:2 } },
-        { id: "practical", title: "Practical behind-the-scenes help", copy: "Fixing, setting up, organizing, or making things work smoothly.",            weights: { practical:5, handsOn:3 } },
-        { id: "care",      title: "Supporting people in hard seasons", copy: "Encouragement, compassion, and steady presence for people who need it.",    weights: { care:5, calm:3 } },
-        { id: "community", title: "Serving our local community",      copy: "Meeting needs beyond Sunday morning.",                                       weights: { care:3, practical:2, flexible:3, event:2 } }
+        { id: "relationships", title: "Building relationships",        copy: "Connecting with people and helping them feel known.",
+          areaWeights: { "First Impressions":2, "2Rivers Youth":1, "2Rivers Kids":1, "Outreach & Missions":1 } },
+        { id: "experiences",   title: "Creating meaningful experiences", copy: "Music, production, and creative moments that move people.",
+          areaWeights: { "Production":2, "Worship":2, "Creative & Communications":2 } },
+        { id: "problems",      title: "Solving problems",              copy: "Figuring things out and making them work smoothly.",
+          areaWeights: { "Production":2, "Admin / General":2, "Creative & Communications":1 } },
+        { id: "caring",        title: "Caring for people",             copy: "Walking with people and meeting real needs.",
+          areaWeights: { "Outreach & Missions":3, "2Rivers Kids":1, "First Impressions":1 } },
+        { id: "behindscenes",  title: "Supporting behind the scenes",  copy: "Quiet, dependable help that keeps everything running.",
+          areaWeights: { "Production":2, "Admin / General":2, "Creative & Communications":1 } }
       ]
     },
     {
-      id: "environment",
-      title: "What kind of environment fits you best?",
+      id: "wiring",
+      title: "Where do you naturally find yourself?",
       options: [
-        { id: "social",   title: "Social and people-facing",         copy: "Brief conversations and warm interactions sound good to you.",               weights: { social:5, welcome:3 } },
-        { id: "focused",  title: "Focused and behind the scenes",    copy: "You'd rather concentrate on a clear task than be the face of something.",    weights: { focused:5, production:3 } },
-        { id: "handsOn",  title: "Hands-on and active",             copy: "You like doing practical things more than talking about them.",               weights: { handsOn:5, practical:3 } },
-        { id: "calm",     title: "Calmer and more predictable",      copy: "You prefer steady environments with fewer surprises.",                        weights: { calm:5, focused:2 } },
-        { id: "team",     title: "Team-based with support nearby",   copy: "You want to serve near others and not be on your own.",                      weights: { social:2, nextgen:2, practical:1 } },
-        { id: "flexible", title: "Flexible and project-based",       copy: "You're okay when plans shift and you like variety over routine.",            weights: { flexible:4, event:3, creative:2 } }
+        { id: "withpeople",  title: "Jumping in with people",   copy: "You gravitate toward the room full of people.",
+          areaWeights: { "First Impressions":2, "2Rivers Youth":1, "2Rivers Kids":1 } },
+        { id: "organizing",  title: "Organizing details",       copy: "You like order, systems, and making things run on time.",
+          areaWeights: { "Production":2, "Admin / General":2 } },
+        { id: "leading",     title: "Leading or guiding others", copy: "You're comfortable taking people somewhere.",
+          areaWeights: { "2Rivers Youth":2, "Worship":1, "Outreach & Missions":1, "2Rivers Kids":1 } },
+        { id: "creating",    title: "Creating something",       copy: "You make things — visuals, sound, content, music.",
+          areaWeights: { "Creative & Communications":3, "Worship":1, "Production":1 } },
+        { id: "wherever",    title: "Helping wherever needed",  copy: "You're happy to pitch in anywhere there's a need.",
+          areaWeights: { "Admin / General":2, "First Impressions":1, "Outreach & Missions":1 } }
       ]
     },
     {
-      id: "rhythm",
-      title: "What serving rhythm works for you right now?",
+      id: "meaning",
+      title: "What would feel meaningful to you?",
       options: [
-        { id: "sunday",   title: "Sunday mornings",        copy: "Serving as part of the weekend rhythm works well for me.",           weights: { sunday:5 } },
-        { id: "weekday",  title: "Weekdays or evenings",   copy: "I'm more available outside of Sunday mornings.",                    weights: { weekday:5 } },
-        { id: "flexible", title: "Flexible or occasional", copy: "I want to explore without a heavy recurring schedule right away.",   weights: { flexible:5, event:2 } },
-        { id: "event",    title: "Events and projects",    copy: "I like clear start-and-finish opportunities more than ongoing roles.", weights: { event:5, practical:2 } }
+        { id: "welcome",   title: "Helping someone feel welcome",          copy: "Making sure no one walks in feeling like a stranger.",
+          areaWeights: { "First Impressions":3 } },
+        { id: "nextgen",   title: "Investing in kids or students",         copy: "Pouring into the next generation.",
+          areaWeights: { "2Rivers Kids":3, "2Rivers Youth":3 } },
+        { id: "worship",   title: "Supporting worship experiences",        copy: "Helping create space for people to encounter God.",
+          areaWeights: { "Worship":3, "Production":3, "Creative & Communications":1 } },
+        { id: "care",      title: "Caring for people in difficult seasons", copy: "Being present for people in loss, crisis, or need.",
+          areaWeights: { "Outreach & Missions":3, "Admin / General":1 } },
+        { id: "grow",      title: "Helping people grow spiritually",       copy: "Walking with people as they take next steps in faith.",
+          areaWeights: { "2Rivers Youth":2, "Outreach & Missions":1, "Worship":1 } }
       ]
     }
   ];
@@ -1103,7 +1231,9 @@
   var answers = {};
   var currentQuestion = 0;
   var activeFilter = "All";
-  var selectedRole = null;
+  var selectedRole = null;   // role currently shown in the Details modal
+  var cart = [];             // roles the visitor has marked "I'm Interested" in
+  var helpMode = false;      // true when submitting via "Help me find a good fit" with no roles
 
   // ─────────────────────────────────────────────
   // DOM REFS
@@ -1125,6 +1255,11 @@
   var interestSuccess = root.querySelector('#interest-success');
   var formError     = root.querySelector('#form-error');
   var interestSubmit= root.querySelector('#interest-submit');
+  var interestCart  = root.querySelector('#interest-cart');
+  var interestWarning = root.querySelector('#interest-warning');
+  var cartBar       = root.querySelector('#cart-bar');
+  var cartCount     = root.querySelector('#cart-count');
+  var cartNames     = root.querySelector('#cart-names');
 
   // ─────────────────────────────────────────────
   // MODE
@@ -1164,26 +1299,26 @@
     renderFitResults();
   }
 
-  function combinedWeights() {
+  // Sum the chosen answers into a per-ministry-area score.
+  function combinedAreaWeights() {
     var w = {};
     Object.keys(answers).forEach(function (key) {
-      Object.keys(answers[key].weights).forEach(function (k) {
-        w[k] = (w[k] || 0) + answers[key].weights[k];
+      var aw = answers[key].areaWeights || {};
+      Object.keys(aw).forEach(function (area) {
+        w[area] = (w[area] || 0) + aw[area];
       });
     });
     return w;
   }
 
+  // Recommend roles from the highest-scoring areas. A role inherits its area's
+  // score; ties keep source order so each area's roles stay grouped together.
   function getRecommendedRoles() {
-    var w = combinedWeights();
-    return roles.map(function (role) {
-      var score = 0;
-      Object.keys(w).forEach(function (k) {
-        score += (role.scores[k] || 0) * w[k];
-      });
-      return { role: role, score: score };
+    var w = combinedAreaWeights();
+    return roles.map(function (role, idx) {
+      return { role: role, score: (w[role.ministry] || 0), idx: idx };
     }).filter(function (item) { return item.score > 0; })
-      .sort(function (a, b) { return b.score - a.score; })
+      .sort(function (a, b) { return (b.score - a.score) || (a.idx - b.idx); })
       .slice(0, 6);
   }
 
@@ -1191,10 +1326,10 @@
     var answered = Object.keys(answers).length;
     if (!answered) { fitResults.innerHTML = ''; return; }
     var recs = getRecommendedRoles();
-    var title = answered < questions.length ? 'Early recommendations' : 'Top roles to check out';
+    var title = answered < questions.length ? 'Early recommendations' : 'Recommended roles for you';
     var copy  = answered < questions.length
       ? 'These will get more specific as you answer the remaining questions.'
-      : 'These are role-level recommendations based on your answers. Check one out before making any commitment.';
+      : 'Based on how you answered, these roles might be a great fit. They\'re conversation starters — add any that interest you and explore before deciding anything.';
     renderRoleSection(fitResults, title, copy, recs.map(function (r) { return r.role; }), true);
   }
 
@@ -1262,8 +1397,8 @@
       '<\/div>' +
       '<div class="why-box">' + whyContent + '<\/div>' +
       '<div class="card-actions">' +
-        '<button type="button" class="primary-btn" data-interest="' + role.id + '">Check It Out<\/button>' +
-        '<button type="button" class="secondary-btn" data-details="' + role.id + '">View Details<\/button>' +
+        '<button type="button" class="secondary-btn" data-details="' + role.id + '">Learn More<\/button>' +
+        '<button type="button" class="primary-btn' + (isInCart(role.id) ? ' selected' : '') + '" data-interest="' + role.id + '">' + interestBtnLabel(role.id) + '<\/button>' +
       '<\/div>' +
       '<\/article>';
   }
@@ -1313,14 +1448,14 @@
       '<div class="detail-box full-span">' +
         '<h4>What happens next<\/h4>' +
         '<ol>' +
-          '<li>Click "Check It Out" and share your name and email<\/li>' +
+          '<li>Add this role to your interests and submit your info<\/li>' +
           '<li>Someone from the team will reach out<\/li>' +
           '<li>Visit the team and meet a leader<\/li>' +
           '<li>Shadow for a week or two<\/li>' +
           '<li>Complete any required screening or training<\/li>' +
           '<li>Start serving — with support nearby<\/li>' +
         '<\/ol>' +
-        '<div style="margin-top:16px"><button type="button" class="primary-btn" data-interest="' + role.id + '">Check It Out<\/button><\/div>' +
+        '<div style="margin-top:16px"><button type="button" class="primary-btn' + (isInCart(role.id) ? ' selected' : '') + '" data-interest="' + role.id + '">' + interestBtnLabel(role.id) + '<\/button><\/div>' +
       '<\/div>';
   }
 
@@ -1346,22 +1481,103 @@
   }
 
   // ─────────────────────────────────────────────
-  // INTEREST MODAL
+  // CART ("Roles I'm interested in")
   // ─────────────────────────────────────────────
-  function openInterest(roleId) {
-    selectedRole = roles.find(function (r) { return r.id === roleId; });
-    if (!selectedRole) return;
-    root.querySelector('#interest-title').textContent    = selectedRole.title;
-    root.querySelector('#interest-ministry').textContent = selectedRole.ministry;
-    root.querySelector('#interest-warning').innerHTML = selectedRole.requiresBackgroundCheck
-      ? '<div class="detail-box warn" style="margin-bottom:16px"><h4 style="color:var(--amber-text)">Background check required<\/h4><p style="color:var(--amber-text);opacity:.9">This role involves serving with kids or students. If you move forward after checking it out, a background check and Kids/Youth training are required before serving independently. This form is just the first step.<\/p><\/div>'
-      : '';
+  function isInCart(id) { return cart.some(function (r) { return r.id === id; }); }
+  function interestBtnLabel(id) { return isInCart(id) ? '✓ Interested' : "I'm Interested"; }
+
+  function toggleCart(id) {
+    var role = roles.find(function (r) { return r.id === id; });
+    if (!role) return;
+    if (isInCart(id)) cart = cart.filter(function (r) { return r.id !== id; });
+    else cart.push(role);
+    updateInterestButtons(id);
+    renderCartBar();
+  }
+
+  function removeFromCart(id) {
+    cart = cart.filter(function (r) { return r.id !== id; });
+    updateInterestButtons(id);
+    renderCartBar();
+    renderInterestCart();
+  }
+
+  function clearCart() {
+    var ids = cart.map(function (r) { return r.id; });
+    cart = [];
+    ids.forEach(updateInterestButtons);
+    renderCartBar();
+  }
+
+  // Update every "I'm Interested" button for a role (cards + details modal).
+  function updateInterestButtons(id) {
+    var inCart = isInCart(id);
+    root.querySelectorAll('[data-interest="' + id + '"]').forEach(function (btn) {
+      btn.classList.toggle('selected', inCart);
+      btn.textContent = inCart ? '✓ Interested' : "I'm Interested";
+    });
+  }
+
+  function renderCartBar() {
+    cartCount.textContent = cart.length;
+    cartNames.textContent = cart.map(function (r) { return r.title; }).join(' · ');
+    cartBar.classList.toggle('hidden', cart.length === 0);
+    // Keep the fixed bar from covering the last bit of page content.
+    root.style.paddingBottom = cart.length ? '96px' : '';
+  }
+
+  // The 3-question answers, in order, as readable {question, answer} pairs.
+  function answersList() {
+    return questions.filter(function (q) { return answers[q.id]; }).map(function (q) {
+      return { question: q.title, answer: answers[q.id].title };
+    });
+  }
+
+  function recommendedTitles() {
+    return getRecommendedRoles().map(function (r) { return r.role.title; });
+  }
+
+  // ─────────────────────────────────────────────
+  // SUBMIT MODAL
+  // ─────────────────────────────────────────────
+  function openSubmit() {
+    renderInterestCart();
     interestForm.classList.remove('hidden');
     interestSuccess.classList.add('hidden');
     formError.classList.add('hidden');
     interestForm.reset();
     interestModal.classList.remove('hidden');
     interestModal.querySelector('.modal').scrollTop = 0;
+  }
+
+  function renderInterestCart() {
+    var title   = root.querySelector('#interest-title');
+    var sub     = root.querySelector('#interest-ministry');
+    var needsBgc = cart.some(function (r) { return r.requiresBackgroundCheck; });
+
+    interestWarning.innerHTML = needsBgc
+      ? '<div class="detail-box warn" style="margin-bottom:16px"><h4 style="color:var(--amber-text)">Background check required<\/h4><p style="color:var(--amber-text);opacity:.9">One or more roles you picked involve serving with kids or students. If you move forward, a background check and Kids/Youth training are required before serving independently. This form is just the first step.<\/p><\/div>'
+      : '';
+
+    if (cart.length) {
+      title.textContent = cart.length === 1 ? 'One role to explore' : (cart.length + ' roles to explore');
+      sub.textContent   = '';
+      interestCart.innerHTML = cart.map(function (r) {
+        return '<li><span><span class="cart-role-name">' + r.title + '<\/span> ' +
+               '<span class="cart-role-area">' + r.ministry + '<\/span><\/span>' +
+               '<button type="button" class="cart-remove" data-remove="' + r.id + '">Remove<\/button><\/li>';
+      }).join('');
+    } else {
+      title.textContent = 'Help me find a good fit';
+      sub.textContent   = '';
+      var recs = answersList().length ? recommendedTitles() : [];
+      var recLine = recs.length
+        ? '<br><br><strong>Based on your answers, you might explore:<\/strong> ' + recs.join(', ') + '.'
+        : '';
+      interestCart.innerHTML =
+        '<div class="cart-empty-note">You haven\'t added any specific roles — that\'s totally fine. ' +
+        'Share your info and Lillian on our team will personally help you find the best place to start.' + recLine + '<\/div>';
+    }
   }
 
   function closeModal(id) {
@@ -1373,13 +1589,13 @@
   // ─────────────────────────────────────────────
   interestForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    if (!selectedRole) return;
 
     var firstName = root.querySelector('#firstName').value.trim();
     var lastName  = root.querySelector('#lastName').value.trim();
     var email     = root.querySelector('#email').value.trim();
     var phone     = root.querySelector('#phone').value.trim();
     var notes     = root.querySelector('#notes').value.trim();
+    var grade6to12= root.querySelector('#grade6to12').checked;
 
     if (!firstName || !lastName || !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       formError.textContent = 'Please fill in your first name, last name, and a valid email address.';
@@ -1399,17 +1615,19 @@
         lastName: lastName,
         email: email,
         phone: phone,
-        ministryArea: selectedRole.ministry,
-        roleId: selectedRole.id,
-        roleTitle: selectedRole.title,
-        notes: notes
+        notes: notes,
+        grade6to12: grade6to12,
+        roles: cart.map(function (r) { return { roleId: r.id, roleTitle: r.title, ministryArea: r.ministry }; }),
+        answers: answersList(),
+        recommended: cart.length ? [] : recommendedTitles()
       })
     })
     .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
     .then(function (result) {
       interestSubmit.disabled = false;
-      interestSubmit.textContent = 'Send My Check It Out Request';
+      interestSubmit.textContent = 'Submit My Interest';
       if (result.ok && result.data.success) {
+        clearCart();
         interestForm.classList.add('hidden');
         interestSuccess.classList.remove('hidden');
       } else {
@@ -1420,7 +1638,7 @@
     })
     .catch(function () {
       interestSubmit.disabled = false;
-      interestSubmit.textContent = 'Send My Check It Out Request';
+      interestSubmit.textContent = 'Submit My Interest';
       formError.textContent = "We couldn't reach the server. Please check your connection and try again.";
       formError.classList.remove('hidden');
     });
@@ -1435,15 +1653,22 @@
     var filterBtn  = e.target.closest('.filter-btn');
     var detailBtn  = e.target.closest('[data-details]');
     var interestBtn= e.target.closest('[data-interest]');
+    var removeBtn  = e.target.closest('[data-remove]');
+    var helpBtn    = e.target.closest('[data-help]');
     var closeBtn   = e.target.closest('[data-close-modal]');
 
     if (modeBtn)     setMode(modeBtn.getAttribute('data-mode'));
     if (optionBtn)   answerQuestion(optionBtn.getAttribute('data-answer'));
     if (filterBtn)   { activeFilter = filterBtn.getAttribute('data-filter'); renderFilters(); renderBrowseResults(); }
     if (detailBtn)   openDetails(detailBtn.getAttribute('data-details'));
-    if (interestBtn) openInterest(interestBtn.getAttribute('data-interest'));
+    if (interestBtn) toggleCart(interestBtn.getAttribute('data-interest'));
+    if (removeBtn)   removeFromCart(removeBtn.getAttribute('data-remove'));
+    if (helpBtn)     openSubmit();
     if (closeBtn)    closeModal(closeBtn.getAttribute('data-close-modal'));
   });
+
+  root.querySelector('#cart-submit').addEventListener('click', openSubmit);
+  root.querySelector('#cart-clear').addEventListener('click', clearCart);
 
   backQuestion.addEventListener('click', function () {
     if (currentQuestion > 0) { currentQuestion--; renderQuestion(); }
@@ -1478,6 +1703,7 @@
   renderFitResults();
   renderFilters();
   renderBrowseResults();
+  renderCartBar();
 
 })();
 </script>

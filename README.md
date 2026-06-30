@@ -41,15 +41,25 @@ curl -s -X POST https://api.2riverschurch.com/serve-intake \
     "firstName": "Test",
     "lastName": "Submission",
     "email": "you+test@example.com",
-    "ministryArea": "Production",
-    "roleTitle": "Audio Operator"
+    "roles": [
+      { "roleTitle": "Audio Operator", "ministryArea": "Production" }
+    ]
   }' | jq .
 ```
 
-Swap `ministryArea` for any of the five areas above. A success creates a workflow card
-in PC workflow `56729` (Step 1 — First Contact) assigned to that area's lead. This
-requires the Worker to be **deployed** and `MINISTRY_ROUTING` to contain those IDs
-(paste in the contents of `config/ministry-routing.json`).
+A submission carries a `roles` array (each entry has a `roleTitle` and `ministryArea`).
+Who the resulting card is assigned to depends on the **distinct ministry areas** in that
+array:
+
+- **One area** → assigned directly to that area's lead (e.g. the example above → Production lead). *Status: Single-role interest.*
+- **Multiple areas** → assigned to the coordinator (Lillian Good) to help the person discern. *Status: Multiple interests.*
+- **No roles** (the "Help me find a good fit" path) → assigned to the coordinator. *Status: Needs help determining fit*; the note includes the person's quiz answers and generated recommendations.
+
+Exactly **one** workflow card is created per submission in PC workflow `56729`
+(Step 1 — First Contact) — never duplicate cards. This requires the Worker to be
+**deployed** and `MINISTRY_ROUTING` to contain those IDs (paste in the contents of
+`config/ministry-routing.json`). An optional `grade6to12: true` flag and a free-text
+`notes` field are surfaced on the card note. Swap in any area from the list above.
 
 > Want to click-test in a *browser* (not curl) before go-live? We can temporarily add
 > the preview origin (`https://raw.githack.com`) to `ALLOWED_ORIGIN`, or run the embed
@@ -85,8 +95,8 @@ requires the Worker to be **deployed** and `MINISTRY_ROUTING` to contain those I
 
 1. A person visits the 2Rivers website and fills out the serve interest form
 2. The embed (`serve-finder.html`) posts their data to the Cloudflare Worker
-3. The Worker validates the submission, resolves the ministry lead from `MINISTRY_ROUTING` (a server-side env variable), and creates a Planning Center workflow card assigned to that lead
-4. The person sees a friendly confirmation; the team lead sees a new card in PC
+3. The Worker validates the submission and creates a single Planning Center workflow card. It resolves the assignee from `MINISTRY_ROUTING` (a server-side env variable) based on how many distinct ministry areas were selected: one area → that area's lead; multiple areas or none → the coordinator (Lillian Good) to help the person discern
+4. The person sees a friendly confirmation; the assignee sees a new card in PC
 
 ---
 
@@ -122,7 +132,9 @@ curl -s -X POST http://localhost:8787 \
     "firstName": "Test",
     "lastName": "User",
     "email": "test@example.com",
-    "ministryArea": "Worship"
+    "roles": [
+      { "roleTitle": "Worship Vocalist", "ministryArea": "Worship" }
+    ]
   }' | jq .
 ```
 
